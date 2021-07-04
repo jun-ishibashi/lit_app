@@ -4,7 +4,6 @@
 |--------------------|---------|---------------------------|
 | name               | string  | null: false               |
 | email              | string  | null: false, unique: true |
-| password           | string  | null: false               |
 | encrypted_password | string  | null: false               |
 | user_type_id       | integer | null: false               |
 | product_id         | integer | null: false               |
@@ -20,7 +19,6 @@ has_many :reviews
 |--------------------|---------|---------------------------|
 | name               | string  | null: false               |
 | email              | string  | null: false, unique: true |
-| password           | string  | null: false               |
 | encrypted_password | string  | null: false               |
 | service_type_id    | integer | null: false               |
 | introduction       | text    |                           |

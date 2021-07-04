@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
-  get 'products/index'
-  root to: "products#index"
+  devise_for :providers
+  devise_for :users
+  get 'services/index'
+  root to: "services#index"
 end
