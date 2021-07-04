@@ -1,24 +1,61 @@
-# README
+## usersテーブル
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+|Column              |Type     |Options                    |
+|--------------------|---------|---------------------------|
+| name               | string  | null: false               |
+| email              | string  | null: false, unique: true |
+| password           | string  | null: false               |
+| encrypted_password | string  | null: false               |
+| user_type_id       | integer | null: false               |
+| product_id         | integer | null: false               |
+| introduction       | text    |                           |
 
-Things you may want to cover:
+### Association
+has_many :services
+has_many :reviews
 
-* Ruby version
+## providersテーブル
 
-* System dependencies
+|Column              |Type     |Options                    |
+|--------------------|---------|---------------------------|
+| name               | string  | null: false               |
+| email              | string  | null: false, unique: true |
+| password           | string  | null: false               |
+| encrypted_password | string  | null: false               |
+| service_type_id    | integer | null: false               |
+| introduction       | text    |                           |
 
-* Configuration
+### Association
+has_many :services
 
-* Database creation
+## servicesテーブル
 
-* Database initialization
+|Column            |Type        |Options                         |
+|------------------|------------|--------------------------------|
+| departure_id     | integer    | null: false                    |
+| destination_id   | integer    | null: false                    |
+| service_type_id  | integer    | null: false                    |
+| price            | integer    | null: false                    |
+| lead_time        | integer    | null: false                    |
+| option_id        | integer    | null: false                    |
+| description      | text       |                                |
+| user             | integer    | null: false, foreign_key: true |
+| provider         | references | null: false, foreign_key: true |
 
-* How to run the test suite
+### Association
+belongs_to :user
+belongs_to :provider
+has_many :reviews
 
-* Services (job queues, cache servers, search engines, etc.)
+## reviewsテーブル
 
-* Deployment instructions
+|Column       |Type        |Options                         |
+|-------------|------------|--------------------------------|
+| text        | text       | null: false                    |
+| point       | integer    | null: false                    |
+| user        | integer    | null: false, foreign_key: true |
+| provider    | references | null: false, foreign_key: true |
 
-* ...
+### Association
+belongs_to :user
+belongs_to :service
