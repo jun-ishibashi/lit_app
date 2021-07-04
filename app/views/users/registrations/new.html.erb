@@ -1,4 +1,4 @@
-<h2>User sign up</h2>
+<h2>Create Account for User</h2>
 
 <%= form_with model: @user, url: user_registration_path, class: 'registration-main', local: true do |f| %>
 
@@ -30,10 +30,12 @@
 
   <div class="field">
       <%= f.label :user_type %><br />
+      <%= f.collection_select(:user_type_id, UserType.all, :id, :name, {}, {class:"user-type-select"}) %>
   </div>
 
   <div class="field">
       <%= f.label :product %><br />
+      <%= f.collection_select(:product_id, Product.all, :id, :name, {}, {class:"product-select"}) %>
   </div>
 
   <div class="field">
