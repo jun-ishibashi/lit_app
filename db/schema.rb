@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_04_035533) do
+ActiveRecord::Schema.define(version: 2021_07_07_103121) do
 
   create_table "providers", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name", null: false
@@ -25,6 +25,20 @@ ActiveRecord::Schema.define(version: 2021_07_04_035533) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["email"], name: "index_providers_on_email", unique: true
     t.index ["reset_password_token"], name: "index_providers_on_reset_password_token", unique: true
+  end
+
+  create_table "services", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.integer "departure_id", null: false
+    t.integer "destination_id", null: false
+    t.integer "service_type_id", null: false
+    t.integer "price", null: false
+    t.integer "lead_time", null: false
+    t.integer "option_id", null: false
+    t.text "description"
+    t.bigint "provider_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["provider_id"], name: "index_services_on_provider_id"
   end
 
   create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -43,4 +57,5 @@ ActiveRecord::Schema.define(version: 2021_07_04_035533) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "services", "providers"
 end

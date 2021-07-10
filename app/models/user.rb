@@ -8,6 +8,6 @@ class User < ApplicationRecord
   belongs_to :user_type
   belongs_to :product
 
-  validates :user_type_id, numericality: { other_than: 1 }
-  validates :product_id, numericality: { other_than: 1 }
+  validates :user_type_id, numericality: { other_than: 1 , message: "can't be blank"}
+  validates :product_id, numericality: { other_than: 1 , message: "can't be blank"}
 end

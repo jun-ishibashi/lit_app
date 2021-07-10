@@ -37,7 +37,6 @@ has_many :services
 | lead_time        | integer    | null: false                    |
 | option_id        | integer    | null: false                    |
 | description      | text       |                                |
-| user             | integer    | null: false, foreign_key: true |
 | provider         | references | null: false, foreign_key: true |
 
 ### Association
