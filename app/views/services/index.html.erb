@@ -1,22 +1,34 @@
 <% unless provider_signed_in? %>
-<% if user_signed_in? %>
-<li><%= link_to current_user.name, "#", class: "user-name" %></li>
-<li><%= link_to 'ログアウト', destroy_user_session_path, method: :delete, class: "logout" %></li>
-<% else %>
-<li><%= link_to 'ログイン', new_user_session_path, class: "login" %></li>
-<li><%= link_to '新規登録', new_user_registration_path, class: "sign-up" %></li>
-<% end %>
+    <% if user_signed_in? %>
+        <li><%= link_to current_user.name, "#", class: "user-name" %></li>
+        <li><%= link_to 'ログアウト', destroy_user_session_path, method: :delete, class: "logout" %></li>
+    <% else %>
+        <li><%= link_to 'ログイン', new_user_session_path, class: "login" %></li>
+        <li><%= link_to '新規登録', new_user_registration_path, class: "sign-up" %></li>
+    <% end %>
 <% end %>
 
 <% unless user_signed_in? %>
-<% if provider_signed_in? %>
-<li><%= link_to current_provider.name, "#", class: "provider-name" %></li>
-<li><%= link_to '業者ログアウト', destroy_provider_session_path, method: :delete, class: "logout" %></li>
-<% else %>
-<li><%= link_to '業者ログイン', new_provider_session_path, class: "login" %></li>
-<li><%= link_to '業者新規登録', new_provider_registration_path, class: "sign-up" %></li>
+    <% if provider_signed_in? %>
+        <li><%= link_to current_provider.name, "#", class: "provider-name" %></li>
+        <li><%= link_to '業者ログアウト', destroy_provider_session_path, method: :delete, class: "logout" %></li>
+        <li><%= link_to 'サービスを登録する', new_service_path, class: 'purchase-btn' %>
+    <% else %>
+        <li><%= link_to '業者ログイン', new_provider_session_path, class: "login" %></li>
+        <li><%= link_to '業者新規登録', new_provider_registration_path, class: "sign-up" %></li>
+    <% end %>
 <% end %>
-<% end %>
+<p> </p>
+<h2>サービス一覧</h2>
+    <% @services.each do |service| %><br>
+        [出発地] <%= service.departure.name %>
+        [仕向地] <%= service.destination.name %>
+        [料金] <%= service.price %>円
+        [リードタイム] <%= service.lead_time %>日
+        [サービス会社]<%= service.provider.name %>
+        <br>------------------------------------------------------------------------------------------------------------------------------
+    <% end %>
+
 <!-- Navigation-->
 <nav class="navbar navbar-light bg-light static-top">
     <div class="container">

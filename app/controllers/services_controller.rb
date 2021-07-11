@@ -2,6 +2,7 @@ class ServicesController < ApplicationController
   before_action :authenticate_provider!, except: :index
 
   def index
+    @services = Service.all.order('created_at DESC')
   end
 
   def new 
