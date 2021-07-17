@@ -1,3 +1,5 @@
+<h1>トップページ</h1>
+
 <% unless provider_signed_in? %>
     <% if user_signed_in? %>
         <li><%= link_to current_user.name, "#", class: "user-name" %></li>
@@ -19,6 +21,22 @@
     <% end %>
 <% end %>
 <p> </p>
+<h1>
+  商品検索
+</h1>
+<%= search_form_for @p, url: services_search_path do |f| %>
+  <%= f.label :departure_id_eq, '出発地' %>
+  <%= f.collection_select :departure_id_eq, Departure.where.not(id: 1), :id, :name, include_blank: '指定なし' %><br>
+  <%= f.label :destination_id_eq, '到着地' %>
+  <%= f.collection_select :destination_id_eq, Destination.where.not(id: 1), :id, :name, include_blank: '指定なし' %><br>
+  <%= f.label :service_type_eq, 'サービスタイプ' %>
+  <%= f.collection_select :service_type_id_eq, ServiceType.where.not(id: 1), :id, :name, include_blank: '指定なし' %><br>
+  <%= f.label :provider_eq, 'プロバイダー' %>
+  <%= f.collection_select :provider_id_eq, Provider.where.not(id: 0), :id, :name, include_blank: '指定なし' %>
+  <br>
+  <%= f.submit '検索' %>
+<br>
+<% end %>
 <h2>サービス一覧</h2>
     <% @services.each do |service| %><br>
         [出発地] <%= service.departure.name %>
@@ -32,7 +50,7 @@
 <!-- Navigation-->
 <nav class="navbar navbar-light bg-light static-top">
     <div class="container">
-        <a class="navbar-brand" href="#!">Start Lit</a>
+        <a class="navbar-brand" href="#!">LIT Logistics x IT</a>
         <a class="btn btn-primary" href="#signup">Sign Up</a>
     </div>
 </nav>
@@ -43,42 +61,7 @@
             <div class="col-xl-6">
                 <div class="text-center text-white">
                     <!-- Page heading-->
-                    <h1 class="mb-5">Generate more leads with a professional landing page!</h1>
-                    <!-- Signup form-->
-                    <!-- * * * * * * * * * * * * * * *-->
-                    <!-- * * SB Forms Contact Form * *-->
-                    <!-- * * * * * * * * * * * * * * *-->
-                    <!-- This form is pre-integrated with SB Forms.-->
-                    <!-- To make this form functional, sign up at-->
-                    <!-- https://startbootstrap.com/solution/contact-forms-->
-                    <!-- to get an API token!-->
-                    <form class="form-subscribe" id="contactForm" data-sb-form-api-token="API_TOKEN">
-                        <!-- Email address input-->
-                        <div class="row">
-                            <div class="col">
-                                <input class="form-control form-control-lg" id="emailAddress" type="email" placeholder="Email Address" data-sb-validations="required,email" />
-                                <div class="invalid-feedback text-white" data-sb-feedback="emailAddress:required">Email Address is required.</div>
-                                <div class="invalid-feedback text-white" data-sb-feedback="emailAddress:email">Email Address Email is not valid.</div>
-                            </div>
-                            <div class="col-auto"><button class="btn btn-primary btn-lg disabled" id="submitButton" type="submit">Submit</button></div>
-                        </div>
-                        <!-- Submit success message-->
-                        <!---->
-                        <!-- This is what your users will see when the form-->
-                        <!-- has successfully submitted-->
-                        <div class="d-none" id="submitSuccessMessage">
-                            <div class="text-center mb-3">
-                                <div class="fw-bolder">Form submission successful!</div>
-                                <p>To activate this form, sign up at</p>
-                                <a class="text-white" href="https://startbootstrap.com/solution/contact-forms">https://startbootstrap.com/solution/contact-forms</a>
-                            </div>
-                        </div>
-                        <!-- Submit error message-->
-                        <!---->
-                        <!-- This is what your users will see when there is-->
-                        <!-- an error submitting the form-->
-                        <div class="d-none" id="submitErrorMessage"><div class="text-center text-danger mb-3">Error sending message!</div></div>
-                    </form>
+                    <h1 class="mb-5"></h1>
                 </div>
             </div>
         </div>

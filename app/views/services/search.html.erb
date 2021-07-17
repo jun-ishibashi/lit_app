@@ -1,0 +1,22 @@
+<h1>
+  検索結果
+</h1>
+<%# 検索結果の個数で条件分岐 %>
+<% if @services.length !=0 %>
+    <%= search_form_for @p, url: services_search_path, html: {method: :post} do |f| %>
+    <%= f.select( :sorts, { '並び替え': 'id desc', '価格の安い順': 'price asc'} , { selected: params[:q][:sorts] }, { onchange: 'this.form.submit()'} )%>
+    <% end %>
+  <% @services.each do |service| %>
+    <br>
+      出発地: <%= service.departure.name %><br>
+      到着地: <%= service.destination.name %><br>
+      料金: <%= service.price %>円<br>
+      リードタイム: <%= service.lead_time %>日<br>
+      サービスタイプ: <%= service.service_type.name %><br>
+      プロバイダー: <%= service.provider.name %><br>
+  <% end %>
+<% else %>
+  該当する商品はありません
+<% end %>
+<br>
+<%= link_to 'トップページへ戻る', root_path %>

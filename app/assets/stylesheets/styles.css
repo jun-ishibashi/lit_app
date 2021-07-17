@@ -10943,3 +10943,7 @@ footer.footer {
   padding-top: 4rem;
   padding-bottom: 4rem;
 }
+
+.description_input{
+  width: 400px;
+}
