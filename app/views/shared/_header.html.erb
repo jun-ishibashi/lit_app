@@ -1,0 +1,36 @@
+<!-- Navigation-->
+<nav class="navbar navbar-light bg-light static-top">
+    <div class="container">
+        <a class="navbar-brand" href="/">LIT Logistics x IT</a>
+        <div class="btn">
+            <button type="button" class="btn btn-primary dropdown-toggle px-4" data-bs-toggle="dropdown" aria-expanded="false">
+                Menu
+            </button>
+            <ul class="dropdown-menu left ">
+            
+            <% unless provider_signed_in? %>
+                <% if user_signed_in? %>
+                    <li><%= link_to 'My Page', "#", class: "dropdown-item" %></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><%= link_to 'ログアウト', destroy_user_session_path, method: :delete, class: "dropdown-item" %></li>
+                <% else %>
+                    <li><%= link_to 'ユーザーログイン', new_user_session_path, class: "dropdown-item" %></li>
+                    <li><%= link_to 'ユーザー新規登録', new_user_registration_path, class: "dropdown-item" %></li>
+                <% end %>
+            <%end%>
+            <% unless user_signed_in? %>
+                <% if provider_signed_in? %>
+                    <li><%= link_to current_provider.name, "#", class: "dropdown-item" %></li>
+                    <li><%= link_to 'サービスを登録する', new_service_path, class: "dropdown-item" %>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><%= link_to 'ログアウト', destroy_provider_session_path, method: :delete, class: "dropdown-item" %></li>
+                <% else %>
+                    <li><%= link_to 'プロバイダーログイン', new_provider_session_path, class: "dropdown-item" %></li>
+                    <li><%= link_to 'プロバイダー新規登録', new_provider_registration_path, class: "dropdown-item" %></li>
+                <% end %>
+            <% end %>
+
+            </ul>
+       </div>
+    </div>
+</nav>

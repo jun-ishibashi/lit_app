@@ -3,9 +3,8 @@ class ServicesController < ApplicationController
   # before_action :search_service, only: [:index, :search]
 
   def index
-    @services = Service.all
     @p = Service.ransack(params[:q])
-    @services = @p.result
+    @services = @p.result.order(created_at: :desc).limit(5)
   end
 
   def new 
@@ -22,10 +21,19 @@ class ServicesController < ApplicationController
   end
 
   def search
-    @p = Service.search(search_params)
+    @p = Service.ransack(params[:q])
     @services = @p.result
+
+    # @p = Service.search(search_params)
+    # @services = @p.result
     # departure_id = params[:q][:departure_id_eq]
     # @departure = Departure.find_by(id: departure_id)  
+  end
+
+  def show
+    @service = Service.find(params[:id])
+    @p = Service.ransack(params[:q])
+    @services = @p.result
   end
 
   private
@@ -37,8 +45,8 @@ class ServicesController < ApplicationController
   # def search_service
   # end
 
-  def search_params
-    params.require(:q).permit!
-  end
+  # def search_params
+  #   params.require(:q).permit!
+  # end
 
 end

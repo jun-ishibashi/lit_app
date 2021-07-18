@@ -1,0 +1,11 @@
+<h1>サービス詳細</h1>
+
+出発地: <%= @service.departure.name %><br>
+到着地: <%= @service.destination.name %><br>
+料金: <%= @service.price %>円<br>
+リードタイム: <%= @service.lead_time %>日<br>
+サービスタイプ: <%= @service.service_type.name %><br>
+オプション: <%= @service.option.name %><br>
+サービス説明: <%= @service.description %><br>
+
+<%= link_to 'もどる', :back %>
