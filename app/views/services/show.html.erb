@@ -1,66 +1,71 @@
 <%= render "shared/header" %>
 
 <section class="features-icons bg-light text-center">
-      <h3>サービス詳細</h3>
-      <p class="lead mb-0"></p>
+  <h3>サービス詳細</h3>
+  <p class="lead mb-0"></p>
 </section>
 
 <section class="showcase">
-    <div class="container p-5">
-        <div class="text-center">
-            <div class="col-lg-6 my-5 mx-auto">
-              <h5>出発地</h5>
-              <p class="font-weight-light mb-0"><%= @service.departure.name %></p>
-            </div>
+  <div class="container p-5">
+    <div class="text-center">
+      <div class="col-lg-6 my-5 mx-auto">
+        <h5>出発地</h5>
+        <p class="font-weight-light mb-0"><%= @service.departure.name %></p>
+      </div>
 
-            <div class="col-lg-6  my-5 mx-auto my-0">
-              <h5>仕向地</h5>
-              <p class="font-weight-light mb-0"><%= @service.destination.name %></p>
-            </div>
+      <div class="col-lg-6  my-5 mx-auto my-0">
+        <h5>仕向地</h5>
+        <p class="font-weight-light mb-0"><%= @service.destination.name %></p>
+      </div>
 
-            <div class="col-lg-6  my-5 mx-auto">
-              <h5>サービスタイプ</h5>
-              <p class="font-weight-light mb-0"><%= @service.service_type.name %></p>
-            </div>
+      <div class="col-lg-6  my-5 mx-auto">
+        <h5>サービスタイプ</h5>
+        <p class="font-weight-light mb-0"><%= @service.service_type.name %></p>
+      </div>
 
-            <div class="col-lg-6  my-5 mx-auto">
-              <h5>料金</h5>
-              <p class="font-weight-light mb-0"><%= @service.price %>円</p>
-            </div>
+      <div class="col-lg-6  my-5 mx-auto">
+        <h5>料金</h5>
+        <p class="font-weight-light mb-0"><%= @service.price %>円</p>
+      </div>
 
-            <div class="col-lg-6  my-5 mx-auto">
-              <h5>リードタイム</h5>
-              <p class="font-weight-light mb-0"><%= @service.lead_time %>日</p>
-            </div>
+      <div class="col-lg-6  my-5 mx-auto">
+        <h5>リードタイム</h5>
+        <p class="font-weight-light mb-0"><%= @service.lead_time %>日</p>
+      </div>
 
-            <div class="col-lg-6  my-5 mx-auto">
-              <h5>オプション</h5>
-              <p class="font-weight-light mb-0"><%= @service.option.name %></p>
-            </div>
+      <div class="col-lg-6  my-5 mx-auto">
+        <h5>オプション</h5>
+        <p class="font-weight-light mb-0"><%= @service.option.name %></p>
+      </div>
 
-            <div class="col-lg-6  my-5 mx-auto">
-              <h5>説明</h5>
-              <p class="font-weight-light mb-0"><%= @service.description %></p>
-            </div>
+      <div class="col-lg-6  my-5 mx-auto">
+        <h5>説明</h5>
+        <p class="font-weight-light mb-0"><%= @service.description %></p>
+      </div>
 
-            <div class="col-lg-6  my-5 mx-auto">
-              <h5>プロバイダー</h5>
-              <p class="font-weight-light mb-0"><%= @service.provider.name %></p>
-            </div>
+      <div class="col-lg-6  my-5 mx-auto">
+        <h5>プロバイダー</h5>
+        <p class="font-weight-light mb-0"><%= @service.provider.name %></p>
+      </div>
 
-            <% if provider_signed_in? %>
-            <li>
-            <%= link_to '編集', edit_service_path(@service.id), method: :get %>
-            </li>
-            <li>
-            <%= link_to '削除', service_path(@service.id), method: :delete %>
-            </li>
-            <% end %>
-            
-            <div class="col-lg-6  my-5 mx-auto">
-            <%= link_to 'もどる', :back, class:"btn btn-primary mt-5 px-5" %>
-            </div>
+      <% if user_signed_in? %>
+        <%= link_to '相談する',"#" , class: "btn btn-secondary mt-5 px-5" %>
+      <% end %>
+
+      <% if provider_signed_in? %>
+          <div>
+            <%= link_to '編集', edit_service_path(@service.id), class: "btn btn-secondary mt-5 px-5" %>
+          </div>
+          <div>
+            <%= link_to '削除', service_path(@service.id), method: :delete, class: "btn btn-secondary mt-5 px-5" %>
+          </div>
+      <% end %>
+      
+      <div class="col-lg-6  my-5 mx-auto">
+        <%= link_to 'もどる', :back, class:"btn btn-primary mt-5 px-5" %>
+      </div>
     </div>
+  </div>
 </section>
 
 

@@ -41,15 +41,19 @@
 
   <div class="mb-3">
     <%= f.label :introduction, class:"form-label" %><br />
-    <%= f.text_area :introduction, rows: 5, class:"form-control h-100 w-100 mx-auto p-50", id:"introduction", placeholder:"輸送上の強み等" %>
+    <%= f.text_area :introduction, rows: 5, class:"form-control h-100 w-100 mx-auto p-50", id:"introduction", placeholder:"輸送上の強み等を入力" %>
   </div>
 
   <div class="actions">
-    <%= f.submit "Sign up" %>
+    <%= f.submit "Sign up", class:"btn btn-primary" %>
   </div>
 <% end %>
 
 <%= render "providers/shared/links" %>
+
+  <div class="m-auto text-center">
+    <a class="btn btn-outline-secondary my-5 px-5" href="/">トップページへ戻る</a>
+  </div>
 
 </div>
 

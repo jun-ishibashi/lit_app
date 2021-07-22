@@ -5,7 +5,7 @@ class ServicesController < ApplicationController
   before_action :search_service, only: [:index, :search, :show]
 
   def index
-    @services = @p.result.order(created_at: :desc).limit(5)
+    @services = @p.result.order(created_at: :desc).limit(10)
   end
 
   def new
@@ -53,14 +53,13 @@ class ServicesController < ApplicationController
 
   def search_service
     @p = Service.ransack(params[:q])
-  end 
+  end
 
   def authenticate_any!
     if provider_signed_in?
-        true
+      true
     else
-        authenticate_user!
+      authenticate_user!
     end
   end
-
 end

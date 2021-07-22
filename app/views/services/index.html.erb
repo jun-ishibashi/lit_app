@@ -2,185 +2,186 @@
 
 <!-- Masthead-->
 <header class="masthead">
-    <div class="container position-relative">
-        <div class="row justify-content-center">
-            <div class="col-xl-6">
-                <div class="text-center text-white">
-                    <!-- Page heading-->
-                    <h1 class="mb-5"></h1>
-                </div>
-            </div>
+  <div class="container position-relative">
+    <div class="row justify-content-center">
+      <div class="col-xl-6">
+        <div class="text-center text-white">
+          <!-- Page heading-->
+          <h1 class="mb-5"></h1>
         </div>
+      </div>
     </div>
+  </div>
 </header>
+
+
 
 <!-- Search -->
 <section class="testimonials text-center bg-light d-flex">
-    <div class="container">
-        <h2 class="mb-5">検索する</h2>
-        <p class="font-weight-light mb-5">出荷元と出荷先を入力することで、簡単にコストとリードタイムが比較できます。</p>
-        <%= search_form_for @p, url: services_search_path do |f| %>
-          <div class= 'd-flex'>
-            <div class="col-lg-4" >
-                <div class="testimonial-item mx-auto mb-5 mb-lg-0">
-                    <h5>出発地</h5>
-                    <p class="font-weight-light mb-0">出荷元となる都市を選択できます</p>
-                    <%= f.collection_select :departure_id_eq, Departure.where.not(id: 1), :id, :name, {include_blank: '指定なし'}, {class: "form-select"} %><br>
-                </div>
+  <div class="container">
+    <% if provider_signed_in? %>
+      <p class="font-weight-light mb-5"><%= current_provider.name %>ご担当者様<br>新たなサービスを登録してみましょう！</p>
+      <%= link_to '新しいサービスを登録する', new_service_path, class: "btn btn-outline-info btn-lg m-5 px-5" %>
+    <% end %>
+    <h2 class="m-5">検索する</h2>
+    <p class="font-weight-light mb-5">出荷元と出荷先を入力することで、簡単にコストとリードタイムが比較できます。</p>
+    <%= search_form_for @p, url: services_search_path do |f| %>
+      <div class= 'd-flex'>
+        <div class="col-lg-4" >
+            <div class="testimonial-item mx-auto mb-5 mb-lg-0">
+                <h5>出発地</h5>
+                <p class="font-weight-light mb-0">出荷元となる都市を選択できます</p>
+                <%= f.collection_select :departure_id_eq, Departure.where.not(id: 1), :id, :name, {include_blank: '指定なし'}, {class: "form-select"} %><br>
             </div>
-            <div class="col-lg-4">
-                <div class="testimonial-item mx-auto mb-5 mb-lg-0">
-                    <h5>到着地</h5>
-                    <p class="font-weight-light mb-0">出荷先となる都市を選択できます</p>
-                    <%= f.collection_select :destination_id_eq, Destination.where.not(id: 1), :id, :name, {include_blank: '指定なし'}, {class: "form-select"} %><br>
-                </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="testimonial-item mx-auto mb-5 mb-lg-0">
+                <h5>到着地</h5>
+                <p class="font-weight-light mb-0">出荷先となる都市を選択できます</p>
+                <%= f.collection_select :destination_id_eq, Destination.where.not(id: 1), :id, :name, {include_blank: '指定なし'}, {class: "form-select"} %><br>
             </div>
-            <div class="col-lg-4">
-                <div class="testimonial-item mx-auto mb-5 mb-lg-0">
-                    <h5>サービスタイプ</h5>                  
-                    <p class="font-weight-light mb-0">サービスタイプを選択できます</p>
-                    <%= f.collection_select :service_type_id_eq, ServiceType.where.not(id: 1), :id, :name, {include_blank: '指定なし'}, {class: "form-select"} %><br>
-                </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="testimonial-item mx-auto mb-5 mb-lg-0">
+                <h5>サービスタイプ</h5>                  
+                <p class="font-weight-light mb-0">サービスタイプを選択できます</p>
+                <%= f.collection_select :service_type_id_eq, ServiceType.where.not(id: 1), :id, :name, {include_blank: '指定なし'}, {class: "form-select"} %><br>
             </div>
-            <div class="col-lg-4">
-                <div class="testimonial-item mx-auto mb-5 mb-lg-0">
-                    <h5>プロバイダー</h5>                  
-                    <p class="font-weight-light mb-0">プロバイダーを選択できます</p>
-                    <%= f.collection_select :provider_id_eq, Provider.where.not(id: 0), :id, :name, {include_blank: '指定なし'}, {class: "form-select"} %><br>
-                </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="testimonial-item mx-auto mb-5 mb-lg-0">
+                <h5>プロバイダー</h5>                  
+                <p class="font-weight-light mb-0">プロバイダーを選択できます</p>
+                <%= f.collection_select :provider_id_eq, Provider.where.not(id: 0), :id, :name, {include_blank: '指定なし'}, {class: "form-select"} %><br>
             </div>
-            </div>      
-
-            <div class="text-center">
-                <div class="testimonial-item mx-auto mb-5 mb-lg-0">
-                    <h5>並び順</h5>                  
-                    <p class="font-weight-light mb-0">ご希望に合わせて結果を並び替えます</p>
-                    <%= f.select( :sorts, { '価格の安い順': 'price asc', '早い順': 'lead_time asc' }, {include_blank: '指定なし'}, {class: "form-select"} )%>
-                </div>
+        </div>
+        </div>      
+        <div class="text-center">
+            <div class="testimonial-item mx-auto mb-5 mb-lg-0">
+                <h5>並び順</h5>                  
+                <p class="font-weight-light mb-0">ご希望に合わせて結果を並び替えます</p>
+                <%= f.select( :sorts, { '価格の安い順': 'price asc', '早い順': 'lead_time asc' }, {include_blank: '指定なし'}, {class: "form-select"} )%>
             </div>
-
-
-            <%= f.submit '検索', class:"btn btn-primary mt-5 px-5" %>
-        <% end %>
-
-    </div>
+        </div>
+        <%= f.submit '検索', class:"btn btn-primary mt-5 px-5" %>
+      </div>
+    <% end %>
+  </div>
 </section>
 
 <!-- Icons Grid-->
 <section class="features-icons bg-light text-center">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-4">
-                <div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
-                    <div class="features-icons-icon d-flex"><i class="bi bi-tsunami m-auto text-primary"></i></div>
-                    <h3>海上輸送</h3>
-                    <p class="lead mb-0">貨物量が多い<br>サイズが大きい<br>輸送コストを抑えたい</p>
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="features-icons-item mx-auto mb-0 mb-lg-3">
-                    <div class="features-icons-icon d-flex"><i class="bi bi-cloud m-auto text-primary"></i></div>
-                    <h3>航空輸送</h3>
-                    <p class="lead mb-0">貨物量が少ない<br>早く運びたい<br>ダメージリスクを抑えたい</p>
-                </div>
-            </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-4">
+        <div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
+          <div class="features-icons-icon d-flex"><i class="bi bi-tsunami m-auto text-primary"></i></div>
+          <h3>海上輸送</h3>
+          <p class="lead mb-0">貨物量が多い<br>サイズが大きい<br>輸送コストを抑えたい</p>
         </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="features-icons-item mx-auto mb-0 mb-lg-3">
+          <div class="features-icons-icon d-flex"><i class="bi bi-cloud m-auto text-primary"></i></div>
+          <h3>航空輸送</h3>
+          <p class="lead mb-0">貨物量が少ない<br>早く運びたい<br>ダメージリスクを抑えたい</p>
+        </div>
+      </div>
     </div>
+  </div>
 </section>
 
 
 <!-- Image Showcases-->
 <section class="showcase">
-    <div class="container-fluid p-0">
-        <div class="row g-0">
-            <div class="col-lg-6 order-lg-2 text-white showcase-img" style="background-image: url('assets/showcase1.jpg')"></div>
-            <div class="col-lg-6 order-lg-1 my-auto showcase-text">
-                <h2>貿易を身近にする</h2>
-                <p class="lead mb-0">海外にモノを運びたいけど、貿易の知識がない、業者を知らない、どうしたら良いかわからない。そんなあなたをサポートします。</p>
-            </div>
-        </div>
-        <div class="row g-0">
-            <div class="col-lg-6 text-white showcase-img" style="background-image: url('assets/showcase2.jpg')"></div>
-            <div class="col-lg-6 my-auto showcase-text ">
-                <h2>様々な輸送手段</h2>
-                <p class="lead mb-0">船舶、航空、鉄道などからベストな方法を簡単に見つけることできます。プロバイダーに直接コンタクトを取ることで、ロジスティクスを実現させます！</p>
-            </div>
-        </div>
-        <div class="row g-0">
-            <div class="col-lg-6 order-lg-2 text-white showcase-img" style="background-image: url('assets/showcase3.jpg')"></div>
-            <div class="col-lg-6 order-lg-1 my-auto showcase-text">
-                <h2></h2>
-                <p class="lead mb-0"></p>
-            </div>
-        </div>
+  <div class="container-fluid p-0">
+    <div class="row g-0">
+      <div class="col-lg-6 order-lg-2 text-white showcase-img" style="background-image: url('assets/showcase1.jpg')"></div>
+      <div class="col-lg-6 order-lg-1 my-auto showcase-text">
+        <h2>貿易を身近にする</h2>
+        <p class="lead mb-0">海外にモノを運びたいけど、貿易の知識がない、業者を知らない、どうしたら良いかわからない。そんなあなたをサポートします。</p>
+      </div>
     </div>
+    <div class="row g-0">
+      <div class="col-lg-6 text-white showcase-img" style="background-image: url('assets/showcase2.jpg')"></div>
+      <div class="col-lg-6 my-auto showcase-text ">
+          <h2>様々な輸送手段</h2>
+          <p class="lead mb-0">船舶、航空、鉄道などからベストな方法を簡単に見つけることできます。プロバイダーに直接コンタクトを取ることで、ロジスティクスを実現させます！</p>
+      </div>
+    </div>
+    <div class="row g-0">
+      <div class="col-lg-6 order-lg-2 text-white showcase-img" style="background-image: url('assets/showcase3.jpg')"></div>
+      <div class="col-lg-6 order-lg-1 my-auto showcase-text">
+        <h2></h2>
+        <p class="lead mb-0"></p>
+      </div>
+    </div>
+  </div>
 </section>
 
 <!-- Testimonials-->
 <section class="testimonials text-center bg-light d-flex">
-    <div class="container">
-        <h2 class="mb-5">サービス一覧</h2>
-        <p class="font-weight-light mb-5">最近公開されたサービスとなります。</p>
-        <div class="row">
-          <div class= 'd-flex border-bottom'>
-            <div class="col-lg-4" >
-                <div class="testimonial-item mx-auto mb-0 mb-lg-0">
-                    <h5>出発地</h5>
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="testimonial-item mx-auto mb-0 mb-lg-0">
-                    <h5>到着地</h5>
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="testimonial-item mx-auto mb-0 mb-lg-0">
-                    <h5>料金</h5>                  
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="testimonial-item mx-auto mb-0 mb-lg-0">
-                    <h5>リードタイム</h5>                  
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="testimonial-item mx-auto mb-0 mb-lg-0">
-                    <h5>サービスタイプ</h5>                  
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="testimonial-item mx-auto mb-0 mb-lg-0">
-                    <h5>プロバイダー</h5>                  
-                </div>
-            </div>
+  <div class="container">
+    <h2 class="mb-5">サービス一覧</h2>
+    <p class="font-weight-light mb-5">最近公開されたサービスとなります。</p>
+    <div class="row">
+      <div class= 'd-flex border-bottom'>
+        <div class="col-lg-4" >
+          <div class="testimonial-item mx-auto mb-0 mb-lg-0">
+            <h5>出発地</h5>
+          </div>
         </div>
-           <% @services.each do |service| %><br>
-                <%=link_to service_path(service.id), class: 'd-flex border-bottom p-4 bg-light text-dark text-decoration-none' do %>
-                    <div class="col-lg-4" >
-                        <p class="font-weight-light mb-0"><%= service.departure.name %></p>
-                    </div>
-                    <div class="col-lg-4">
-                        <p class="font-weight-light mb-0"><%= service.destination.name %></p>
-                    </div>
-                    <div class="col-lg-4">
-                        <p class="font-weight-light mb-0"><%= service.price %>円</p>
-                    </div>
-                    <div class="col-lg-4">
-                        <p class="font-weight-light mb-0"><%= service.lead_time %>日</p>
-                    </div>
-                    <div class="col-lg-4">
-                        <p class="font-weight-light mb-0"><%= service.service_type.name %></p>
-                    </div>
-                    <div class="col-lg-4">
-                        <p class="font-weight-light mb-0"><%= service.provider.name %></p>
-                    </div>
-                <% end %>
-            <% end %>
+        <div class="col-lg-4">
+          <div class="testimonial-item mx-auto mb-0 mb-lg-0">
+            <h5>到着地</h5>
+          </div>
         </div>
+        <div class="col-lg-4">
+          <div class="testimonial-item mx-auto mb-0 mb-lg-0">
+            <h5>料金</h5>                  
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="testimonial-item mx-auto mb-0 mb-lg-0">
+            <h5>リードタイム</h5>                  
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="testimonial-item mx-auto mb-0 mb-lg-0">
+            <h5>サービスタイプ</h5>                  
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="testimonial-item mx-auto mb-0 mb-lg-0">
+            <h5>プロバイダー</h5>                  
+          </div>
+        </div>
+      </div>
+      <% @services.each do |service| %>
+        <%=link_to service_path(service.id), class: 'd-flex border-bottom p-4 bg-light text-dark text-decoration-none' do %>
+          <div class="col-lg-4" >
+            <p class="font-weight-light mb-0"><%= service.departure.name %></p>
+          </div>
+          <div class="col-lg-4">
+            <p class="font-weight-light mb-0"><%= service.destination.name %></p>
+          </div>
+          <div class="col-lg-4">
+            <p class="font-weight-light mb-0"><%= service.price %>円</p>
+          </div>
+          <div class="col-lg-4">
+            <p class="font-weight-light mb-0"><%= service.lead_time %>日</p>
+          </div>
+          <div class="col-lg-4">
+            <p class="font-weight-light mb-0"><%= service.service_type.name %></p>
+          </div>
+          <div class="col-lg-4">
+            <p class="font-weight-light mb-0"><%= service.provider.name %></p>
+          </div>
+        <% end %>
+      <% end %>
     </div>
+  </div>
 </section>
-
-
 
 <!-- Call to Action-->
 <section class="call-to-action text-white text-center" id="signup">

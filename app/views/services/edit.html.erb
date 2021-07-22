@@ -1,4 +1,9 @@
-<h3>編集画面</h3>
+<%= render "shared/header" %>
+
+<section class="features-icons bg-light text-center">
+  <h3>サービス編集</h3>
+  <p class="lead mb-0"></p>
+</section>
 
 <section class="showcase">
     <div class="container p-5">
@@ -47,10 +52,22 @@
               </div>
 
              <div class="col-lg-6  my-5 mx-auto">
-                <%= f.submit "登録する" ,class:"btn btn-primary  mt-5 mx-auto" %>
+                <%= f.submit "更新する" ,class:"btn btn-primary  mt-5 mx-auto" %>
             </div>
             </div>
            
         <% end %>
     </div>
 </section>
+
+<%= render "shared/footer" %>
+
+<!-- Bootstrap core JS-->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Core theme JS-->
+<script src="js/scripts.js"></script>
+<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
+<!-- * *                               SB Forms JS                               * *-->
+<!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->
+<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
+<script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>

@@ -3973,6 +3973,10 @@ textarea.form-control-lg {
   justify-content: space-between;
 }
 .navbar-brand {
+  background: url("logo.png") no-repeat left center;
+  background-size: contain;
+  height: 50px;
+  width: 250px;
   padding-top: 0.3125rem;
   padding-bottom: 0.3125rem;
   margin-right: 1rem;
