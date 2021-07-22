@@ -1,11 +1,77 @@
-<h1>サービス詳細</h1>
+<%= render "shared/header" %>
 
-出発地: <%= @service.departure.name %><br>
-到着地: <%= @service.destination.name %><br>
-料金: <%= @service.price %>円<br>
-リードタイム: <%= @service.lead_time %>日<br>
-サービスタイプ: <%= @service.service_type.name %><br>
-オプション: <%= @service.option.name %><br>
-サービス説明: <%= @service.description %><br>
+<section class="features-icons bg-light text-center">
+      <h3>サービス詳細</h3>
+      <p class="lead mb-0"></p>
+</section>
 
-<%= link_to 'もどる', :back %>
+<section class="showcase">
+    <div class="container p-5">
+        <div class="text-center">
+            <div class="col-lg-6 my-5 mx-auto">
+              <h5>出発地</h5>
+              <p class="font-weight-light mb-0"><%= @service.departure.name %></p>
+            </div>
+
+            <div class="col-lg-6  my-5 mx-auto my-0">
+              <h5>仕向地</h5>
+              <p class="font-weight-light mb-0"><%= @service.destination.name %></p>
+            </div>
+
+            <div class="col-lg-6  my-5 mx-auto">
+              <h5>サービスタイプ</h5>
+              <p class="font-weight-light mb-0"><%= @service.service_type.name %></p>
+            </div>
+
+            <div class="col-lg-6  my-5 mx-auto">
+              <h5>料金</h5>
+              <p class="font-weight-light mb-0"><%= @service.price %>円</p>
+            </div>
+
+            <div class="col-lg-6  my-5 mx-auto">
+              <h5>リードタイム</h5>
+              <p class="font-weight-light mb-0"><%= @service.lead_time %>日</p>
+            </div>
+
+            <div class="col-lg-6  my-5 mx-auto">
+              <h5>オプション</h5>
+              <p class="font-weight-light mb-0"><%= @service.option.name %></p>
+            </div>
+
+            <div class="col-lg-6  my-5 mx-auto">
+              <h5>説明</h5>
+              <p class="font-weight-light mb-0"><%= @service.description %></p>
+            </div>
+
+            <div class="col-lg-6  my-5 mx-auto">
+              <h5>プロバイダー</h5>
+              <p class="font-weight-light mb-0"><%= @service.provider.name %></p>
+            </div>
+
+            <% if provider_signed_in? %>
+            <li>
+            <%= link_to '編集', edit_service_path(@service.id), method: :get %>
+            </li>
+            <li>
+            <%= link_to '削除', service_path(@service.id), method: :delete %>
+            </li>
+            <% end %>
+            
+            <div class="col-lg-6  my-5 mx-auto">
+            <%= link_to 'もどる', :back, class:"btn btn-primary mt-5 px-5" %>
+            </div>
+    </div>
+</section>
+
+
+<%= render "shared/footer" %>
+
+<!-- Bootstrap core JS-->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Core theme JS-->
+<script src="js/scripts.js"></script>
+<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
+<!-- * *                               SB Forms JS                               * *-->
+<!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->
+<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
+<script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>

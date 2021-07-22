@@ -1,13 +1,14 @@
 class ServicesController < ApplicationController
-  # before_action :authenticate_provider!, except: :index
-  # before_action :search_service, only: [:index, :search]
+  before_action :authenticate_any!, only: [:show, :search]
+  # before_action :authenticate_user!, except: [:index, :show]
+  # before_action :authenticate_provider!, only: [:index, :show]
+  before_action :search_service, only: [:index, :search, :show]
 
   def index
-    @p = Service.ransack(params[:q])
     @services = @p.result.order(created_at: :desc).limit(5)
   end
 
-  def new 
+  def new
     @service = Service.new
   end
 
@@ -21,32 +22,45 @@ class ServicesController < ApplicationController
   end
 
   def search
-    @p = Service.ransack(params[:q])
     @services = @p.result
-
-    # @p = Service.search(search_params)
-    # @services = @p.result
-    # departure_id = params[:q][:departure_id_eq]
-    # @departure = Departure.find_by(id: departure_id)  
   end
 
   def show
     @service = Service.find(params[:id])
-    @p = Service.ransack(params[:q])
     @services = @p.result
   end
 
-  private
-  
-  def service_params
-    params.require(:service).permit(:departure_id,:destination_id,:service_type_id, :price, :lead_time, :option_id, :description).merge(provider_id: current_provider.id)
+  def destroy
+    service = Service.find(params[:id])
+    service.destroy
   end
 
-  # def search_service
-  # end
+  def edit
+    @service = Service.find(params[:id])
+  end
 
-  # def search_params
-  #   params.require(:q).permit!
-  # end
+  def update
+    service = Service.find(params[:id])
+    service.update(service_params)
+  end
+
+  private
+
+  def service_params
+    params.require(:service).permit(:departure_id, :destination_id, :service_type_id, :price, :lead_time, :option_id,
+                                    :description).merge(provider_id: current_provider.id)
+  end
+
+  def search_service
+    @p = Service.ransack(params[:q])
+  end 
+
+  def authenticate_any!
+    if provider_signed_in?
+        true
+    else
+        authenticate_user!
+    end
+  end
 
 end

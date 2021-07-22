@@ -4,7 +4,7 @@ class Option < ActiveHash::Base
     { id: 2, name: '危険品' },
     { id: 3, name: '要冷蔵' },
     { id: 4, name: '要冷凍' },
-    { id: 5, name: 'その他' },
+    { id: 5, name: 'その他' }
   ]
   include ActiveHash::Associations
   has_many :services

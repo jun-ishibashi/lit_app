@@ -1,0 +1,56 @@
+<h3>編集画面</h3>
+
+<section class="showcase">
+    <div class="container p-5">
+        <%= form_with model: @service, local: true do |f| %>
+            <div class="text-center">
+            <div class="col-lg-6 my-5 mx-auto">
+              <h5>出発地</h5>
+              <p class="font-weight-light mb-0">貨物を出荷する都市を選択して下さい</p>
+              <%= f.collection_select(:departure_id, Departure.all, :id, :name, {}, {class:"form-select w-50 mx-auto"}) %>
+            </div>
+
+            <div class="col-lg-6  my-5 mx-auto my-0">
+              <h5>仕向地</h5>
+              <p class="font-weight-light mb-0">貨物を輸送する都市を選択して下さい</p>
+              <%= f.collection_select(:destination_id, Destination.all, :id, :name, {}, {class:"form-select w-50 mx-auto"}) %>
+            </div>
+
+            <div class="col-lg-6  my-5 mx-auto">
+              <h5>サービスタイプ</h5>
+              <p class="font-weight-light mb-0">輸送手段を選択して下さい</p>
+               <%= f.collection_select(:service_type_id, ServiceType.all, :id, :name, {}, {class:"form-select w-50 mx-auto"}) %>
+            </div>
+
+            <div class="col-lg-6  my-5 mx-auto">
+              <h5>料金</h5>
+              <p class="font-weight-light mb-0">料金を入力して下さい</p>
+              <%= f.text_field :price, placeholder:"例）30,000",  class:"form-control w-50 mx-auto" %>
+            </div>
+
+            <div class="col-lg-6  my-5 mx-auto">
+              <h5>リードタイム</h5>
+              <p class="font-weight-light mb-0">リードタイムを入力して下さい</p>
+              <%= f.text_field :lead_time, placeholder:"例）3", class:"form-control w-50 mx-auto" %>
+            </div>
+
+            <div class="col-lg-6  my-5 mx-auto">
+              <h5>オプション</h5>
+              <p class="font-weight-light mb-0">対応可能なオプションがあれば選択して下さい</p>
+              <%= f.collection_select(:option_id, Option.all, :id, :name, {}, {class:"form-select w-50 mx-auto"}) %>
+            </div>
+
+            <div class="col-lg-6  my-5 mx-auto">
+              <h5>説明</h5>
+              <p class="font-weight-light mb-0">サービスの説明や概要を入力して下さい</p>
+              <%= f.text_area :description, rows: 5, class:"form-control h-100 w-100 mx-auto p-50" %>
+              </div>
+
+             <div class="col-lg-6  my-5 mx-auto">
+                <%= f.submit "登録する" ,class:"btn btn-primary  mt-5 mx-auto" %>
+            </div>
+            </div>
+           
+        <% end %>
+    </div>
+</section>

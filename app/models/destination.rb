@@ -14,7 +14,7 @@ class Destination < ActiveHash::Base
     { id: 12, name: 'Penan' },
     { id: 13, name: 'Bangkok' },
     { id: 14, name: 'Manila' },
-    { id: 15, name: 'Singapore' },
+    { id: 15, name: 'Singapore' }
   ]
   include ActiveHash::Associations
   has_many :services

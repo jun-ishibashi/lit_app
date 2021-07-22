@@ -3,5 +3,15 @@ Rails.application.routes.draw do
   devise_for :users
   root to: "services#index"
   get 'services/search'
-  resources :services, only: [:index, :new, :create, :show]
+  post 'services/search'
+
+  resources :services do
+    collection do
+      match 'search' => 'services#search', via: [:get, :post]
+    end
+  end
+
+  resources :users, only: :show
+  resources :providers, only: :show
+
 end

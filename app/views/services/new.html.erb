@@ -1,98 +1,68 @@
 <%= render "shared/header" %>
 
-<!-- Icons Grid-->
+<!-- Title -->
 <section class="features-icons bg-light text-center">
-    <%# <div class="container"> %>
       <h3>輸送サービスを登録</h3>
       <p class="lead mb-0">ルートと運賃で簡単に登録ができます</p>
 </section>
 <!-- Image Showcases-->
 <section class="showcase">
-    <div class="container-fluid p-0">
+    <div class="container p-5">
         <%= form_with model: @service, local: true do |f| %>
-            
-            <div class="col-lg-6 order-lg-1 my-auto showcase-text">
-              <h2>出発地</h2>
-              <p class="lead mb-0">貨物を出荷する都市を選択して下さい</p>
-              <%= f.collection_select(:departure_id, Departure.all, :id, :name, {}, {class:"departure-select"}) %><br>
+            <div class="text-center">
+            <div class="col-lg-6 my-5 mx-auto">
+              <h5>出発地</h5>
+              <p class="font-weight-light mb-0">貨物を出荷する都市を選択して下さい</p>
+              <%= f.collection_select(:departure_id, Departure.all, :id, :name, {}, {class:"form-select w-50 mx-auto"}) %>
             </div>
 
-            <div class="col-lg-6 order-lg-1 my-auto showcase-text">
-              <h2>仕向地</h2>
-              <p class="lead mb-0">貨物を輸送する都市を選択して下さい</p>
-              <%= f.collection_select(:destination_id, Destination.all, :id, :name, {}, {class:"destination-select"}) %><br>
+            <div class="col-lg-6  my-5 mx-auto my-0">
+              <h5>仕向地</h5>
+              <p class="font-weight-light mb-0">貨物を輸送する都市を選択して下さい</p>
+              <%= f.collection_select(:destination_id, Destination.all, :id, :name, {}, {class:"form-select w-50 mx-auto"}) %>
             </div>
 
-            <div class="col-lg-6 order-lg-1 my-auto showcase-text">
-              <h2>サービスタイプ</h2>
-              <p class="lead mb-0">輸送手段を選択して下さい</p>
-               <%= f.collection_select(:service_type_id, ServiceType.all, :id, :name, {}, {class:"service-type-select"}) %><br>
+            <div class="col-lg-6  my-5 mx-auto">
+              <h5>サービスタイプ</h5>
+              <p class="font-weight-light mb-0">輸送手段を選択して下さい</p>
+               <%= f.collection_select(:service_type_id, ServiceType.all, :id, :name, {}, {class:"form-select w-50 mx-auto"}) %>
             </div>
 
-            <div class="col-lg-6 order-lg-1 my-auto showcase-text">
-              <h2>料金</h2>
-              <p class="lead mb-0">料金を入力して下さい</p>
-              <%= f.text_field :price, class:"price-input", id:"service-price", placeholder:"例）30,000" %>円<br>
+            <div class="col-lg-6  my-5 mx-auto">
+              <h5>料金</h5>
+              <p class="font-weight-light mb-0">料金を入力して下さい</p>
+              <%= f.text_field :price, placeholder:"例）30,000",  class:"form-control w-50 mx-auto" %>
             </div>
 
-            <div class="col-lg-6 order-lg-1 my-auto showcase-text">
-              <h2>リードタイム</h2>
-              <p class="lead mb-0">リードタイムを入力して下さい</p>
-              <%= f.text_field :lead_time, class:"leadtime-input", id:"service-leadtime", placeholder:"例）3" %>日<br>
+            <div class="col-lg-6  my-5 mx-auto">
+              <h5>リードタイム</h5>
+              <p class="font-weight-light mb-0">リードタイムを入力して下さい</p>
+              <%= f.text_field :lead_time, placeholder:"例）3", class:"form-control w-50 mx-auto" %>
             </div>
 
-            <div class="col-lg-6 order-lg-1 my-auto showcase-text">
-              <h2>オプション</h2>
-              <p class="lead mb-0">対応可能なオプションがあれば選択して下さい</p>
-              <%= f.collection_select(:option_id, Option.all, :id, :name, {}, {class:"option-select"}) %><br>
+            <div class="col-lg-6  my-5 mx-auto">
+              <h5>オプション</h5>
+              <p class="font-weight-light mb-0">対応可能なオプションがあれば選択して下さい</p>
+              <%= f.collection_select(:option_id, Option.all, :id, :name, {}, {class:"form-select w-50 mx-auto"}) %>
             </div>
 
-            <div class="col-lg-6 order-lg-1 my-auto showcase-text">
-              <h2>説明</h2>
-              <p class="lead mb-0">サービスの説明や概要を入力して下さい</p>
-              <%= f.text_field :description, class:"description-input", id:"service-description" %><br>
-            </div>
+            <div class="col-lg-6  my-5 mx-auto">
+              <h5>説明</h5>
+              <p class="font-weight-light mb-0">サービスの説明や概要を入力して下さい</p>
+              <%= f.text_area :description, rows: 5, class:"form-control h-100 w-100 mx-auto p-50" %>
+              </div>
 
-             <div class="col-lg-6 order-lg-1 my-auto showcase-text">
-                <%= f.submit "登録する" ,class:"btn" %>
+             <div class="col-lg-6  my-5 mx-auto">
+                <%= f.submit "登録する" ,class:"btn btn-primary  mt-5 mx-auto" %>
+            </div>
             </div>
            
         <% end %>
     </div>
-
 </section>
-<!-- Footer-->
-<footer class="footer bg-light">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-6 h-100 text-center text-lg-start my-auto">
-                <ul class="list-inline mb-2">
-                    <li class="list-inline-item"><a href="#!">About</a></li>
-                    <li class="list-inline-item">⋅</li>
-                    <li class="list-inline-item"><a href="#!">Contact</a></li>
-                    <li class="list-inline-item">⋅</li>
-                    <li class="list-inline-item"><a href="#!">Terms of Use</a></li>
-                    <li class="list-inline-item">⋅</li>
-                    <li class="list-inline-item"><a href="#!">Privacy Policy</a></li>
-                </ul>
-                <p class="text-muted small mb-4 mb-lg-0">&copy; LIT_APP 2021. All Rights Reserved.</p>
-            </div>
-            <div class="col-lg-6 h-100 text-center text-lg-end my-auto">
-                <ul class="list-inline mb-0">
-                    <li class="list-inline-item me-4">
-                        <a href="#!"><i class="bi-facebook fs-3"></i></a>
-                    </li>
-                    <li class="list-inline-item me-4">
-                        <a href="#!"><i class="bi-twitter fs-3"></i></a>
-                    </li>
-                    <li class="list-inline-item">
-                        <a href="#!"><i class="bi-instagram fs-3"></i></a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>
-</footer>
+
+<%= render "shared/footer" %>
+
 <!-- Bootstrap core JS-->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 <!-- Core theme JS-->

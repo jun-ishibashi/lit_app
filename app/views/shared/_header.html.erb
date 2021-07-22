@@ -10,7 +10,7 @@
             
             <% unless provider_signed_in? %>
                 <% if user_signed_in? %>
-                    <li><%= link_to 'My Page', "#", class: "dropdown-item" %></li>
+                    <li><%= link_to 'My Page', user_path(current_user.id), class: "dropdown-item" %></li>
                     <li><hr class="dropdown-divider"></li>
                     <li><%= link_to 'ログアウト', destroy_user_session_path, method: :delete, class: "dropdown-item" %></li>
                 <% else %>
@@ -20,7 +20,7 @@
             <%end%>
             <% unless user_signed_in? %>
                 <% if provider_signed_in? %>
-                    <li><%= link_to current_provider.name, "#", class: "dropdown-item" %></li>
+                    <li><%= link_to current_provider.name, provider_path(current_provider.id), class: "dropdown-item" %></li>
                     <li><%= link_to 'サービスを登録する', new_service_path, class: "dropdown-item" %>
                     <li><hr class="dropdown-divider"></li>
                     <li><%= link_to 'ログアウト', destroy_provider_session_path, method: :delete, class: "dropdown-item" %></li>
