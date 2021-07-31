@@ -1,5 +1,5 @@
 class ProvidersController < ApplicationController
   def show
-    @name = current_provider.name
+    @provider = current_provider
   end
 end

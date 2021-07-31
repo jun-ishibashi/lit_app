@@ -2,7 +2,22 @@
 
 <section class="features-icons bg-light text-center">
   <h3>検索結果</h3>
+  <p class="font-weight-light mb-0">本日：<%= @today %></p>
+  <% if @shipping_date.present? %>
+    <p class="font-weight-light mb-0">出荷希望日：<%= @shipping_date %></p>
+  <% end %>
+
 </section>
+
+        <%# <div class="col-lg-6  my-5 mx-auto">
+          <h5>希望出荷日</h5>
+          <p class="font-weight-light mb-0">出荷日を入力することで最短到着日を計算します</p>
+          <input type="date" name="date-input" id="price-form", class="form-control w-50 mx-auto" >
+        </div>
+
+       <p id="output"></p>
+       <p id="output2"></p> %>
+
 
 <%# 検索結果の個数で条件分岐 %>
 <section class="text-center bg-light py-5 my-5">
@@ -40,9 +55,26 @@
                   <h5>プロバイダー</h5>                  
               </div>
           </div>
+          <% if @shipping_date %>
+            <div class="col-lg-4">
+                <div class="testimonial-item mx-auto mb-0 mb-lg-0">
+                    <h5>最短到着日</h5>                  
+                </div>
+            </div>
+          <% end %>
+          <% if @arrival_date %>
+            <div class="col-lg-4">
+                <div class="testimonial-item mx-auto mb-0 mb-lg-0">
+                    <h5>必要出荷日</h5>                  
+                </div>
+            </div>
+          <% end %>
+
+
         </div>
         <% @services.each do |service| %><br>
           <%=link_to service_path(service.id), class: 'd-flex border-bottom p-4 bg-light text-dark text-decoration-none' do %>
+
             <div class="col-lg-4" >
                 <p class="font-weight-light mb-0"><%= service.departure.name %></p>
             </div>
@@ -53,7 +85,7 @@
                 <p class="font-weight-light mb-0"><%= service.price %>円</p>
             </div>
             <div class="col-lg-4">
-                <p class="font-weight-light mb-0"><%= service.lead_time %>日</p>
+                <p id= "lead-time" class="font-weight-light mb-0"><%= service.lead_time.to_i %></p>
             </div>
             <div class="col-lg-4">
                 <p class="font-weight-light mb-0"><%= service.service_type.name %></p>
@@ -61,6 +93,20 @@
             <div class="col-lg-4">
                 <p class="font-weight-light mb-0"><%= service.provider.name %></p>
             </div>
+            <% if @shipping_date.present? %>
+              <div class="col-lg-4">
+                  <p class="text-success font-weight-light mb-0"><%= @shipping_date + service.lead_time.to_i %></p>
+              </div>
+            <% end %>
+            <% if @arrival_date.present? %>
+              <div class="col-lg-4">
+                <% if @today < (@arrival_date - service.lead_time.to_i) %>
+                  <p class="text-success font-weight-light mb-0"><%= @arrival_date - service.lead_time.to_i %></p>
+                <% else %>
+                  <p class="small text-danger font-weight-light mb-0">出荷が間に合いません</p>
+                <% end %>
+              </div>
+            <% end %>
           <% end %>
         <% end %>
       </div>
@@ -73,6 +119,7 @@
         <%= link_to 'トップページへ戻る', root_path, class:"btn btn-primary mt-5 px-5" %>
       </div>
   </div>
+
 </section>
 
 <%= render "shared/footer" %>

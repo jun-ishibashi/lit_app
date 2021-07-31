@@ -1,8 +1,45 @@
 <%= render "shared/header" %>
 
-<div class="contents row">
-  <p><%= @name %>さんの情報</p>
-</div>
+<section class="features-icons bg-light text-center">
+  <h3>My Page for User</h3>
+  <p class="lead mb-0"></p>
+</section>
+
+<section class="showcase">
+  <div class="container p-5">
+    <div class="text-center">
+      <div class="col-lg-6 my-5 mx-auto">
+        <h5>ユーザーネーム</h5>
+        <p class="font-weight-light mb-0"><%= @user.name %></p>
+      </div>
+
+      <div class="col-lg-6  my-5 mx-auto my-0">
+        <h5>登録メールアドレス</h5>
+        <p class="font-weight-light mb-0"><%= @user.email %></p>
+      </div>
+
+      <div class="col-lg-6  my-5 mx-auto">
+        <h5>ユーザータイプ</h5>
+        <p class="font-weight-light mb-0"><%= @user.user_type.name %></p>
+      </div>
+
+      <div class="col-lg-6  my-5 mx-auto">
+        <h5>メインプロダクト</h5>
+        <p class="font-weight-light mb-0"><%= @user.product.name %></p>
+      </div>
+
+      <div class="col-lg-6  my-5 mx-auto">
+        <h5>紹介</h5>
+        <p class="font-weight-light mb-0"><%= @user.introduction %></p>
+      </div>
+
+
+      <div class="col-lg-6  my-5 mx-auto">
+        <%= link_to 'もどる', :back, class:"btn btn-primary mt-5 px-5" %>
+      </div>
+    </div>
+  </div>
+</section>
 
 <%= render "shared/footer" %>
 

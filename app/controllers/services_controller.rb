@@ -23,6 +23,14 @@ class ServicesController < ApplicationController
 
   def search
     @services = @p.result
+    if params[:shipping_date]
+      @shipping_date = params[:shipping_date]
+      @shipping_date = @shipping_date.to_date
+    end
+    @arrival_date = params[:arrival_date]
+    @arrival_date = @arrival_date.to_date
+
+    @today = Date.today
   end
 
   def show
