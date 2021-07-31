@@ -6,9 +6,7 @@
 </section>
 
 <div class="container p-5" >
-
 <%= form_with model: @provider, url: provider_registration_path, class: 'hoge', local: true do |f| %>
-<%# <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %> 
   <%= render "providers/shared/error_messages", resource: resource %>
 
   <div class="mb-3">
