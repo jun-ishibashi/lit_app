@@ -52,7 +52,7 @@
         <%= link_to '相談する',"#" , class: "btn btn-secondary mt-5 px-5" %>
       <% end %>
 
-      <% if provider_signed_in? %>
+      <% if current_provider == @service.provider %>
           <div>
             <%= link_to '編集', edit_service_path(@service.id), class: "btn btn-secondary mt-5 px-5" %>
           </div>
