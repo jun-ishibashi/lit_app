@@ -6,17 +6,20 @@
   <% if @shipping_date.present? %>
     <p class="font-weight-light mb-0">出荷希望日：<%= @shipping_date %></p>
   <% end %>
+  <% if @arrival_date.present? %>
+    <p class="font-weight-light mb-0">到着希望日：<%= @arrival_date %></p>
+  <% end %>
 
 </section>
 
-        <%# <div class="col-lg-6  my-5 mx-auto">
-          <h5>希望出荷日</h5>
-          <p class="font-weight-light mb-0">出荷日を入力することで最短到着日を計算します</p>
-          <input type="date" name="date-input" id="price-form", class="form-control w-50 mx-auto" >
-        </div>
+    <%# <div class="col-lg-6  my-5 mx-auto">
+      <h5>希望出荷日</h5>
+      <p class="font-weight-light mb-0">出荷日を入力することで最短到着日を計算します</p>
+      <input type="date" name="date-input" id="price-form", class="form-control w-50 mx-auto" >
+    </div>
 
-       <p id="output"></p>
-       <p id="output2"></p> %>
+    <p id="output"></p>
+    <p id="output2"></p> %>
 
 
 <%# 検索結果の個数で条件分岐 %>
@@ -69,12 +72,10 @@
                 </div>
             </div>
           <% end %>
-
-
         </div>
+
         <% @services.each do |service| %><br>
           <%=link_to service_path(service.id), class: 'd-flex border-bottom p-4 bg-light text-dark text-decoration-none' do %>
-
             <div class="col-lg-4" >
                 <p class="font-weight-light mb-0"><%= service.departure.name %></p>
             </div>
