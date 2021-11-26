@@ -29,24 +29,24 @@ https://lit-app-34712.herokuapp.com
 
 - トップページ
 
-https://gyazo.com/c726a767414d7b9172d4786b945f4402
+<img width="1440" alt="スクリーンショット 2021-11-26 15 22 43" src="https://user-images.githubusercontent.com/81630353/143537360-551e4472-f5da-49be-9077-d3108ed78ceb.png">
 
 - 検索画面
 
-https://gyazo.com/d8bf7f2c295ea9a2baee19bff0900727
+<img width="1440" alt="スクリーンショット 2021-11-26 15 31 34" src="https://user-images.githubusercontent.com/81630353/143537317-8e3b7a4b-04d9-4c59-bfb8-3ec247b14849.png">
 
-https://gyazo.com/c6053242fa4ec7d973d976ca0da05919
+<img width="1440" alt="スクリーンショット 2021-11-26 15 31 57" src="https://user-images.githubusercontent.com/81630353/143537209-148be1b4-f9c3-4fb8-9643-0175a5fcba88.png">
 
 出発地と到着地を入力することでサービスの検索、価格に安い順やリードタイムが短い順で検索結果の並び替えが可能。
 また、具体的な出荷時期や納品時期が決まっている場合は指定することで、到着予定日や出荷に必要な日が表示される。
 
 - 検索結果画面
 
-https://gyazo.com/10aede5223d2e615844b192473b75b58
+<img width="1440" alt="スクリーンショット 2021-11-26 15 35 17" src="https://user-images.githubusercontent.com/81630353/143537665-52b5761a-6bf2-41e4-be6b-41303b39c90a.png">
 
 - サービス詳細画面
 
-https://gyazo.com/e7affa5145c03c79698d6eb60084c8ff
+<img width="1440" alt="スクリーンショット 2021-11-26 15 36 25" src="https://user-images.githubusercontent.com/81630353/143537703-ae8755f5-f372-4443-8438-967ce106cdd1.png">
 
 ## 工夫したポイント
 - ユーザーのニーズに応じて簡単にサービスが比較できるよう、検索結果をリードタイムが短い順と料金が安い順に並び替えることができるようソート機能を実装した点。
