@@ -29,6 +29,11 @@
                 <%= f.collection_select :service_type_id, ServiceType.all, :id, :name, {}, { class: "form-select" } %>
               </div>
               <div class="mb-4">
+                <label class="lit-form-label form-label">作業範囲</label>
+                <p class="text-muted small mb-1">通関を含むか・港/ドア間など、海外貿易で重要な範囲を選んでください（任意）</p>
+                <%= f.collection_select :service_scope_id, ServiceScope.all, :id, :name, {}, { class: "form-select" } %>
+              </div>
+              <div class="mb-4">
                 <label class="lit-form-label form-label">料金</label>
                 <p class="text-muted small mb-1">料金（円）を入力してください</p>
                 <%= f.text_field :price, placeholder: "例）30,000", class: "form-control" %>

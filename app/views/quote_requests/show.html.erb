@@ -1,0 +1,48 @@
+<% content_for :title, "見積もり依頼の詳細 | LIT APP" %>
+<% is_provider = provider_signed_in? && @quote_request.service.provider_id == current_provider.id %>
+<section class="lit-page-header">
+  <div class="container">
+    <h1 class="lit-page-title">見積もり依頼の詳細</h1>
+    <p class="lit-breadcrumb mb-0">
+      <%= link_to "トップ", root_path %> &gt; <%= link_to "見積もり依頼一覧", quote_requests_path %> &gt; 詳細
+    </p>
+  </div>
+</section>
+
+<section class="lit-section bg-light">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <div class="lit-card card mb-4">
+          <div class="card-body lit-card-body">
+            <dl class="row lit-dl mb-0">
+              <% if is_provider %>
+                <dt class="col-sm-3">依頼者</dt>
+                <dd class="col-sm-9"><%= @quote_request.user.name %>（<%= @quote_request.user.email %>）</dd>
+              <% end %>
+              <dt class="col-sm-3">サービス</dt>
+              <dd class="col-sm-9">
+                <%= link_to "#{@quote_request.service.departure.name} → #{@quote_request.service.destination.name}", service_path(@quote_request.service) %><br>
+                <span class="small text-muted"><%= @quote_request.service.provider.name %>／<%= @quote_request.service.service_type.name %></span>
+              </dd>
+              <dt class="col-sm-3">依頼日</dt>
+              <dd class="col-sm-9"><%= @quote_request.created_at.strftime("%Y年%m月%d日 %H:%M") %></dd>
+              <dt class="col-sm-3">ステータス</dt>
+              <dd class="col-sm-9">
+                <span class="badge <%= @quote_request.status == 'pending' ? 'bg-warning' : (@quote_request.status == 'replied' ? 'bg-success' : 'bg-secondary') %>">
+                  <%= @quote_request.status == 'pending' ? '未対応' : (@quote_request.status == 'replied' ? '返信済み' : '完了') %>
+                </span>
+              </dd>
+              <dt class="col-sm-3">メッセージ</dt>
+              <dd class="col-sm-9"><%= simple_format(@quote_request.message.presence || '（なし）') %></dd>
+            </dl>
+            <div class="mt-4">
+              <%= link_to "一覧に戻る", quote_requests_path, class: "btn btn-outline-secondary" %>
+              <%= link_to "サービス詳細", service_path(@quote_request.service), class: "btn btn-outline-primary ms-2" %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

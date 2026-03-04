@@ -8,10 +8,10 @@
 
 | 層 | 内容 |
 |----|------|
-| **ルーティング** | トップ＝サービス一覧、`/services/search`（検索・`search_services_path`）、`resources :services`、`/for-providers`（業者入口）、`/mypage/provider`（業者マイページ）、`users` / `providers` は `show` のみ。Devise で認証ルートを自動追加。 |
-| **コントローラ** | ApplicationController（Devise パラメータ許可）、ServicesController（Ransack・認可）、UsersController / ProvidersController（show のみ）。 |
-| **モデル** | User / Provider（Devise）、Service（Ransack）。マスタは ActiveHash（Departure, Destination, ServiceType, Option, UserType, Product）。 |
-| **ビュー** | 各ページで `render "shared/header"` / `render "shared/footer"` を個別に呼び出し。レイアウトは flash と yield のみ。 |
+| **ルーティング** | トップ＝サービス一覧、`/services/search`（検索）、`resources :services`、`/for-providers`（業者入口）、`/mypage/provider`（業者マイページ）、`/providers/:id`（プロバイダー公開プロフィール）、`users` は `show` のみ。Devise で認証ルートを自動追加。 |
+| **コントローラ** | ApplicationController（Devise パラメータ許可）、ServicesController（Ransack・認可）、UsersController / ProvidersController（show・mypage）。 |
+| **モデル** | User / Provider（Devise）、Service（Ransack）。マスタは Departure / Destination が DB（ApplicationRecord）、ServiceType / Option / UserType / Product が ActiveHash。 |
+| **ビュー** | ヘッダー・フッターは `application.html.erb` で共通レンダリング。各ビューでは個別に呼ばない。 |
 | **認証・認可** | Devise で User / Provider を分離。サービスは new/create/edit/update/destroy をプロバイダー必須＋編集・削除は自社のみ。 |
 
 ---
@@ -20,7 +20,7 @@
 
 - **役割の分離**: ユーザー（依頼側）とプロバイダー（業者）がルート・コントローラ・ビューで一貫して分かれている。
 - **認可の明確さ**: サービスの「作成＝プロバイダーのみ」「編集・削除＝そのサービスの提供者のみ」とルールがはっきりしている。
-- **マスタの扱い**: 出発地・到着地等を ActiveHash に寄せ、マイグレーションを抑えている。
+- **マスタの扱い**: 出発地・到着地は DB マスタ（Departure / Destination）。ServiceType・Option 等は ActiveHash で運用。
 - **検索の整理**: Ransack の `ransackable_attributes` / `ransackable_associations` をモデルで定義している。
 - **ドキュメント**: README と BUSINESS_AND_ROADMAP でビジネス・技術・今後の方針が書かれている。
 
@@ -30,54 +30,29 @@
 
 ### 3.1 【高】すぐ直すとよいもの
 
-#### A. マイページ・プロバイダー詳細の認証不足
+#### A. マイページ・プロバイダー詳細の認証不足 【対応済み】
 
-**問題**
+**対応内容**
 
-- `UsersController#show`: `@user = current_user` のみで、`authenticate_user!` がない。
-  - 未ログインで `/users/123` にアクセスすると `current_user` が nil になり、ビューでエラーまたは不整合になる。
-- `ProvidersController#show`: 同様に `authenticate_provider!` がなく、`@provider = current_provider` のみ。
-  - 未ログインで `/providers/456` にアクセスすると同様のリスクがある。
-
-**推奨**
-
-- マイページは「自分の情報だけ見る」前提なら、**必ず認証してから show を実行**する。
-- `UsersController` に `before_action :authenticate_user!`, only: [:show]`
-- `ProvidersController` に `before_action :authenticate_provider!`, only: [:show]`
-- 未ログイン時は Devise がログイン画面へリダイレクトする。
+- `UsersController#show`: `before_action :authenticate_user!` を追加済み。未ログイン時は Devise がログイン画面へリダイレクト。
+- プロバイダーは `/mypage/provider`（`providers#mypage`）に `authenticate_provider!` を適用。`/providers/:id`（`show`）は公開プロフィールのため認証不要。
 
 ---
 
-#### B. プロバイダー show の URL と id の不整合
+#### B. プロバイダー show の URL と id の不整合 【対応済み】
 
-**問題**
+**対応内容（案2で実装）**
 
-- ルートは `resources :providers, only: :show` のため、URL は `/providers/:id` になる。
-- しかし `ProvidersController#show` では **params[:id] を使わず** `@provider = current_provider` だけを代入している。
-  - どの id でアクセスしても「いまログインしているプロバイダー」が表示される。
-  - 「他社のプロバイダー詳細を公開で見る」設計なら、id を使うべき。
-
-**推奨（どちらかで設計をはっきりさせる）**
-
-- **案1: マイページ専用にする**
-  - プロバイダーは「自分のマイページ」だけを持つなら、`/providers/:id` ではなく `/provider/dashboard` や `/mypage/provider` のような専用パスにし、`params[:id]` を使わない現状と一致させる。
-- **案2: プロバイダー詳細を公開する**
-  - `@provider = Provider.find(params[:id])` で表示し、編集・サービス登録は「current_provider == @provider のときだけ」とする。他社は「見るだけ」にし、自社だけ編集可能とする。
+- `/providers/:id` は `ProvidersController#show` で `@provider = Provider.find(params[:id])` により公開プロフィールとして表示（認証不要）。
+- 自分のマイページは `/mypage/provider`（`providers#mypage`）で、認証必須。`@provider = current_provider` で同一ビューを表示し、メールアドレス・アカウント編集・サービス登録は自社ログイン時のみ表示。
 
 ---
 
-#### C. ヘッダー・フッターをレイアウトに寄せる
+#### C. ヘッダー・フッターをレイアウトに寄せる 【対応済み】
 
-**問題**
+**対応内容**
 
-- ヘッダー・フッターは全ページ共通なのに、**各ビューで** `render "shared/header"` と `render "shared/footer"` を書いている。
-- 新しいページを追加するたびに書き忘れの可能性があり、レイアウト変更時に全ビューを触る必要がある。
-
-**推奨**
-
-- `application.html.erb` で共通レイアウトを定義する。
-  - 例: `render "shared/header"` → `yield` → `render "shared/footer"` の順で固定。
-- メールレイアウトやエラーページなど、ヘッダー・フッターを出したくない場合は、別レイアウトや `content_for` で「ヘッダーなし」を指定する方法を検討する。
+- `application.html.erb` で `render "shared/header"` → `yield` → `render "shared/footer"` の順で共通レンダリング済み。各ビューでは個別に呼んでいない。
 
 ---
 
@@ -85,15 +60,9 @@
 
 #### D. ServicesController#show の @services
 
-**問題**
+**現状**
 
-- `show` で `@services = @p.result`（Ransack の結果）を代入しているが、サービス詳細ビューでは **@service しか使っていない**。
-- 不要なクエリ・代入が残っている可能性がある。
-
-**推奨**
-
-- 詳細画面で `@services` を使っていなければ、`show` から `@services = @p.result` を削除する。
-- 将来的に「関連する他サービス」を出したい場合は、その用途に合わせて別の変数名・クエリにすると意図が明確になる。
+- `ServicesController#show` では `@services` は設定していない（`@service` のみ）。index と search で `@p.result` を `@services` として利用している。詳細画面の実装は問題なし。
 
 ---
 
@@ -130,19 +99,19 @@
 
 ### 3.3 【低】将来の拡張・運用を見据えた検討
 
-#### G. User と Service の関係
+#### G. User と Service の関係 【一部対応済み】
 
-**現状**: User はサービスを「検索して見る」だけ。モデル上の関連はない。
+**現状**: 見積もり依頼（QuoteRequest：user_id, service_id, message, status）を実装済み。User はサービス詳細から「見積もりを依頼」で依頼でき、業者は「見積もり依頼一覧」で自社サービスへの依頼を確認できる。
 
-**今後**: 相談・見積依頼・成約履歴などを残すなら、User と Service（または見積・注文などの中間モデル）の関連を設計する必要がある。BUSINESS_AND_ROADMAP の「見積・注文」の検討と一致させる。
+**今後**: 返信機能・ステータス更新（replied / closed）の UI、成約履歴の記録などは今後の拡張として検討。
 
 ---
 
 #### H. マスタ（出発地・到着地など）の管理
 
-**現状**: ActiveHash でコードに固定。変更のたびにデプロイが必要。
+**現状**: 出発地・到着地は DB マスタ（Departure / Destination）に移行済み。ServiceType・Option・UserType・Product は ActiveHash でコードに固定。
 
-**今後**: 出発地・到着地の増減や名前修正が頻繁になるなら、管理画面や DB マスタ化を検討する。 typo（Barselona → Barcelona 等）の修正もここに含めるとよい。
+**今後**: ServiceType 等の増減や名前修正が頻繁になるなら、DB マスタ化や管理画面を検討する。
 
 ---
 
@@ -156,14 +125,14 @@
 
 ## 4. 実装の優先順位（提案）
 
-1. **認証の追加**（3.1-A）… UsersController / ProvidersController の show に `authenticate_user!` / `authenticate_provider!`。
-2. **プロバイダー show の設計確定**（3.1-B）… 「マイページ専用」か「公開プロバイダー詳細」か決め、ルートと `params[:id]` の使い方を一致させる。
-3. **ヘッダー・フッターのレイアウト化**（3.1-C）… `application.html.erb` に header/footer を移し、各ビューから該当 render を削除。
-4. **show の @services 整理**（3.2-D）… 不要なら削除。
+1. ~~**認証の追加**（3.1-A）~~ … 対応済み。
+2. ~~**プロバイダー show の設計確定**（3.1-B）~~ … 対応済み（公開プロフィール + mypage）。
+3. ~~**ヘッダー・フッターのレイアウト化**（3.1-C）~~ … 対応済み。
+4. ~~**show の @services 整理**（3.2-D）~~ … show では @services 未使用のため対応不要。
 5. **テストの充実**（3.2-E）… 認可・未ログインリダイレクト・検索まわりを優先。
 6. **content_for :title**（3.2-F）… 主要ページでタイトルを設定。
 
-この順で進めると、セキュリティと一貫性が先に整い、その後に保守性・拡張性を高められます。
+残りの 5・6 と、中〜低優先度の項目を進めると、保守性・拡張性がさらに高まります。
 
 ---
 

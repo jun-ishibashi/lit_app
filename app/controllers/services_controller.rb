@@ -5,7 +5,7 @@ class ServicesController < ApplicationController
   before_action :authorize_provider!, only: [:edit, :update, :destroy]
 
   def index
-    @services = @p.result.order(created_at: :desc).limit(10)
+    @services = @p.result.includes(:departure, :destination, :provider).order(created_at: :desc).limit(10)
   end
 
   def new
@@ -22,9 +22,9 @@ class ServicesController < ApplicationController
   end
 
   def search
-    @services = @p.result
-    @shipping_date = params[:shipping_date].presence&.then { |d| Date.parse(d.to_s) }
-    @arrival_date = params[:arrival_date].presence&.then { |d| Date.parse(d.to_s) }
+    @services = @p.result.includes(:departure, :destination, :provider).limit(100)
+    @shipping_date = safe_date(params[:shipping_date])
+    @arrival_date = safe_date(params[:arrival_date])
     @today = Date.current
   end
 
@@ -58,12 +58,19 @@ class ServicesController < ApplicationController
   end
 
   def service_params
-    params.require(:service).permit(:departure_id, :destination_id, :service_type_id, :price, :lead_time, :option_id,
+    params.require(:service).permit(:departure_id, :destination_id, :service_type_id, :service_scope_id, :price, :lead_time, :option_id,
                                     :description).merge(provider_id: current_provider.id)
   end
 
   def search_service
-    params[:q] = params[:q].permit(SearchParams::RANSACK_KEYS) if params[:q].present?
+    params[:q] = params[:q].permit(::SearchParams::RANSACK_KEYS) if params[:q].present?
     @p = Service.ransack(params[:q])
+  end
+
+  def safe_date(param)
+    return nil if param.blank?
+    Date.parse(param.to_s)
+  rescue ArgumentError
+    nil
   end
 end

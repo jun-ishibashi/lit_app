@@ -4,22 +4,11 @@ module ServicesHelper
   # 検索結果から「条件を変える」でトップに戻る際のクエリ（SearchParams と一元化）
   def search_refine_query_params
     raw_q = params[:q]
-    q = raw_q.is_a?(ActionController::Parameters) ? raw_q.permit(SearchParams::RANSACK_KEYS).to_h : (raw_q || {}).stringify_keys.slice(*SearchParams::RANSACK_KEYS)
+    q = raw_q.is_a?(ActionController::Parameters) ? raw_q.permit(::SearchParams::RANSACK_KEYS).to_h : (raw_q || {}).stringify_keys.slice(*::SearchParams::RANSACK_KEYS)
     out = {}
     out[:q] = q if q.present?
-    SearchParams::EXTRA_KEYS.each { |k| out[k.to_sym] = params[k] if params[k].present? }
+    ::SearchParams::EXTRA_KEYS.each { |k| out[k.to_sym] = params[k] if params[k].present? }
     out
-  end
-
-  # 検索 URL 用の q ハッシュを組み立てる（RANSACK_KEYS のみ）
-  def build_search_q(attrs = {})
-    h = {}
-    h["departure_id_eq"] = attrs[:departure_id] if attrs[:departure_id].present?
-    h["destination_id_eq"] = attrs[:destination_id] if attrs[:destination_id].present?
-    h["service_type_id_eq"] = attrs[:service_type_id] if attrs[:service_type_id].present?
-    h["provider_id_eq"] = attrs[:provider_id] if attrs[:provider_id].present?
-    h["sorts"] = attrs[:sorts] if attrs[:sorts].present?
-    h
   end
 
   # 検索条件のラベル表示用（1件だけ取り出して表示）
@@ -29,6 +18,7 @@ module ServicesHelper
     when "departure_id_eq" then Departure.find_by(id: value)&.name
     when "destination_id_eq" then Destination.find_by(id: value)&.name
     when "service_type_id_eq" then ServiceType.all.find { |s| s.id == value.to_i }&.name
+    when "service_scope_id_eq" then ServiceScope.all.find { |s| s.id == value.to_i }&.name
     when "provider_id_eq" then Provider.find_by(id: value)&.name
     when "sorts"
       { "price asc" => "価格の安い順", "lead_time asc" => "リードタイムの短い順" }[value]
@@ -47,6 +37,7 @@ module ServicesHelper
       "departure_id_eq" => "出発地",
       "destination_id_eq" => "到着地",
       "service_type_id_eq" => "サービスタイプ",
+      "service_scope_id_eq" => "作業範囲",
       "provider_id_eq" => "業者",
       "sorts" => "並び順"
     }[key.to_s] || key.to_s.humanize

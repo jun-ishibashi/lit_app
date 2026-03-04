@@ -1,0 +1,36 @@
+<% content_for :title, "見積もりを依頼 | LIT APP" %>
+<section class="lit-page-header">
+  <div class="container">
+    <h1 class="lit-page-title">見積もりを依頼</h1>
+    <p class="lit-breadcrumb mb-0">
+      <%= link_to "トップ", root_path %> &gt; <%= link_to "サービス詳細", service_path(@service) %> &gt; 見積もり依頼
+    </p>
+  </div>
+</section>
+
+<section class="lit-section bg-light">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <div class="lit-card card mb-4">
+          <div class="card-body lit-card-body">
+            <p class="text-muted small mb-3">
+              <%= @service.departure.name %> → <%= @service.destination.name %>（<%= @service.service_type.name %>）／<%= @service.provider.name %>
+            </p>
+            <%= form_with model: @quote_request, url: quote_requests_path, local: true do |f| %>
+              <%= f.hidden_field :service_id %>
+              <div class="mb-4">
+                <%= f.label :message, "メッセージ（任意）", class: "lit-form-label form-label" %>
+                <%= f.text_area :message, rows: 5, class: "form-control", placeholder: "荷物の内容・数量・希望納期など、業者に伝えたいことを記入してください" %>
+              </div>
+              <div class="d-flex gap-2">
+                <%= f.submit "依頼を送信", class: "btn btn-primary" %>
+                <%= link_to "キャンセル", service_path(@service), class: "btn btn-outline-secondary" %>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -16,8 +16,8 @@
 <section class="lit-section bg-light">
   <div class="container">
     <% if @services.length != 0 %>
-      <% q = params[:q] || {} %>
-      <% filter_pairs = q.slice("departure_id_eq", "destination_id_eq", "service_type_id_eq", "provider_id_eq", "sorts").reject { |_, v| v.blank? } %>
+      <% q = (params[:q] || {}).to_h %>
+      <% filter_pairs = q.slice("departure_id_eq", "destination_id_eq", "service_type_id_eq", "service_scope_id_eq", "provider_id_eq", "sorts").reject { |_, v| v.blank? } %>
       <% has_chips = filter_pairs.any? || @shipping_date.present? || @arrival_date.present? || params[:cargo_volume].present? %>
       <% if has_chips %>
         <div class="lit-filter-chips">
@@ -44,7 +44,8 @@
       <div class="lit-search-result-guide mb-3">
         <p class="small text-muted mb-0">
           <i class="bi bi-info-circle me-1" aria-hidden="true"></i>
-          航空は早くて少量向け、海上は大量でコストを抑えたいとき向け。料金とリードタイムを比べて、納期と予算に合うものを選んでください。
+          航空は早くて少量向け、海上は大量でコストを抑えたいとき向け。料金とリードタイムを比べて、納期と予算に合うものを選んでください。<br>
+          <strong>作業範囲</strong>（通関込み・運送のみなど）は海外貿易では重要です。通関を業者に任せるか自分で手配するかで、作業範囲で絞り込んで比較してください。
           <% if params[:cargo_volume] == "small" %>
             <span class="d-block mt-1">少量の目安で検索中：航空を重点的に見てみましょう。</span>
           <% elsif params[:cargo_volume] == "large" %>
@@ -61,6 +62,7 @@
               <th>料金</th>
               <th>リードタイム</th>
               <th>サービスタイプ</th>
+              <th>作業範囲</th>
               <th>業者</th>
               <% if @shipping_date.present? %><th>最短到着日</th><% end %>
               <% if @arrival_date.present? %><th>必要出荷日</th><% end %>
@@ -71,9 +73,10 @@
               <tr>
                 <td><%= link_to service.departure.name, service_path(service) %></td>
                 <td><%= link_to service.destination.name, service_path(service) %></td>
-                <td><%= link_to "#{service.price}円", service_path(service) %></td>
+                <td><%= link_to format_price(service.price), service_path(service) %></td>
                 <td><%= link_to "#{service.lead_time}日", service_path(service) %></td>
                 <td><%= link_to service.service_type.name, service_path(service) %></td>
+                <td><%= service.service_scope_id.present? && service.service_scope.id != 1 ? service.service_scope.name : "—" %></td>
                 <td><%= link_to service.provider.name, service_path(service) %></td>
                 <% if @shipping_date.present? %>
                   <td><%= link_to (@shipping_date + service.lead_time.to_i).to_s, service_path(service), class: "text-success" %></td>

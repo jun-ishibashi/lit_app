@@ -6,6 +6,7 @@
 |------|-----|--------------|
 | トップ（HOME） | `/` | `root_path` |
 | 検索（フォーム送信先） | `/services/search` | `search_services_path` |
+| 見積もり依頼一覧・新規・詳細 | `/quote_requests` など | `quote_requests_path`, `new_quote_request_path(service_id: id)` |
 | サービス一覧 | `/services` | `services_path` |
 | サービス詳細 | `/services/:id` | `service_path(id)` |
 | サービス新規 | `/services/new` | `new_service_path` |

@@ -1,8 +1,9 @@
-<% content_for :title, "マイページ（業者） | LIT APP" %>
+<% is_own_mypage = provider_signed_in? && current_provider == @provider %>
+<% content_for :title, (is_own_mypage ? "マイページ（業者） | LIT APP" : "#{@provider.name} | LIT APP") %>
 <section class="lit-page-header">
   <div class="container">
-    <h1 class="lit-page-title">マイページ（業者）</h1>
-    <p class="lit-breadcrumb mb-0"><%= link_to "トップ", root_path %> &gt; マイページ</p>
+    <h1 class="lit-page-title"><%= is_own_mypage ? "マイページ（業者）" : @provider.name %></h1>
+    <p class="lit-breadcrumb mb-0"><%= link_to "トップ", root_path %> &gt; <%= is_own_mypage ? "マイページ" : "業者プロフィール" %></p>
   </div>
 </section>
 
@@ -15,19 +16,26 @@
             <dl class="row lit-dl mb-0">
               <dt class="col-sm-3">会社名</dt>
               <dd class="col-sm-9"><%= @provider.name %></dd>
-              <dt class="col-sm-3">登録メールアドレス</dt>
-              <dd class="col-sm-9"><%= @provider.email %></dd>
+              <% if is_own_mypage %>
+                <dt class="col-sm-3">登録メールアドレス</dt>
+                <dd class="col-sm-9"><%= @provider.email %></dd>
+              <% end %>
               <dt class="col-sm-3">メインサービスタイプ</dt>
               <dd class="col-sm-9"><%= @provider.service_type.name %></dd>
               <dt class="col-sm-3">紹介</dt>
               <dd class="col-sm-9"><%= @provider.introduction %></dd>
             </dl>
-            <div class="lit-actions">
-              <%= link_to "アカウント編集", edit_provider_registration_path, class: "btn btn-outline-primary" %>
-              <%= link_to new_service_path, class: "btn btn-primary ms-auto" do %>
-                <i class="bi bi-plus-lg me-1"></i>サービスを登録
-              <% end %>
-            </div>
+            <% if is_own_mypage %>
+              <div class="lit-actions">
+                <%= link_to "アカウント編集", edit_provider_registration_path, class: "btn btn-outline-primary" %>
+                <%= link_to quote_requests_path, class: "btn btn-outline-secondary" do %>
+                  <i class="bi bi-inbox me-1"></i>見積もり依頼一覧
+                <% end %>
+                <%= link_to new_service_path, class: "btn btn-primary ms-auto" do %>
+                  <i class="bi bi-plus-lg me-1"></i>サービスを登録
+                <% end %>
+              </div>
+            <% end %>
           </div>
         </div>
 
@@ -42,6 +50,7 @@
                   <th>料金</th>
                   <th>リードタイム</th>
                   <th>サービスタイプ</th>
+                  <th>作業範囲</th>
                 </tr>
               </thead>
               <tbody>
@@ -49,9 +58,10 @@
                   <tr>
                     <td><%= link_to service.departure.name, service_path(service) %></td>
                     <td><%= link_to service.destination.name, service_path(service) %></td>
-                    <td><%= link_to "#{service.price}円", service_path(service) %></td>
+                    <td><%= link_to format_price(service.price), service_path(service) %></td>
                     <td><%= link_to "#{service.lead_time}日", service_path(service) %></td>
                     <td><%= link_to service.service_type.name, service_path(service) %></td>
+                    <td><%= service.service_scope_id.present? && service.service_scope.id != 1 ? service.service_scope.name : "—" %></td>
                   </tr>
                 <% end %>
               </tbody>
@@ -62,7 +72,9 @@
             <i class="bi bi-box lit-empty-icon" aria-hidden="true"></i>
             <p class="lit-empty-title">登録されたサービスはありません</p>
             <p class="small mb-3">サービスを登録すると一覧に表示されます。</p>
-            <%= link_to new_service_path, class: "btn btn-primary" do %><i class="bi bi-plus-lg me-1"></i>サービスを登録<% end %>
+            <% if is_own_mypage %>
+              <%= link_to new_service_path, class: "btn btn-primary" do %><i class="bi bi-plus-lg me-1"></i>サービスを登録<% end %>
+            <% end %>
           </div>
         <% end %>
 

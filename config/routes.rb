@@ -8,7 +8,8 @@ Rails.application.routes.draw do
   end
 
   resources :users, only: :show
-  get "mypage/provider", to: "providers#show", as: :mypage_provider
+  resources :quote_requests, only: %i[index show new create]
+  get "mypage/provider", to: "providers#mypage", as: :mypage_provider
   get "for-providers", to: "providers#entry", as: :for_providers
   resources :providers, only: :show
 end

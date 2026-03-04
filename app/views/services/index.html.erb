@@ -95,6 +95,10 @@
               <%= f.collection_select :service_type_id_eq, ServiceType.where.not(id: 1), :id, :name, { include_blank: '指定なし（航空・海上とも表示）' }, { class: "form-select" } %>
             </div>
             <div class="col-sm-6 col-lg-3">
+              <label class="lit-form-label form-label">作業範囲</label>
+              <%= f.collection_select :service_scope_id_eq, ServiceScope.selectable, :id, :name, { include_blank: '指定なし' }, { class: "form-select" } %>
+            </div>
+            <div class="col-sm-6 col-lg-3">
               <label class="lit-form-label form-label">業者</label>
               <%= f.collection_select :provider_id_eq, Provider.all, :id, :name, { include_blank: '指定なし' }, { class: "form-select" } %>
             </div>
@@ -126,6 +130,7 @@
               <th>料金</th>
               <th>リードタイム</th>
               <th>サービスタイプ</th>
+              <th>作業範囲</th>
               <th>業者</th>
             </tr>
           </thead>
@@ -134,9 +139,10 @@
               <tr>
                 <td><%= link_to service.departure.name, service_path(service) %></td>
                 <td><%= link_to service.destination.name, service_path(service) %></td>
-                <td><%= link_to "#{service.price}円", service_path(service) %></td>
+                <td><%= link_to format_price(service.price), service_path(service) %></td>
                 <td><%= link_to "#{service.lead_time}日", service_path(service) %></td>
                 <td><%= link_to service.service_type.name, service_path(service) %></td>
+                <td><%= service.service_scope_id.present? && service.service_scope.id != 1 ? service.service_scope.name : "—" %></td>
                 <td><%= link_to service.provider.name, service_path(service) %></td>
               </tr>
             <% end %>

@@ -19,7 +19,7 @@
                 <span class="badge bg-light text-primary border border-primary px-3 py-2"><%= @service.service_type.name %></span>
               </div>
               <div class="col-12 col-sm-6 text-start text-sm-end">
-                <span class="fs-4 fw-bold text-dark"><%= @service.price %></span><span class="text-muted">円</span>
+                <span class="fs-4 fw-bold text-dark"><%= format_price(@service.price) %></span>
                 <span class="ms-2 text-muted">リードタイム <%= @service.lead_time %>日</span>
               </div>
             </div>
@@ -30,6 +30,17 @@
               <dd class="col-sm-8"><%= @service.destination.name %></dd>
               <dt class="col-sm-4">オプション</dt>
               <dd class="col-sm-8"><%= @service.option.name %></dd>
+              <dt class="col-sm-4">作業範囲</dt>
+              <dd class="col-sm-8">
+                <% if @service.service_scope_id.present? && @service.service_scope.id != 1 %>
+                  <%= @service.service_scope.name %>
+                  <% if @service.service_scope.description.present? %>
+                    <span class="small text-muted d-block"><%= @service.service_scope.description %></span>
+                  <% end %>
+                <% else %>
+                  —
+                <% end %>
+              </dd>
               <dt class="col-sm-4">説明</dt>
               <dd class="col-sm-8"><%= @service.description %></dd>
               <dt class="col-sm-4">業者</dt>
@@ -37,7 +48,7 @@
             </dl>
             <div class="lit-actions">
               <% if user_signed_in? %>
-                <%= link_to "#", class: "btn btn-primary" do %><i class="bi bi-chat-dots me-1"></i>相談する<% end %>
+                <%= link_to new_quote_request_path(service_id: @service.id), class: "btn btn-primary" do %><i class="bi bi-chat-dots me-1"></i>見積もりを依頼<% end %>
               <% end %>
               <% if provider_signed_in? && current_provider == @service.provider %>
                 <%= link_to edit_service_path(@service), class: "btn btn-outline-primary" do %><i class="bi bi-pencil me-1"></i>編集<% end %>
