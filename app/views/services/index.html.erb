@@ -50,7 +50,7 @@
             <div class="testimonial-item mx-auto mb-5 mb-lg-0">
                 <h5>プロバイダー</h5>                  
                 <p class="font-weight-light mb-0">プロバイダーを選択できます</p>
-                <%= f.collection_select :provider_id_eq, Provider.where.not(id: 0), :id, :name, {include_blank: '指定なし'}, {class: "form-select"} %><br>
+                <%= f.collection_select :provider_id_eq, Provider.all, :id, :name, {include_blank: '指定なし'}, {class: "form-select"} %><br>
             </div>
         </div>
       </div>
@@ -71,18 +71,17 @@
             </button>
           </h2>
           <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
-            <div class="accordion-body">      
-            <%= form_with url: services_search_path do |f| %>
+            <div class="accordion-body">
               <div class="d-flex">
                 <div class="col-lg-6  my-5 mx-auto">
                   <h5>希望出荷日</h5>
                   <p class="font-weight-light mb-0">出荷日を入力することで最短到着日を計算します</p>
-                  <%= f.date_field :shipping_date, class:"form-control w-50 mx-auto"%>
+                  <%= date_field_tag :shipping_date, params[:shipping_date], class: "form-control w-50 mx-auto" %>
                 </div>
                 <div class="col-lg-6  my-5 mx-auto">
                   <h5>希望到着日</h5>
                   <p class="font-weight-light mb-0">到着日を入力することで必要出荷日を計算します</p>
-                  <%= f.date_field :arrival_date, class:"form-control w-50 mx-auto"%>
+                  <%= date_field_tag :arrival_date, params[:arrival_date], class: "form-control w-50 mx-auto" %>
                 </div>
               </div>
             </div>
@@ -90,8 +89,7 @@
         </div>
       </div>
 
-      <%= f.submit '検索', class:"btn btn-primary mt-5 px-5" %>
-            <% end %>
+      <%= f.submit '検索', class: "btn btn-primary mt-5 px-5" %>
     <% end %>
   </div>
 </section>
@@ -222,13 +220,3 @@
 </section>
 
 <%= render "shared/footer" %>
-
-<!-- Bootstrap core JS-->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
-<!-- Core theme JS-->
-<script src="js/scripts.js"></script>
-<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
-<!-- * *                               SB Forms JS                               * *-->
-<!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->
-<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
-<script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>

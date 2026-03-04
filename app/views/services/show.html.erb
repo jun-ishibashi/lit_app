@@ -57,7 +57,7 @@
             <%= link_to '編集', edit_service_path(@service.id), class: "btn btn-secondary mt-5 px-5" %>
           </div>
           <div>
-            <%= link_to '削除', service_path(@service.id), method: :delete, class: "btn btn-secondary mt-5 px-5" %>
+            <%= link_to '削除', service_path(@service.id), data: { turbo_method: :delete, turbo_confirm: '本当に削除しますか？' }, class: "btn btn-secondary mt-5 px-5" %>
           </div>
       <% end %>
       
@@ -70,13 +70,3 @@
 
 
 <%= render "shared/footer" %>
-
-<!-- Bootstrap core JS-->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
-<!-- Core theme JS-->
-<script src="js/scripts.js"></script>
-<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
-<!-- * *                               SB Forms JS                               * *-->
-<!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->
-<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
-<script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>

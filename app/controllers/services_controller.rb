@@ -1,8 +1,8 @@
 class ServicesController < ApplicationController
-  before_action :authenticate_any!, only: [:show, :search]
-  # before_action :authenticate_user!, except: [:index, :show]
-  # before_action :authenticate_provider!, only: [:index, :show]
   before_action :search_service, only: [:index, :search, :show]
+  before_action :authenticate_provider!, only: [:new, :create, :edit, :update, :destroy]
+  before_action :set_service, only: [:show, :edit, :update, :destroy]
+  before_action :authorize_provider!, only: [:edit, :update, :destroy]
 
   def index
     @services = @p.result.order(created_at: :desc).limit(10)
@@ -15,7 +15,7 @@ class ServicesController < ApplicationController
   def create
     @service = Service.new(service_params)
     if @service.save
-      redirect_to root_path
+      redirect_to root_path, notice: 'サービスを登録しました'
     else
       render :new
     end
@@ -23,36 +23,40 @@ class ServicesController < ApplicationController
 
   def search
     @services = @p.result
-    if params[:shipping_date]
-      @shipping_date = params[:shipping_date]
-      @shipping_date = @shipping_date.to_date
-    end
-    @arrival_date = params[:arrival_date]
-    @arrival_date = @arrival_date.to_date
-
-    @today = Date.today
+    @shipping_date = params[:shipping_date].presence&.then { |d| Date.parse(d.to_s) }
+    @arrival_date = params[:arrival_date].presence&.then { |d| Date.parse(d.to_s) }
+    @today = Date.current
   end
 
   def show
-    @service = Service.find(params[:id])
     @services = @p.result
   end
 
-  def destroy
-    service = Service.find(params[:id])
-    service.destroy
-  end
-
   def edit
-    @service = Service.find(params[:id])
   end
 
   def update
-    service = Service.find(params[:id])
-    service.update(service_params)
+    if @service.update(service_params)
+      redirect_to service_path(@service), notice: 'サービスを更新しました'
+    else
+      render :edit
+    end
+  end
+
+  def destroy
+    @service.destroy
+    redirect_to root_path, notice: 'サービスを削除しました'
   end
 
   private
+
+  def set_service
+    @service = Service.find(params[:id])
+  end
+
+  def authorize_provider!
+    redirect_to root_path, alert: '権限がありません' unless current_provider == @service.provider
+  end
 
   def service_params
     params.require(:service).permit(:departure_id, :destination_id, :service_type_id, :price, :lead_time, :option_id,
@@ -61,13 +65,5 @@ class ServicesController < ApplicationController
 
   def search_service
     @p = Service.ransack(params[:q])
-  end
-
-  def authenticate_any!
-    if provider_signed_in?
-      true
-    else
-      authenticate_user!
-    end
   end
 end

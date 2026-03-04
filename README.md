@@ -1,136 +1,117 @@
-## アプリ名
+# LIT APP
 
-LIT APP
+海外輸出の輸送手段（航空・海上）を**業者ごとに料金・リードタイムで比較**する Web アプリです。
 
-## 概要
+---
 
-海外にモノを輸出する際の手段として、航空輸送や海上輸送等の中から価格やリードタイムなどの条件によって業者ごとに比較できる。
+## クイックスタート
 
-## 本番環境
+```bash
+# 初回のみ
+bundle config set --local path 'vendor/bundle'
+bundle install
+bundle exec rails db:create db:migrate
+bundle exec rails db:seed
 
-https://lit-app-34712.herokuapp.com
+# 起動
+bundle exec rails s
+```
 
-ログイン情報（テスト用）
+→ http://localhost:3000 を開く。  
+**ログイン例**: ユーザー `user@example.com` / プロバイダー `provider@example.com`（パスワードはいずれも `password`）
 
-ユーザー
-- Eメール：test@test.com
-- パスワード：111aaa
+---
 
-プロバイダー
-- Eメール：test@test.com
-- パスワード：111aaa
+## 主な機能
 
-## 制作背景（意図）
-日本の生産者が海外にモノを輸出する際に、特に中小企業などでは貿易の専門知識をもたないことが多く、いずれの輸送手段（航空輸送・海上輸送）や業者を選択すべきか分からないのが実情でした。
-顧客は複数の運送業者に相見積もりを取る必要があるため、提供する業者側にも時間と労力がかかり非常に非効率であると感じました。さらに輸送に対する顧客のニーズは低コストとリードタイム短縮に偏りがちで、
-コスト競争になりやすいことから輸送手段や業者ごとに簡単に比較ができる「輸送の乗換案内」のようなWEBサービスを制作することを決めました。
+- **検索・比較**（ログイン不要）  
+  出発地・到着地・サービスタイプ・プロバイダーで検索。料金の安い順・リードタイムの短い順でソート。希望出荷日・到着日を指定すると「最短到着日」「必要出荷日」を表示。
+- **サービス登録**（プロバイダーのみ）  
+  運送業者が自社のルート・料金・リードタイム・オプションを登録・編集・削除。自社サービス以外の編集・削除は不可。
 
-## DEMO
+---
 
-- トップページ
+## 制作背景
 
-<img width="1440" alt="スクリーンショット 2021-11-26 15 22 43" src="https://user-images.githubusercontent.com/81630353/143537360-551e4472-f5da-49be-9077-d3108ed78ceb.png">
+日本の生産者（特に中小企業）が海外にモノを輸出する際、どの輸送手段・業者を選べばよいか判断しづらい現状を踏まえ、**複数業者の相見積もりを一括で比較できる「輸送の乗換案内」** を目指して制作しました。
 
-- 検索画面
+---
 
-<img width="1440" alt="スクリーンショット 2021-11-26 15 31 34" src="https://user-images.githubusercontent.com/81630353/143537317-8e3b7a4b-04d9-4c59-bfb8-3ec247b14849.png">
+## デモ
 
-<img width="1440" alt="スクリーンショット 2021-11-26 15 31 57" src="https://user-images.githubusercontent.com/81630353/143537209-148be1b4-f9c3-4fb8-9643-0175a5fcba88.png">
+| 画面 | 説明 |
+|------|------|
+| トップ | 検索フォームと直近登録されたサービス一覧 |
+| 検索結果 | 出発地・到着地・料金・リードタイム・日付計算を表示 |
+| サービス詳細 | ルート・料金・オプション・説明。プロバイダーは自社サービスの編集・削除が可能 |
 
-出発地と到着地を入力することでサービスの検索、価格に安い順やリードタイムが短い順で検索結果の並び替えが可能。
-また、具体的な出荷時期や納品時期が決まっている場合は指定することで、到着予定日や出荷に必要な日が表示される。
+<img width="720" alt="トップ" src="https://user-images.githubusercontent.com/81630353/143537360-551e4472-f5da-49be-9077-d3108ed78ceb.png">
+<img width="720" alt="検索" src="https://user-images.githubusercontent.com/81630353/143537317-8e3b7a4b-04d9-4c59-bfb8-3ec247b14849.png">
+<img width="720" alt="検索結果" src="https://user-images.githubusercontent.com/81630353/143537665-52b5761a-6bf2-41e4-be6b-41303b39c90a.png">
+<img width="720" alt="詳細" src="https://user-images.githubusercontent.com/81630353/143537703-ae8755f5-f372-4443-8438-967ce106cdd1.png">
 
-- 検索結果画面
+---
 
-<img width="1440" alt="スクリーンショット 2021-11-26 15 35 17" src="https://user-images.githubusercontent.com/81630353/143537665-52b5761a-6bf2-41e4-be6b-41303b39c90a.png">
+## 使用技術
 
-- サービス詳細画面
+| 種別 | 技術 |
+|------|------|
+| 言語・FW | Ruby 3.4, Rails 7.2 |
+| フロント | HTML, CSS, Bootstrap 5, Importmap, Turbo |
+| DB | 開発・テスト: SQLite 3 / 本番: PostgreSQL |
+| 認証 | Devise（User / Provider 別々） |
+| 検索 | Ransack |
+| ホスティング | Render（本番） |
 
-<img width="1440" alt="スクリーンショット 2021-11-26 15 36 25" src="https://user-images.githubusercontent.com/81630353/143537703-ae8755f5-f372-4443-8438-967ce106cdd1.png">
+---
 
-## 工夫したポイント
-- ユーザーのニーズに応じて簡単にサービスが比較できるよう、検索結果をリードタイムが短い順と料金が安い順に並び替えることができるようソート機能を実装した点。
-- ユーザーとプロバイダーの目線に立って、常に利便性を考えながら機能を実装した点。サービスの検索や登録のしやすさ等。
-- メインである検索機能の使い勝手を考え、周辺の機能と見た目をなるべくシンプルにするようにした点。
+## 開発
 
-## 使用技術(開発環境)
-### バックエンド
-Ruby, Ruby on rails
-### フロントエンド
-HTML, CSS
-### データベース
-MySQL
-### ソース管理
-Github, GithubDesktop
-### エディタ
-VScode
+### 起動（2回目以降）
 
+```bash
+bundle exec rails s
+```
 
-## 課題や今後実装したい機能
+### シードの再投入
 
-### 課題
-- 現状運賃のみの比較になっており、サーチャージ等の変動費用や通関費用などの輸出に関わる費用は導入されていないため、実際かかる全体の輸送費用とは乖離が生じてしまう点。
+```bash
+bundle exec rails db:seed   # ユーザー・プロバイダーが既にいればスキップ
+bundle exec rails db:reset  # DB を初期化して migrate + seed
+```
 
-### 今後実装したい機能
-- 実際にサービスを利用したユーザーのレビュー・評価機能
-- ユーザーが業者にサービスについて相談ができるコンタクト機能（メールやGoogleフォーム)
-- 製品の数量・重量等の情報入力により、輸送可否の判断や料金を計算する機能
+### ドキュメント
 
-## usersテーブル
+- [ビジネスロジックと今後の検討事項](docs/BUSINESS_AND_ROADMAP.md) … 役割・流れ・今後の機能・DB まわり
 
-|Column              |Type     |Options                    |
-|--------------------|---------|---------------------------|
-| name               | string  | null: false               |
-| email              | string  | null: false, unique: true |
-| encrypted_password | string  | null: false               |
-| user_type_id       | integer | null: false               |
-| product_id         | integer | null: false               |
-| introduction       | text    |                           |
+---
 
-### Association
-has_many :services
-has_many :reviews
+## 本番デプロイ（Render）
 
-## providersテーブル
+1. [Render](https://render.com) でアカウント作成し、GitHub リポジトリを連携。
+2. **New > Blueprint** でこのリポジトリを選択。
+3. `render.yaml` が読み込まれるので、**RAILS_MASTER_KEY** に `config/master.key` の内容を設定。
+4. **Apply** でデプロイ。`.onrender.com` の URL で公開されます。
 
-|Column              |Type     |Options                    |
-|--------------------|---------|---------------------------|
-| name               | string  | null: false               |
-| email              | string  | null: false, unique: true |
-| encrypted_password | string  | null: false               |
-| service_type_id    | integer | null: false               |
-| introduction       | text    |                           |
+環境変数は `render.yaml` で設定済み（`DATABASE_URL` は Blueprint の Postgres 連携で自動設定）。
 
-### Association
-has_many :services
+---
 
-## servicesテーブル
+## 課題・今後の機能
 
-|Column            |Type        |Options                         |
-|------------------|------------|--------------------------------|
-| departure_id     | integer    | null: false                    |
-| destination_id   | integer    | null: false                    |
-| service_type_id  | integer    | null: false                    |
-| price            | integer    | null: false                    |
-| lead_time        | integer    | null: false                    |
-| option_id        | integer    | null: false                    |
-| description      | text       |                                |
-| provider         | references | null: false, foreign_key: true |
+- **課題**: 現状は運賃のみの比較のため、サーチャージ・通関費等を含めると実際の輸送コストと乖離する。
+- **今後**: レビュー・評価、相談・問い合わせ、数量・重量に応じた料金計算 等。
 
-### Association
-belongs_to :user
-belongs_to :provider
-has_many :reviews
+詳細は [docs/BUSINESS_AND_ROADMAP.md](docs/BUSINESS_AND_ROADMAP.md) を参照。
 
-## reviewsテーブル
+---
 
-|Column       |Type        |Options                         |
-|-------------|------------|--------------------------------|
-| text        | text       | null: false                    |
-| point       | integer    | null: false                    |
-| user        | integer    | null: false, foreign_key: true |
-| provider    | references | null: false, foreign_key: true |
+## データベース（主要テーブル）
 
-### Association
-belongs_to :user
-belongs_to :service
+| テーブル | 役割 |
+|----------|------|
+| **users** | 輸送を依頼する側（法人/個人）。user_type_id, product_id は ActiveHash。 |
+| **providers** | 運送業者。service_type_id は ActiveHash。has_many :services。 |
+| **services** | ルート（departure_id, destination_id）・料金・リードタイム・option_id。belongs_to :provider。departure/destination/service_type/option は ActiveHash。 |
+
+スキーマの詳細は `db/schema.rb` を参照。
