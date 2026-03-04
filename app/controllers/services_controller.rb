@@ -1,5 +1,5 @@
 class ServicesController < ApplicationController
-  before_action :search_service, only: [:index, :search, :show]
+  before_action :search_service, only: [:index, :search]
   before_action :authenticate_provider!, only: [:new, :create, :edit, :update, :destroy]
   before_action :set_service, only: [:show, :edit, :update, :destroy]
   before_action :authorize_provider!, only: [:edit, :update, :destroy]
@@ -29,7 +29,6 @@ class ServicesController < ApplicationController
   end
 
   def show
-    @services = @p.result
   end
 
   def edit
@@ -64,6 +63,7 @@ class ServicesController < ApplicationController
   end
 
   def search_service
+    params[:q] = params[:q].permit(SearchParams::RANSACK_KEYS) if params[:q].present?
     @p = Service.ransack(params[:q])
   end
 end

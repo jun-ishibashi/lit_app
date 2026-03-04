@@ -1,0 +1,75 @@
+# マスタ（id は migration で投入した値と揃える）
+one:
+  id: 1
+  name: '--'
+  position: 0
+
+two:
+  id: 2
+  name: 'Los Angeles'
+  position: 1
+
+three:
+  id: 3
+  name: 'New York'
+  position: 2
+
+four:
+  id: 4
+  name: 'London'
+  position: 3
+
+five:
+  id: 5
+  name: 'Amsterdam'
+  position: 4
+
+six:
+  id: 6
+  name: 'Barcelona'
+  position: 5
+
+seven:
+  id: 7
+  name: 'Hamburg'
+  position: 6
+
+eight:
+  id: 8
+  name: 'Shanghai'
+  position: 7
+
+nine:
+  id: 9
+  name: 'Hong Kong'
+  position: 8
+
+ten:
+  id: 10
+  name: 'Busan'
+  position: 9
+
+eleven:
+  id: 11
+  name: 'Ho Chi Minh'
+  position: 10
+
+twelve:
+  id: 12
+  name: 'Penang'
+  position: 11
+
+thirteen:
+  id: 13
+  name: 'Bangkok'
+  position: 12
+
+fourteen:
+  id: 14
+  name: 'Manila'
+  position: 13
+
+fifteen:
+  id: 15
+  name: 'Singapore'
+  position: 14

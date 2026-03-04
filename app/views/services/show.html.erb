@@ -1,10 +1,9 @@
-<%= render "shared/header" %>
-
+<% content_for :title, "サービス詳細 | LIT APP" %>
 <section class="lit-page-header">
   <div class="container">
     <h1 class="lit-page-title">サービス詳細</h1>
     <p class="lit-breadcrumb mb-0">
-      <%= link_to "トップ", root_path %> &gt; <%= link_to "サービス一覧", root_path %> &gt; 詳細
+      <%= link_to "トップ", root_path %> &gt; サービス詳細
     </p>
   </div>
 </section>
@@ -27,13 +26,13 @@
             <dl class="row lit-dl">
               <dt class="col-sm-4">出発地</dt>
               <dd class="col-sm-8"><%= @service.departure.name %></dd>
-              <dt class="col-sm-4">仕向地</dt>
+              <dt class="col-sm-4">到着地</dt>
               <dd class="col-sm-8"><%= @service.destination.name %></dd>
               <dt class="col-sm-4">オプション</dt>
               <dd class="col-sm-8"><%= @service.option.name %></dd>
               <dt class="col-sm-4">説明</dt>
               <dd class="col-sm-8"><%= @service.description %></dd>
-              <dt class="col-sm-4">プロバイダー</dt>
+              <dt class="col-sm-4">業者</dt>
               <dd class="col-sm-8"><%= @service.provider.name %></dd>
             </dl>
             <div class="lit-actions">
@@ -52,5 +51,3 @@
     </div>
   </div>
 </section>
-
-<%= render "shared/footer" %>

@@ -1,21 +1,12 @@
-class Destination < ActiveHash::Base
-  self.data = [
-    { id: 1, name: '--' },
-    { id: 2, name: 'Los Angeles' },
-    { id: 3, name: 'New York' },
-    { id: 4, name: 'London' },
-    { id: 5, name: 'Amsterdam' },
-    { id: 6, name: 'Barselona' },
-    { id: 7, name: 'Hamburg' },
-    { id: 8, name: 'Shanghai' },
-    { id: 9, name: 'Hong kong' },
-    { id: 10, name: 'Busan' },
-    { id: 11, name: 'Ho Chi Minh' },
-    { id: 12, name: 'Penan' },
-    { id: 13, name: 'Bangkok' },
-    { id: 14, name: 'Manila' },
-    { id: 15, name: 'Singapore' }
-  ]
-  include ActiveHash::Associations
-  has_many :services
+# frozen_string_literal: true
+
+class Destination < ApplicationRecord
+  has_many :services, dependent: :restrict_with_error
+
+  validates :name, presence: true
+  validates :position, presence: true, numericality: { only_integer: true }
+
+  scope :selectable, -> { where.not(id: 1).order(:position) }
+  scope :ordered, -> { order(:position) }
+  scope :with_coordinates, -> { where.not(latitude: nil, longitude: nil) }
 end

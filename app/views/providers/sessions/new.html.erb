@@ -1,10 +1,9 @@
-<%= render "shared/header" %>
-
+<% content_for :title, "業者ログイン | LIT APP" %>
 <section class="lit-page-header">
   <div class="container">
-    <h1 class="lit-page-title">プロバイダーログイン</h1>
-    <p class="lit-breadcrumb mb-0"><%= link_to "トップ", root_path %> &gt; プロバイダーログイン</p>
-    <p class="small text-muted mt-2 mb-0">業者様はこちらからログインしてください</p>
+    <h1 class="lit-page-title">業者ログイン</h1>
+    <p class="lit-breadcrumb mb-0"><%= link_to "トップ", root_path %> &gt; <%= link_to "業者様はこちら", for_providers_path %> &gt; ログイン</p>
+    <p class="small text-muted mt-2 mb-0">運送業者の方はこちらからログインしてください。</p>
   </div>
 </section>
 
@@ -44,5 +43,3 @@
     </div>
   </div>
 </section>
-
-<%= render "shared/footer" %>

@@ -10,7 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2021_07_07_103121) do
+ActiveRecord::Schema[7.2].define(version: 2026_03_04_040927) do
+  create_table "departures", force: :cascade do |t|
+    t.string "name", null: false
+    t.integer "position", default: 0, null: false
+    t.decimal "latitude", precision: 10, scale: 7
+    t.decimal "longitude", precision: 10, scale: 7
+  end
+
+  create_table "destinations", force: :cascade do |t|
+    t.string "name", null: false
+    t.integer "position", default: 0, null: false
+    t.decimal "latitude", precision: 10, scale: 7
+    t.decimal "longitude", precision: 10, scale: 7
+  end
+
   create_table "providers", force: :cascade do |t|
     t.string "name", null: false
     t.string "email", default: "", null: false
@@ -56,5 +70,7 @@ ActiveRecord::Schema[7.2].define(version: 2021_07_07_103121) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "services", "departures"
+  add_foreign_key "services", "destinations"
   add_foreign_key "services", "providers"
 end

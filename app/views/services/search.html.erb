@@ -1,5 +1,4 @@
-<%= render "shared/header" %>
-
+<% content_for :title, "検索結果 | LIT APP" %>
 <section class="lit-page-header">
   <div class="container">
     <h1 class="lit-page-title">検索結果</h1>
@@ -17,7 +16,42 @@
 <section class="lit-section bg-light">
   <div class="container">
     <% if @services.length != 0 %>
-      <p class="small text-muted mb-3"><%= @services.size %>件のサービスが見つかりました</p>
+      <% q = params[:q] || {} %>
+      <% filter_pairs = q.slice("departure_id_eq", "destination_id_eq", "service_type_id_eq", "provider_id_eq", "sorts").reject { |_, v| v.blank? } %>
+      <% has_chips = filter_pairs.any? || @shipping_date.present? || @arrival_date.present? || params[:cargo_volume].present? %>
+      <% if has_chips %>
+        <div class="lit-filter-chips">
+          <% filter_pairs.each do |key, value| %>
+            <% label = search_filter_label(key, value) %>
+            <% next if label.blank? %>
+            <span class="lit-filter-chip">
+              <span class="lit-filter-chip-label"><%= search_filter_key_label(key) %>:</span>
+              <%= label %>
+            </span>
+          <% end %>
+          <% if @shipping_date.present? %>
+            <span class="lit-filter-chip"><span class="lit-filter-chip-label">出荷希望日:</span><%= @shipping_date %></span>
+          <% end %>
+          <% if @arrival_date.present? %>
+            <span class="lit-filter-chip"><span class="lit-filter-chip-label">到着希望日:</span><%= @arrival_date %></span>
+          <% end %>
+          <% if params[:cargo_volume].present? && cargo_volume_label(params[:cargo_volume]).present? %>
+            <span class="lit-filter-chip"><span class="lit-filter-chip-label">貨物の目安:</span><%= cargo_volume_label(params[:cargo_volume]) %></span>
+          <% end %>
+        </div>
+      <% end %>
+      <p class="lit-search-result-count"><%= @services.size %>件のサービスが見つかりました</p>
+      <div class="lit-search-result-guide mb-3">
+        <p class="small text-muted mb-0">
+          <i class="bi bi-info-circle me-1" aria-hidden="true"></i>
+          航空は早くて少量向け、海上は大量でコストを抑えたいとき向け。料金とリードタイムを比べて、納期と予算に合うものを選んでください。
+          <% if params[:cargo_volume] == "small" %>
+            <span class="d-block mt-1">少量の目安で検索中：航空を重点的に見てみましょう。</span>
+          <% elsif params[:cargo_volume] == "large" %>
+            <span class="d-block mt-1">大量の目安で検索中：海上（LCL・FCL）もあわせて比較してみましょう。</span>
+          <% end %>
+        </p>
+      </div>
       <div class="lit-table-wrap table-responsive">
         <table class="table lit-table">
           <thead>
@@ -27,7 +61,7 @@
               <th>料金</th>
               <th>リードタイム</th>
               <th>サービスタイプ</th>
-              <th>プロバイダー</th>
+              <th>業者</th>
               <% if @shipping_date.present? %><th>最短到着日</th><% end %>
               <% if @arrival_date.present? %><th>必要出荷日</th><% end %>
             </tr>
@@ -63,17 +97,18 @@
         <i class="bi bi-search lit-empty-icon text-muted" aria-hidden="true"></i>
         <p class="lit-empty-title">該当するサービスはありません</p>
         <p class="small mb-4">条件を変えて再度検索してみてください。</p>
-        <%= link_to root_path, class: "btn btn-primary" do %>
-          <i class="bi bi-arrow-left me-1"></i>検索条件を変える
+        <%= link_to root_path(search_refine_query_params), class: "btn btn-primary" do %>
+          <i class="bi bi-pencil-square me-1" aria-hidden="true"></i>検索条件を変える
         <% end %>
       </div>
     <% end %>
-    <div class="text-center mt-4">
+    <div class="text-center mt-4 pt-2">
+      <%= link_to root_path(search_refine_query_params), class: "btn btn-outline-primary me-2" do %>
+        <i class="bi bi-pencil-square me-1" aria-hidden="true"></i>条件を変えて検索
+      <% end %>
       <%= link_to root_path, class: "btn btn-outline-secondary" do %>
-        <i class="bi bi-house me-1"></i>トップへ戻る
+        <i class="bi bi-house me-1" aria-hidden="true"></i>トップへ戻る
       <% end %>
     </div>
   </div>
 </section>
-
-<%= render "shared/footer" %>

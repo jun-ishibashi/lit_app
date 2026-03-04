@@ -10,22 +10,28 @@ $lit-bp-lg: 992px;
 $lit-bp-xl: 1200px;
 $lit-touch-min: 44px; // タップ領域の最小推奨
 
-// ----- デザイントークン -----
+// ----- デザイントークン（青系・リッチなトーン） -----
 :root {
+  --lit-font: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   --lit-primary: #2563eb;
   --lit-primary-hover: #1d4ed8;
   --lit-primary-light: #eff6ff;
-  --lit-accent: #0ea5e9;
-  --lit-dark: #0f172a;
+  --lit-primary-soft: rgba(37, 99, 235, 0.08);
+  --lit-accent: #3b82f6;
+  --lit-dark: #1e293b;
   --lit-body: #334155;
   --lit-muted: #64748b;
   --lit-border: #e2e8f0;
   --lit-bg-subtle: #f8fafc;
-  --lit-hero-bg: linear-gradient(160deg, #1e3a5f 0%, #0f172a 50%);
-  --lit-radius: 10px;
-  --lit-radius-sm: 8px;
-  --lit-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
-  --lit-shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --lit-bg-card: #ffffff;
+  --lit-hero-bg: linear-gradient(165deg, #1d4ed8 0%, #1e3a8a 40%, #0f172a 100%);
+  --lit-hero-glow: radial-gradient(ellipse 80% 50% at 50% -20%, rgba(59, 130, 246, 0.22), transparent);
+  --lit-radius: 12px;
+  --lit-radius-sm: 10px;
+  --lit-radius-lg: 16px;
+  --lit-shadow: 0 1px 3px rgba(29, 78, 216, 0.06);
+  --lit-shadow-md: 0 8px 24px rgba(29, 78, 216, 0.08);
+  --lit-shadow-lg: 0 16px 48px rgba(29, 78, 216, 0.1);
   --lit-nav-height: 56px;
 }
 
@@ -35,9 +41,11 @@ html {
   -webkit-text-size-adjust: 100%;
 }
 body.lit-body {
+  font-family: var(--lit-font);
   color: var(--lit-body);
   font-size: 0.9375rem;
   background: var(--lit-bg-subtle);
+  -webkit-font-smoothing: antialiased;
   @media (max-width: #{$lit-bp-md - 1}) {
     font-size: 0.875rem;
   }
@@ -53,22 +61,48 @@ body.lit-body {
 .navbar-lit {
   flex-shrink: 0;
   min-height: var(--lit-nav-height);
-  background: #fff !important;
+  background: var(--lit-bg-card) !important;
   box-shadow: var(--lit-shadow);
   padding: 0.5rem 0;
 
-  .navbar-brand {
+  .navbar-brand.lit-logo {
     font-weight: 700;
     font-size: 1.25rem;
     color: var(--lit-dark);
     text-decoration: none;
     letter-spacing: -0.02em;
+    gap: 0.6rem;
     &:hover { color: var(--lit-primary); }
-    @media (max-width: #{$lit-bp-md - 1}) { font-size: 1.1rem; }
+    &:hover .lit-logo-icon { color: var(--lit-primary-hover); }
+    @media (max-width: #{$lit-bp-md - 1}) { font-size: 1.1rem; gap: 0.5rem; }
   }
-  .lit-logo-icon { color: var(--lit-primary); }
-  .lit-logo-text { color: var(--lit-primary); }
-  .lit-logo-app { color: var(--lit-muted); font-weight: 500; font-size: 0.9em; }
+  .lit-logo-icon {
+    color: var(--lit-primary);
+    flex-shrink: 0;
+    line-height: 0;
+    .lit-logo-svg { display: block; transition: transform 0.2s ease; }
+  }
+  .navbar-brand:hover .lit-logo-svg { transform: scale(1.03); }
+  .lit-logo-wordmark { display: inline-flex; align-items: baseline; }
+  .lit-logo-text {
+    color: var(--lit-primary);
+    font-weight: 800;
+    letter-spacing: 0.02em;
+  }
+  .lit-logo-app {
+    color: var(--lit-muted);
+    font-weight: 600;
+    font-size: 0.85em;
+    letter-spacing: 0.08em;
+    margin-left: 0.15em;
+  }
+  .navbar-nav {
+    gap: 0.5rem;
+    @media (max-width: #{$lit-bp-lg - 1}) {
+      gap: 0.5rem;
+      padding-top: 0.25rem;
+    }
+  }
   .nav-link {
     font-weight: 500;
     color: var(--lit-body);
@@ -77,7 +111,7 @@ body.lit-body {
     min-height: $lit-touch-min;
     display: inline-flex;
     align-items: center;
-    &:hover { color: var(--lit-primary); background: var(--lit-primary-light); }
+    &:hover { color: var(--lit-primary-hover); background: var(--lit-primary-soft); }
     @media (max-width: #{$lit-bp-lg - 1}) {
       padding: 0.75rem 1rem !important;
       border-bottom: 1px solid var(--lit-border);
@@ -94,7 +128,6 @@ body.lit-body {
     justify-content: center;
     &:hover { background: var(--lit-primary-hover); color: #fff !important; }
     @media (max-width: #{$lit-bp-lg - 1}) {
-      margin-top: 0.25rem;
       padding: 0.6rem 1rem !important;
     }
   }
@@ -102,7 +135,7 @@ body.lit-body {
     min-width: $lit-touch-min;
     min-height: $lit-touch-min;
     padding: 0.5rem;
-    &:focus { box-shadow: 0 0 0 2px var(--lit-primary-light); }
+    &:focus { box-shadow: 0 0 0 2px var(--lit-primary-soft); }
   }
   .navbar-collapse {
     @media (max-width: #{$lit-bp-lg - 1}) {
@@ -120,29 +153,42 @@ body.lit-body {
   font-size: 0.875rem;
   padding: 0.65rem 1rem;
 }
-.lit-flash-notice { background: var(--lit-primary-light); color: var(--lit-primary-hover); }
+.lit-flash-notice { background: var(--lit-primary-light); color: var(--lit-dark); }
 .lit-flash-alert { background: #fef2f2; color: #b91c1c; }
 
 // ----- ヒーロー -----
 .lit-hero {
   background: var(--lit-hero-bg);
-  padding: 2.5rem 1rem;
+  position: relative;
+  padding: 3rem 1rem;
   text-align: center;
+  overflow: hidden;
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--lit-hero-glow);
+    pointer-events: none;
+  }
   @media (min-width: $lit-bp-md) {
-    padding: 3.5rem 1rem;
+    padding: 4rem 1rem;
   }
   h1 {
+    position: relative;
     font-weight: 700;
-    font-size: clamp(1.35rem, 4.5vw, 2rem);
-    letter-spacing: -0.02em;
+    font-size: clamp(1.4rem, 4.5vw, 2.1rem);
+    letter-spacing: -0.03em;
     color: #fff;
     margin: 0 0 0.5rem;
-    line-height: 1.4;
+    line-height: 1.35;
     word-break: keep-all;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
   }
   .lit-hero-lead {
-    color: rgba(255, 255, 255, 0.85);
-    font-size: clamp(0.8125rem, 2vw, 0.9375rem);
+    position: relative;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: clamp(0.875rem, 2vw, 1rem);
+    font-weight: 500;
     margin: 0;
   }
 }
@@ -178,32 +224,213 @@ body.lit-body {
     margin-bottom: 1.5rem;
   }
 }
+.lit-section-tint {
+  background: linear-gradient(180deg, var(--lit-bg-subtle) 0%, var(--lit-bg-card) 100%);
+}
+
+// 特徴ブロック（貿易を身近に・輸送手段・コスト比較）
+.lit-features {
+  .lit-section-lead { margin-bottom: 2rem; }
+}
+.lit-feature {
+  height: 100%;
+  padding: 1.5rem 1.25rem;
+  background: var(--lit-bg-subtle);
+  border-radius: var(--lit-radius-lg);
+  border: 1px solid var(--lit-border);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  &:hover {
+    border-color: rgba(37, 99, 235, 0.2);
+    box-shadow: var(--lit-shadow);
+  }
+  .lit-feature-icon {
+    width: 2.75rem;
+    height: 2.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--lit-primary-soft);
+    color: var(--lit-primary);
+    border-radius: var(--lit-radius-sm);
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+  }
+  .lit-feature-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--lit-dark);
+    margin-bottom: 0.5rem;
+    line-height: 1.3;
+  }
+  .lit-feature-text {
+    font-size: 0.875rem;
+    color: var(--lit-body);
+    line-height: 1.6;
+    margin: 0;
+  }
+}
+
+// ----- 選び方の目安（航空 vs 海上） -----
+.lit-choice-guide {
+  max-width: 42rem;
+  margin-left: auto;
+  margin-right: auto;
+  .lit-choice-guide-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--lit-dark);
+    margin-bottom: 0.5rem;
+  }
+  .lit-choice-guide-lead {
+    font-size: 0.9375rem;
+    color: var(--lit-body);
+    line-height: 1.6;
+  }
+}
+.lit-choice-card {
+  padding: 1.25rem;
+  border-radius: var(--lit-radius-lg);
+  border: 1px solid var(--lit-border);
+  background: var(--lit-bg-card);
+  height: 100%;
+  transition: box-shadow 0.2s ease;
+  &:hover {
+    box-shadow: var(--lit-shadow-md);
+  }
+  .lit-choice-icon {
+    font-size: 1.75rem;
+    color: var(--lit-primary);
+    margin-bottom: 0.5rem;
+  }
+}
+.lit-choice-card-air .lit-choice-icon { color: var(--lit-primary); }
+.lit-choice-card-sea .lit-choice-icon { color: #0d9488; }
+
+// 貨物の目安（ラジオ選択）
+.lit-cargo-choices {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.5rem;
+  align-items: center;
+  .lit-cargo-option {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin: 0;
+    cursor: pointer;
+    font-size: 0.9375rem;
+    color: var(--lit-body);
+  }
+  .lit-cargo-option-label {
+    font-weight: 500;
+  }
+}
 
 // ----- カード -----
 .lit-card {
-  background: #fff;
-  border: none;
-  border-radius: var(--lit-radius);
+  background: var(--lit-bg-card);
+  border: 1px solid var(--lit-border);
+  border-radius: var(--lit-radius-lg);
   box-shadow: var(--lit-shadow);
-  transition: box-shadow 0.2s;
-  &:hover { box-shadow: var(--lit-shadow-md); }
+  transition: box-shadow 0.25s ease, border-color 0.2s ease;
+  &:hover {
+    box-shadow: var(--lit-shadow-md);
+    border-color: rgba(37, 99, 235, 0.15);
+  }
 }
 .lit-card-body { padding: 1.5rem; @media (min-width: 768px) { padding: 2rem; } }
 
 // ----- 検索フォーム（トップの検索ボックス） -----
 .lit-search-box {
-  background: #fff;
-  border-radius: var(--lit-radius);
+  background: var(--lit-bg-card);
+  border: 1px solid var(--lit-border);
+  border-radius: var(--lit-radius-lg);
   box-shadow: var(--lit-shadow-md);
-  padding: 1.25rem;
+  padding: 1.5rem;
   margin-top: 0;
   position: relative;
   max-width: 100%;
   @media (min-width: $lit-bp-md) {
-    padding: 2rem;
-    margin-top: -1.25rem;
+    padding: 2.25rem;
+    margin-top: -1.5rem;
   }
 }
+.lit-search-block {
+  .lit-search-block-title {
+    font-size: 0.9375rem;
+    font-weight: 700;
+    color: var(--lit-dark);
+    margin-bottom: 0.25rem;
+  }
+  .lit-search-block-hint {
+    font-size: 0.8125rem;
+    margin-bottom: 0.75rem;
+  }
+}
+// 検索結果ページ：適用中の条件チップ
+.lit-filter-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  .lit-filter-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.35rem 0.65rem;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: var(--lit-body);
+    background: var(--lit-bg-subtle);
+    border: 1px solid var(--lit-border);
+    border-radius: var(--lit-radius-sm);
+  }
+  .lit-filter-chip-label {
+    color: var(--lit-muted);
+    font-weight: 500;
+  }
+}
+.lit-search-result-count {
+  font-weight: 700;
+  font-size: 1.125rem;
+  color: var(--lit-dark);
+  margin-bottom: 1rem;
+}
+.lit-search-result-guide {
+  padding: 0.75rem 1rem;
+  background: var(--lit-bg-subtle);
+  border-radius: var(--lit-radius-sm);
+  border-left: 3px solid var(--lit-primary);
+}
+
+// ----- ステップ式検索 -----
+.lit-step-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.25rem;
+  height: 2.25rem;
+  padding: 0 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  border-radius: 50%;
+  text-decoration: none;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+.lit-step-pill.lit-step-done {
+  background: var(--lit-primary-soft);
+  color: var(--lit-primary);
+  &:hover { background: rgba(37, 99, 235, 0.2); color: var(--lit-primary-hover); }
+}
+.lit-step-pill.lit-step-current {
+  background: var(--lit-primary);
+  color: #fff;
+}
+.lit-step-pill.lit-step-pending {
+  background: var(--lit-bg-subtle);
+  color: var(--lit-muted);
+}
+.lit-step-map { background: var(--lit-bg-subtle); }
 
 // ----- フォーム -----
 .lit-form-label {
@@ -223,7 +450,7 @@ body.lit-body {
   }
   &:focus {
     border-color: var(--lit-primary);
-    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+    box-shadow: 0 0 0 3px var(--lit-primary-soft);
   }
 }
 .btn, .btn-primary, .btn-outline-primary, .btn-outline-secondary, .btn-secondary {
@@ -232,41 +459,45 @@ body.lit-body {
   align-items: center;
   justify-content: center;
   padding: 0.5rem 1rem;
+  font-weight: 600;
+  border-radius: var(--lit-radius-sm);
+  transition: transform 0.15s ease, box-shadow 0.2s ease;
   @media (min-width: $lit-bp-md) {
     min-height: auto;
     padding: 0.5rem 1.25rem;
   }
 }
 .btn-primary {
-  background: var(--lit-primary);
-  border-color: var(--lit-primary);
-  border-radius: var(--lit-radius-sm);
-  font-weight: 600;
+  background: linear-gradient(180deg, var(--lit-primary) 0%, var(--lit-primary-hover) 100%);
+  border-color: var(--lit-primary-hover);
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);
   &:hover {
-    background: var(--lit-primary-hover);
-    border-color: var(--lit-primary-hover);
+    background: linear-gradient(180deg, var(--lit-primary-hover) 0%, #1e40af 100%);
+    border-color: #1e40af;
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.35);
+    transform: translateY(-1px);
   }
 }
 .btn-outline-primary {
+  border-width: 2px;
   border-color: var(--lit-primary);
   color: var(--lit-primary);
-  border-radius: var(--lit-radius-sm);
-  font-weight: 600;
   &:hover {
-    background: var(--lit-primary-light);
-    border-color: var(--lit-primary);
+    background: var(--lit-primary-soft);
+    border-color: var(--lit-primary-hover);
     color: var(--lit-primary-hover);
   }
 }
 
 // ----- テーブル（サービス一覧・検索結果） -----
 .lit-table-wrap {
-  border-radius: var(--lit-radius);
+  border-radius: var(--lit-radius-lg);
   overflow-x: auto;
   overflow-y: hidden;
   -webkit-overflow-scrolling: touch;
   box-shadow: var(--lit-shadow);
-  background: #fff;
+  background: var(--lit-bg-card);
+  border: 1px solid var(--lit-border);
   margin-left: -0.5rem;
   margin-right: -0.5rem;
   padding: 0 0.5rem;
@@ -278,20 +509,20 @@ body.lit-body {
 }
 .lit-table {
   margin-bottom: 0;
-  min-width: 600px; // 横スクロール時も列がつぶれない
+  min-width: 600px;
   thead th {
     font-size: 0.7rem;
     font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 0.03em;
+    letter-spacing: 0.04em;
     color: var(--lit-muted);
-    background: var(--lit-bg-subtle);
-    padding: 0.6rem 0.5rem;
+    background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
+    padding: 0.75rem 0.5rem;
     border-bottom: 1px solid var(--lit-border);
     white-space: nowrap;
     @media (min-width: $lit-bp-md) {
       font-size: 0.75rem;
-      padding: 0.75rem 1rem;
+      padding: 0.85rem 1rem;
     }
   }
   tbody td {
@@ -305,9 +536,9 @@ body.lit-body {
     }
   }
   tbody tr {
-    transition: background 0.15s;
+    transition: background 0.2s ease;
     &:last-child td { border-bottom: none; }
-    &:hover { background: var(--lit-primary-light); }
+    &:hover { background: var(--lit-primary-soft); }
   }
   tbody a {
     color: inherit;
@@ -342,18 +573,36 @@ body.lit-body {
 // ----- CTA ブロック -----
 .lit-cta {
   background: var(--lit-hero-bg);
+  position: relative;
   color: #fff;
   text-align: center;
-  padding: 2rem 1rem;
-  @media (min-width: $lit-bp-md) { padding: 3rem 1rem; }
-  h3 {
-    font-weight: 700;
-    font-size: 1.125rem;
-    margin-bottom: 0.5rem;
-    @media (min-width: $lit-bp-md) { font-size: 1.25rem; }
+  padding: 3rem 1rem;
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--lit-hero-glow);
+    pointer-events: none;
   }
-  p { color: rgba(255, 255, 255, 0.85); font-size: 0.875rem; margin: 0; @media (min-width: $lit-bp-md) { font-size: 0.9375rem; } }
+  @media (min-width: $lit-bp-md) { padding: 4rem 1rem; }
+  h3 {
+    position: relative;
+    font-weight: 700;
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.02em;
+    @media (min-width: $lit-bp-md) { font-size: 1.35rem; }
+  }
+  p {
+    position: relative;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 0.9375rem;
+    margin: 0;
+    font-weight: 500;
+    @media (min-width: $lit-bp-md) { font-size: 1rem; }
+  }
   .btn {
+    position: relative;
     width: 100%;
     max-width: 280px;
     @media (min-width: $lit-bp-sm) {
@@ -367,37 +616,40 @@ body.lit-body {
 .footer-lit {
   margin-top: auto;
   flex-shrink: 0;
-  padding: 1rem 0;
+  padding: 1.25rem 0;
   border-top: 1px solid var(--lit-border);
-  background: #fff;
-  font-size: 0.75rem;
+  background: var(--lit-bg-card);
+  font-size: 0.8125rem;
   color: var(--lit-muted);
+  font-weight: 500;
   @media (min-width: $lit-bp-md) {
-    padding: 1.25rem 0;
-    font-size: 0.8125rem;
+    padding: 1.5rem 0;
+    font-size: 0.875rem;
   }
   a {
     color: var(--lit-muted);
     text-decoration: none;
     padding: 0.25rem 0;
     display: inline-block;
+    transition: color 0.15s ease;
     &:hover { color: var(--lit-primary); }
   }
 }
 
 // ----- ページヘッダー（詳細・フォームページのタイトル） -----
 .lit-page-header {
-  padding: 1rem 0;
+  padding: 1.25rem 0;
   border-bottom: 1px solid var(--lit-border);
-  background: #fff;
-  @media (min-width: $lit-bp-md) { padding: 1.25rem 0; }
+  background: var(--lit-bg-card);
+  @media (min-width: $lit-bp-md) { padding: 1.5rem 0; }
   .lit-page-title {
     font-weight: 700;
-    font-size: 1.125rem;
+    font-size: 1.2rem;
     color: var(--lit-dark);
     margin: 0;
     word-break: break-word;
-    @media (min-width: $lit-bp-md) { font-size: 1.25rem; }
+    letter-spacing: -0.02em;
+    @media (min-width: $lit-bp-md) { font-size: 1.35rem; }
   }
   .lit-breadcrumb {
     font-size: 0.75rem;

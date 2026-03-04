@@ -1,10 +1,9 @@
-<%= render "shared/header" %>
-
+<% content_for :title, "業者登録 | LIT APP" %>
 <section class="lit-page-header">
   <div class="container">
-    <h1 class="lit-page-title">プロバイダー登録</h1>
-    <p class="lit-breadcrumb mb-0"><%= link_to "トップ", root_path %> &gt; プロバイダー登録</p>
-    <p class="small text-muted mt-2 mb-0">業者様の情報を入力してください</p>
+    <h1 class="lit-page-title">業者登録</h1>
+    <p class="lit-breadcrumb mb-0"><%= link_to "トップ", root_path %> &gt; <%= link_to "業者様はこちら", for_providers_path %> &gt; 登録</p>
+    <p class="small text-muted mt-2 mb-0">運送業者としての情報を入力してください。</p>
   </div>
 </section>
 
@@ -59,5 +58,3 @@
     </div>
   </div>
 </section>
-
-<%= render "shared/footer" %>

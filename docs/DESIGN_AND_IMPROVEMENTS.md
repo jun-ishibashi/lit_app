@@ -8,7 +8,7 @@
 
 | 層 | 内容 |
 |----|------|
-| **ルーティング** | トップ＝サービス一覧、`/services/search`（検索）、`resources :services`、`users` / `providers` は `show` のみ。Devise で認証ルートを自動追加。 |
+| **ルーティング** | トップ＝サービス一覧、`/services/search`（検索・`search_services_path`）、`resources :services`、`/for-providers`（業者入口）、`/mypage/provider`（業者マイページ）、`users` / `providers` は `show` のみ。Devise で認証ルートを自動追加。 |
 | **コントローラ** | ApplicationController（Devise パラメータ許可）、ServicesController（Ransack・認可）、UsersController / ProvidersController（show のみ）。 |
 | **モデル** | User / Provider（Devise）、Service（Ransack）。マスタは ActiveHash（Departure, Destination, ServiceType, Option, UserType, Product）。 |
 | **ビュー** | 各ページで `render "shared/header"` / `render "shared/footer"` を個別に呼び出し。レイアウトは flash と yield のみ。 |
@@ -170,4 +170,5 @@
 ## 5. 参照
 
 - ビジネスと今後の機能: [BUSINESS_AND_ROADMAP.md](./BUSINESS_AND_ROADMAP.md)
+- プロバイダ表現・ナビ・管理画面: [PROVIDER_UX_AND_TERMINOLOGY.md](./PROVIDER_UX_AND_TERMINOLOGY.md)
 - 開発・デプロイ: [README.md](../README.md)
