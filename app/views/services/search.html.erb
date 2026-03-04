@@ -1,115 +1,79 @@
 <%= render "shared/header" %>
 
-<section class="features-icons bg-light text-center shadow">
-  <h3>検索結果</h3>
-  <p class="font-weight-light mb-0">本日：<%= @today %></p>
-  <% if @shipping_date.present? %>
-    <p class="font-weight-light mb-0">出荷希望日：<%= @shipping_date %></p>
-  <% end %>
-  <% if @arrival_date.present? %>
-    <p class="font-weight-light mb-0">到着希望日：<%= @arrival_date %></p>
-  <% end %>
-
+<section class="lit-page-header">
+  <div class="container">
+    <h1 class="lit-page-title">検索結果</h1>
+    <p class="lit-breadcrumb mb-0">
+      <%= link_to "トップ", root_path %> &gt; 検索結果
+    </p>
+    <p class="small text-muted mt-2 mb-0">
+      本日：<%= @today %>
+      <% if @shipping_date.present? %> ・ 出荷希望日：<%= @shipping_date %><% end %>
+      <% if @arrival_date.present? %> ・ 到着希望日：<%= @arrival_date %><% end %>
+    </p>
+  </div>
 </section>
 
-<section class="text-center bg-light py-5 my-5">
+<section class="lit-section bg-light">
   <div class="container">
-    <% if @services.length !=0 %>
-      <div class="row">
-        <div class= 'd-flex border-bottom'>
-          <div class="col-lg-4" >
-              <div class="testimonial-item mx-auto mb-0 mb-lg-0">
-                  <h5>出発地</h5>
-              </div>
-          </div>
-          <div class="col-lg-4">
-              <div class="testimonial-item mx-auto mb-0 mb-lg-0">
-                  <h5>到着地</h5>
-              </div>
-          </div>
-          <div class="col-lg-4">
-              <div class="testimonial-item mx-auto mb-0 mb-lg-0">
-                  <h5>料金</h5>                  
-              </div>
-          </div>
-          <div class="col-lg-4">
-              <div class="testimonial-item mx-auto mb-0 mb-lg-0">
-                  <h5>リードタイム</h5>                  
-              </div>
-          </div>
-          <div class="col-lg-4">
-              <div class="testimonial-item mx-auto mb-0 mb-lg-0">
-                  <h5>サービスタイプ</h5>                  
-              </div>
-          </div>
-          <div class="col-lg-4">
-              <div class="testimonial-item mx-auto mb-0 mb-lg-0">
-                  <h5>プロバイダー</h5>                  
-              </div>
-          </div>
-          <% if @shipping_date %>
-            <div class="col-lg-4">
-                <div class="testimonial-item mx-auto mb-0 mb-lg-0">
-                    <h5>最短到着日</h5>                  
-                </div>
-            </div>
-          <% end %>
-          <% if @arrival_date %>
-            <div class="col-lg-4">
-                <div class="testimonial-item mx-auto mb-0 mb-lg-0">
-                    <h5>必要出荷日</h5>                  
-                </div>
-            </div>
-          <% end %>
-        </div>
-
-        <% @services.each do |service| %><br>
-          <%=link_to service_path(service.id), class: 'd-flex border-bottom p-4 bg-light text-dark text-decoration-none' do %>
-            <div class="col-lg-4" >
-                <p class="font-weight-light mb-0"><%= service.departure.name %></p>
-            </div>
-            <div class="col-lg-4">
-                <p class="font-weight-light mb-0"><%= service.destination.name %></p>
-            </div>
-            <div class="col-lg-4">
-                <p class="font-weight-light mb-0"><%= service.price %>円</p>
-            </div>
-            <div class="col-lg-4">
-                <p id= "lead-time" class="font-weight-light mb-0"><%= service.lead_time %>日</p>
-            </div>
-            <div class="col-lg-4">
-                <p class="font-weight-light mb-0"><%= service.service_type.name %></p>
-            </div>
-            <div class="col-lg-4">
-                <p class="font-weight-light mb-0"><%= service.provider.name %></p>
-            </div>
-            <% if @shipping_date.present? %>
-              <div class="col-lg-4">
-                  <p class="text-success font-weight-light mb-0"><%= @shipping_date + service.lead_time.to_i %></p>
-              </div>
-            <% end %>
-            <% if @arrival_date.present? %>
-              <div class="col-lg-4">
-                <% if @today < (@arrival_date - service.lead_time.to_i) %>
-                  <p class="text-success font-weight-light mb-0"><%= @arrival_date - service.lead_time.to_i %></p>
-                <% else %>
-                  <p class="small text-danger font-weight-light mb-0">出荷が間に合いません</p>
+    <% if @services.length != 0 %>
+      <p class="small text-muted mb-3"><%= @services.size %>件のサービスが見つかりました</p>
+      <div class="lit-table-wrap table-responsive">
+        <table class="table lit-table">
+          <thead>
+            <tr>
+              <th>出発地</th>
+              <th>到着地</th>
+              <th>料金</th>
+              <th>リードタイム</th>
+              <th>サービスタイプ</th>
+              <th>プロバイダー</th>
+              <% if @shipping_date.present? %><th>最短到着日</th><% end %>
+              <% if @arrival_date.present? %><th>必要出荷日</th><% end %>
+            </tr>
+          </thead>
+          <tbody>
+            <% @services.each do |service| %>
+              <tr>
+                <td><%= link_to service.departure.name, service_path(service) %></td>
+                <td><%= link_to service.destination.name, service_path(service) %></td>
+                <td><%= link_to "#{service.price}円", service_path(service) %></td>
+                <td><%= link_to "#{service.lead_time}日", service_path(service) %></td>
+                <td><%= link_to service.service_type.name, service_path(service) %></td>
+                <td><%= link_to service.provider.name, service_path(service) %></td>
+                <% if @shipping_date.present? %>
+                  <td><%= link_to (@shipping_date + service.lead_time.to_i).to_s, service_path(service), class: "text-success" %></td>
                 <% end %>
-              </div>
+                <% if @arrival_date.present? %>
+                  <td>
+                    <% if @today < (@arrival_date - service.lead_time.to_i) %>
+                      <%= link_to (@arrival_date - service.lead_time.to_i).to_s, service_path(service), class: "text-success" %>
+                    <% else %>
+                      <span class="text-danger small">出荷が間に合いません</span>
+                    <% end %>
+                  </td>
+                <% end %>
+              </tr>
             <% end %>
-          <% end %>
-        <% end %>
+          </tbody>
+        </table>
       </div>
     <% else %>
-      <div class="mx-auto py-5">
-        該当する商品はありません
+      <div class="lit-empty">
+        <i class="bi bi-search lit-empty-icon text-muted" aria-hidden="true"></i>
+        <p class="lit-empty-title">該当するサービスはありません</p>
+        <p class="small mb-4">条件を変えて再度検索してみてください。</p>
+        <%= link_to root_path, class: "btn btn-primary" do %>
+          <i class="bi bi-arrow-left me-1"></i>検索条件を変える
+        <% end %>
       </div>
     <% end %>
-      <div class="mx-auto">
-        <%= link_to 'トップページへ戻る', root_path, class:"btn btn-primary mt-5 px-5" %>
-      </div>
+    <div class="text-center mt-4">
+      <%= link_to root_path, class: "btn btn-outline-secondary" do %>
+        <i class="bi bi-house me-1"></i>トップへ戻る
+      <% end %>
+    </div>
   </div>
-
 </section>
 
 <%= render "shared/footer" %>

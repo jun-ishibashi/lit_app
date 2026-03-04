@@ -1,0 +1,10 @@
+<% if notice.present? %>
+  <div class="lit-flash lit-flash-notice mb-0" role="alert">
+    <i class="bi bi-info-circle me-2" aria-hidden="true"></i><%= notice %>
+  </div>
+<% end %>
+<% if alert.present? %>
+  <div class="lit-flash lit-flash-alert mb-0" role="alert">
+    <i class="bi bi-exclamation-triangle me-2" aria-hidden="true"></i><%= alert %>
+  </div>
+<% end %>

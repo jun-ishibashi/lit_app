@@ -1,41 +1,36 @@
 <%= render "shared/header" %>
 
-<section class="features-icons bg-light text-center shadow">
-  <h3>My Page for User</h3>
-  <p class="lead mb-0"></p>
+<section class="lit-page-header">
+  <div class="container">
+    <h1 class="lit-page-title">マイページ</h1>
+    <p class="lit-breadcrumb mb-0"><%= link_to "トップ", root_path %> &gt; マイページ（ユーザー）</p>
+  </div>
 </section>
 
-<section class="showcase">
-  <div class="container p-5">
-    <div class="text-center">
-      <div class="col-lg-6 my-5 mx-auto">
-        <h5>ユーザーネーム</h5>
-        <p class="font-weight-light mb-0"><%= @user.name %></p>
-      </div>
-
-      <div class="col-lg-6  my-5 mx-auto my-0">
-        <h5>登録メールアドレス</h5>
-        <p class="font-weight-light mb-0"><%= @user.email %></p>
-      </div>
-
-      <div class="col-lg-6  my-5 mx-auto">
-        <h5>ユーザータイプ</h5>
-        <p class="font-weight-light mb-0"><%= @user.user_type.name %></p>
-      </div>
-
-      <div class="col-lg-6  my-5 mx-auto">
-        <h5>メインプロダクト</h5>
-        <p class="font-weight-light mb-0"><%= @user.product.name %></p>
-      </div>
-
-      <div class="col-lg-6  my-5 mx-auto">
-        <h5>紹介</h5>
-        <p class="font-weight-light mb-0"><%= @user.introduction %></p>
-      </div>
-
-
-      <div class="col-lg-6  my-5 mx-auto">
-        <%= link_to 'もどる', :back, class:"btn btn-primary mt-5 px-5" %>
+<section class="lit-section bg-light">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-6">
+        <div class="lit-card card">
+          <div class="card-body lit-card-body">
+            <dl class="row lit-dl mb-0">
+              <dt class="col-sm-4">ユーザーネーム</dt>
+              <dd class="col-sm-8"><%= @user.name %></dd>
+              <dt class="col-sm-4">登録メールアドレス</dt>
+              <dd class="col-sm-8"><%= @user.email %></dd>
+              <dt class="col-sm-4">ユーザータイプ</dt>
+              <dd class="col-sm-8"><%= @user.user_type.name %></dd>
+              <dt class="col-sm-4">メインプロダクト</dt>
+              <dd class="col-sm-8"><%= @user.product.name %></dd>
+              <dt class="col-sm-4">紹介</dt>
+              <dd class="col-sm-8"><%= @user.introduction %></dd>
+            </dl>
+            <div class="lit-actions">
+              <%= link_to :back, class: "btn btn-outline-secondary" do %><i class="bi bi-arrow-left me-1"></i>もどる<% end %>
+              <%= link_to "アカウント編集", edit_user_registration_path, class: "btn btn-primary ms-auto" %>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>

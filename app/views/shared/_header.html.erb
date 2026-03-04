@@ -1,36 +1,44 @@
-<!-- Navigation-->
-<nav class="navbar navbar-light bg-light static-top">
-    <div class="container">
-        <a class="navbar-brand" href="/"></a>
-        <div class="btn">
-            <button type="button" class="btn btn-primary dropdown-toggle px-4" data-bs-toggle="dropdown" aria-expanded="false">
-                Menu
-            </button>
-            <ul class="dropdown-menu left ">
-            
-            <% unless provider_signed_in? %>
-                <% if user_signed_in? %>
-                    <li><%= link_to 'My Page', user_path(current_user.id), class: "dropdown-item" %></li>
-                    <li><hr class="dropdown-divider"></li>
-                    <li><%= link_to 'ログアウト', destroy_user_session_path, data: { turbo_method: :delete }, class: "dropdown-item" %></li>
-                <% else %>
-                    <li><%= link_to 'ユーザーログイン', new_user_session_path, class: "dropdown-item" %></li>
-                    <li><%= link_to 'ユーザー新規登録', new_user_registration_path, class: "dropdown-item" %></li>
-                <% end %>
-            <%end%>
-            <% unless user_signed_in? %>
-                <% if provider_signed_in? %>
-                    <li><%= link_to current_provider.name, provider_path(current_provider.id), class: "dropdown-item" %></li>
-                    <li><%= link_to 'サービスを登録する', new_service_path, class: "dropdown-item" %>
-                    <li><hr class="dropdown-divider"></li>
-                    <li><%= link_to 'ログアウト', destroy_provider_session_path, data: { turbo_method: :delete }, class: "dropdown-item" %></li>
-                <% else %>
-                    <li><%= link_to 'プロバイダーログイン', new_provider_session_path, class: "dropdown-item" %></li>
-                    <li><%= link_to 'プロバイダー新規登録', new_provider_registration_path, class: "dropdown-item" %></li>
-                <% end %>
-            <% end %>
-
-            </ul>
-       </div>
+<nav class="navbar navbar-expand-lg navbar-light navbar-lit">
+  <div class="container">
+    <%= link_to root_path, class: "navbar-brand d-flex align-items-center gap-2" do %>
+      <span class="lit-logo-icon" aria-hidden="true">
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="32" height="32" rx="8" fill="currentColor" opacity="0.12"/>
+          <path d="M8 12h4v8H8v-8zm6 0h4v8h-4v-8zm6-4h4v12h-4V8z" fill="currentColor"/>
+        </svg>
+      </span>
+      <span class="lit-logo-text">LIT</span><span class="lit-logo-app">APP</span>
+    <% end %>
+    <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarLit" aria-controls="navbarLit" aria-expanded="false" aria-label="メニューを開く">
+      <i class="bi bi-list fs-3" aria-hidden="true"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarLit">
+      <ul class="navbar-nav ms-auto align-items-lg-center">
+        <li class="nav-item">
+          <%= link_to root_path, class: "nav-link" do %>
+            <i class="bi bi-search me-1" aria-hidden="true"></i>検索
+          <% end %>
+        </li>
+        <% unless provider_signed_in? %>
+          <% if user_signed_in? %>
+            <li class="nav-item"><%= link_to 'マイページ', user_path(current_user.id), class: "nav-link" %></li>
+            <li class="nav-item"><%= link_to 'ログアウト', destroy_user_session_path, data: { turbo_method: :delete }, class: "nav-link" %></li>
+          <% else %>
+            <li class="nav-item"><%= link_to 'ログイン', new_user_session_path, class: "nav-link" %></li>
+            <li class="nav-item"><%= link_to '新規登録', new_user_registration_path, class: "nav-link nav-link-cta" %></li>
+          <% end %>
+        <% end %>
+        <% unless user_signed_in? %>
+          <% if provider_signed_in? %>
+            <li class="nav-item"><%= link_to current_provider.name, provider_path(current_provider.id), class: "nav-link" %></li>
+            <li class="nav-item"><%= link_to 'サービス登録', new_service_path, class: "nav-link nav-link-cta" %></li>
+            <li class="nav-item"><%= link_to 'ログアウト', destroy_provider_session_path, data: { turbo_method: :delete }, class: "nav-link" %></li>
+          <% else %>
+            <li class="nav-item"><%= link_to 'プロバイダーログイン', new_provider_session_path, class: "nav-link" %></li>
+            <li class="nav-item"><%= link_to 'プロバイダー登録', new_provider_registration_path, class: "nav-link nav-link-cta" %></li>
+          <% end %>
+        <% end %>
+      </ul>
     </div>
+  </div>
 </nav>

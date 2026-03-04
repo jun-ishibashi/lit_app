@@ -73,6 +73,8 @@ bundle exec rails s
 bundle exec rails s
 ```
 
+開発中は **ホットリロード** が有効です。`app/views`・`app/assets/stylesheets`・`app/javascript` などを保存すると、ブラウザが自動で更新されます（`hotwire-livereload` 使用）。無効にしたいときは `bin/rails livereload:disable`、再度有効化は `bin/rails livereload:enable`。
+
 ### シードの再投入
 
 ```bash

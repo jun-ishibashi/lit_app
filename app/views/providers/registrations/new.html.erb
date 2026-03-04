@@ -1,58 +1,63 @@
 <%= render "shared/header" %>
 
-<section class="features-icons bg-light text-center shadow">
-  <h3>プロバイダー登録</h3>
-  <p class="lead mb-0">業者様の方は情報を入力して下さい</p>
+<section class="lit-page-header">
+  <div class="container">
+    <h1 class="lit-page-title">プロバイダー登録</h1>
+    <p class="lit-breadcrumb mb-0"><%= link_to "トップ", root_path %> &gt; プロバイダー登録</p>
+    <p class="small text-muted mt-2 mb-0">業者様の情報を入力してください</p>
+  </div>
 </section>
 
-<div class="container p-5" >
-<%= form_with model: @provider, url: provider_registration_path, class: 'hoge', local: true do |f| %>
-  <%= render "providers/shared/error_messages", resource: resource %>
-
-  <div class="mb-3">
-    <%= f.label :name, class:"form-label" %><br />
-    <%= f.text_area :name, class:"form-control", id:"name", placeholder:"会社名を入力", maxlength:"40", autofocus: true %>
+<section class="lit-section bg-light">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <div class="lit-card card">
+          <div class="card-body lit-card-body">
+            <%= form_with model: @provider, url: provider_registration_path, local: true do |f| %>
+              <%= render "providers/shared/error_messages", resource: resource %>
+              <div class="row g-3">
+                <div class="col-12">
+                  <%= f.label :name, "会社名", class: "lit-form-label form-label" %>
+                  <%= f.text_area :name, class: "form-control", id: "name", placeholder: "会社名を入力", maxlength: "40", autofocus: true, rows: 1 %>
+                </div>
+                <div class="col-12">
+                  <%= f.label :email, class: "lit-form-label form-label" %>
+                  <%= f.email_field :email, class: "form-control", autocomplete: "email" %>
+                </div>
+                <div class="col-md-6">
+                  <%= f.label :password, class: "lit-form-label form-label" %>
+                  <% if @minimum_password_length %>
+                    <span class="text-muted small">（<%= @minimum_password_length %>文字以上）</span>
+                  <% end %>
+                  <%= f.password_field :password, class: "form-control", autocomplete: "new-password" %>
+                </div>
+                <div class="col-md-6">
+                  <%= f.label :password_confirmation, class: "lit-form-label form-label" %>
+                  <%= f.password_field :password_confirmation, class: "form-control", autocomplete: "new-password" %>
+                </div>
+                <div class="col-md-6">
+                  <%= f.label :service_type_id, "メインサービスタイプ", class: "lit-form-label form-label" %>
+                  <%= f.collection_select :service_type_id, ServiceType.all, :id, :name, {}, { class: "form-select" } %>
+                </div>
+                <div class="col-12">
+                  <%= f.label :introduction, class: "lit-form-label form-label" %>
+                  <%= f.text_area :introduction, rows: 4, class: "form-control", id: "introduction", placeholder: "輸送上の強みなど（任意）" %>
+                </div>
+              </div>
+              <%= f.submit "登録する", class: "btn btn-primary mt-3 px-4" %>
+            <% end %>
+            <div class="lit-auth-links small mt-3">
+              <%= render "providers/shared/links" %>
+            </div>
+            <div class="mt-3">
+              <%= link_to "トップへ戻る", root_path, class: "btn btn-outline-secondary btn-sm" %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
-
-  <div class="mb-3">
-    <%= f.label :email, class:"form-label" %><br />
-    <%= f.email_field :email, class:"form-control", autocomplete: "email" %>
-  </div>
-
-  <div class="mb-3">
-    <%= f.label :password, class:"form-label" %>
-    <% if @minimum_password_length %>
-    <em>(<%= @minimum_password_length %> characters minimum)</em>
-    <% end %><br />
-    <%= f.password_field :password, class:"form-control", autocomplete: "new-password" %>
-  </div>
-
-  <div class="mb-3">
-    <%= f.label :password_confirmation, class:"form-label" %><br />
-    <%= f.password_field :password_confirmation, class:"form-control", autocomplete: "new-password" %>
-  </div>
-
-  <div class="mb-3">
-    <%= f.label :service_type, class:"form-label" %><br />
-    <%= f.collection_select(:service_type_id, ServiceType.all, :id, :name, {}, {class:"form-select"}) %>
-  </div>
-
-  <div class="mb-3">
-    <%= f.label :introduction, class:"form-label" %><br />
-    <%= f.text_area :introduction, rows: 5, class:"form-control h-100 w-100 mx-auto p-50", id:"introduction", placeholder:"輸送上の強み等を入力" %>
-  </div>
-
-  <div class="actions">
-    <%= f.submit "Sign up", class:"btn btn-primary" %>
-  </div>
-<% end %>
-
-<%= render "providers/shared/links" %>
-
-  <div class="m-auto text-center">
-    <a class="btn btn-outline-secondary my-5 px-5" href="/">トップページへ戻る</a>
-  </div>
-
-</div>
+</section>
 
 <%= render "shared/footer" %>

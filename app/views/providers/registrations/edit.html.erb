@@ -1,43 +1,58 @@
-<h2>Edit <%= resource_name.to_s.humanize %></h2>
+<%= render "shared/header" %>
 
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
-  <%= render "providers/shared/error_messages", resource: resource %>
-
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+<section class="lit-page-header">
+  <div class="container">
+    <h1 class="lit-page-title">アカウント編集</h1>
+    <p class="lit-breadcrumb mb-0"><%= link_to "トップ", root_path %> &gt; マイページ &gt; 編集</p>
   </div>
+</section>
 
-  <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-    <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
-  <% end %>
-
-  <div class="field">
-    <%= f.label :password %> <i>(leave blank if you don't want to change it)</i><br />
-    <%= f.password_field :password, autocomplete: "new-password" %>
-    <% if @minimum_password_length %>
-      <br />
-      <em><%= @minimum_password_length %> characters minimum</em>
-    <% end %>
+<section class="lit-section bg-light">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-6">
+        <div class="lit-card card">
+          <div class="card-body lit-card-body">
+            <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
+              <%= render "providers/shared/error_messages", resource: resource %>
+              <div class="mb-3">
+                <%= f.label :email, class: "lit-form-label form-label" %>
+                <%= f.email_field :email, class: "form-control", autofocus: true, autocomplete: "email" %>
+              </div>
+              <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+                <p class="text-warning small">確認待ち: <%= resource.unconfirmed_email %></p>
+              <% end %>
+              <div class="mb-3">
+                <%= f.label :password, class: "lit-form-label form-label" %>
+                <span class="text-muted small">（変更しない場合は空欄）</span>
+                <%= f.password_field :password, class: "form-control", autocomplete: "new-password" %>
+                <% if @minimum_password_length %>
+                  <span class="text-muted small"><%= @minimum_password_length %>文字以上</span>
+                <% end %>
+              </div>
+              <div class="mb-3">
+                <%= f.label :password_confirmation, class: "lit-form-label form-label" %>
+                <%= f.password_field :password_confirmation, class: "form-control", autocomplete: "new-password" %>
+              </div>
+              <div class="mb-4">
+                <%= f.label :current_password, class: "lit-form-label form-label" %>
+                <span class="text-muted small">（変更確認のため入力してください）</span>
+                <%= f.password_field :current_password, class: "form-control", autocomplete: "current-password" %>
+              </div>
+              <%= f.submit "更新する", class: "btn btn-primary" %>
+            <% end %>
+            <hr class="my-4">
+            <h3 class="h6 fw-bold">アカウント削除</h3>
+            <p class="small text-muted">削除すると元に戻せません。</p>
+            <%= button_to "アカウントを削除する", registration_path(resource_name), data: { turbo_confirm: "本当に削除しますか？" }, method: :delete, class: "btn btn-outline-danger btn-sm" %>
+            <div class="lit-actions mt-3 pt-0 border-0">
+              <%= link_to :back, class: "btn btn-outline-secondary btn-sm" do %><i class="bi bi-arrow-left me-1"></i>もどる<% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
+</section>
 
-  <div class="field">
-    <%= f.label :password_confirmation %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
-  </div>
-
-  <div class="field">
-    <%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i><br />
-    <%= f.password_field :current_password, autocomplete: "current-password" %>
-  </div>
-
-  <div class="actions">
-    <%= f.submit "Update" %>
-  </div>
-<% end %>
-
-<h3>Cancel my account</h3>
-
-<p>Unhappy? <%= button_to "Cancel my account", registration_path(resource_name), data: { turbo_confirm: "Are you sure?" }, method: :delete %></p>
-
-<%= link_to "Back", :back %>
+<%= render "shared/footer" %>

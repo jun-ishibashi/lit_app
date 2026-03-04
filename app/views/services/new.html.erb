@@ -1,64 +1,65 @@
 <%= render "shared/header" %>
 
-<!-- Title -->
-<section class="features-icons bg-light text-center shadow">
-      <h3>輸送サービスを登録</h3>
-      <p class="lead mb-0">ルートと運賃で簡単に登録ができます</p>
+<section class="lit-page-header">
+  <div class="container">
+    <h1 class="lit-page-title">輸送サービスを登録</h1>
+    <p class="lit-breadcrumb mb-0"><%= link_to "トップ", root_path %> &gt; サービス登録</p>
+    <p class="small text-muted mt-2 mb-0">ルートと運賃で簡単に登録できます</p>
+  </div>
 </section>
-<!-- Image Showcases-->
-<section class="showcase">
-    <div class="container p-5">
-        <%= form_with model: @service, local: true do |f| %>
-            <div class="text-center">
-            <div class="col-lg-6 my-5 mx-auto">
-              <h5>出発地</h5>
-              <p class="font-weight-light mb-0">貨物を出荷する都市を選択して下さい</p>
-              <%= f.collection_select(:departure_id, Departure.all, :id, :name, {}, {class:"form-select w-50 mx-auto"}) %>
-            </div>
 
-            <div class="col-lg-6  my-5 mx-auto my-0">
-              <h5>仕向地</h5>
-              <p class="font-weight-light mb-0">貨物を輸送する都市を選択して下さい</p>
-              <%= f.collection_select(:destination_id, Destination.all, :id, :name, {}, {class:"form-select w-50 mx-auto"}) %>
-            </div>
-
-            <div class="col-lg-6  my-5 mx-auto">
-              <h5>サービスタイプ</h5>
-              <p class="font-weight-light mb-0">輸送手段を選択して下さい</p>
-               <%= f.collection_select(:service_type_id, ServiceType.all, :id, :name, {}, {class:"form-select w-50 mx-auto"}) %>
-            </div>
-
-            <div class="col-lg-6  my-5 mx-auto">
-              <h5>料金</h5>
-              <p class="font-weight-light mb-0">料金を入力して下さい</p>
-              <%= f.text_field :price, placeholder:"例）30,000",  class:"form-control w-50 mx-auto" %>
-            </div>
-
-            <div class="col-lg-6  my-5 mx-auto">
-              <h5>リードタイム</h5>
-              <p class="font-weight-light mb-0">リードタイムを入力して下さい</p>
-              <%= f.text_field :lead_time, placeholder:"例）3", class:"form-control w-50 mx-auto" %>
-            </div>
-
-            <div class="col-lg-6  my-5 mx-auto">
-              <h5>オプション</h5>
-              <p class="font-weight-light mb-0">対応可能なオプションがあれば選択して下さい</p>
-              <%= f.collection_select(:option_id, Option.all, :id, :name, {}, {class:"form-select w-50 mx-auto"}) %>
-            </div>
-
-            <div class="col-lg-6  my-5 mx-auto">
-              <h5>説明</h5>
-              <p class="font-weight-light mb-0">サービスの説明や概要を入力して下さい</p>
-              <%= f.text_area :description, rows: 5, class:"form-control h-100 w-100 mx-auto p-50" %>
+<section class="lit-section bg-light">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <div class="lit-card card">
+          <div class="card-body lit-card-body">
+            <%= form_with model: @service, local: true do |f| %>
+              <div class="mb-4">
+                <label class="lit-form-label form-label">出発地</label>
+                <p class="text-muted small mb-1">貨物を出荷する都市を選択して下さい</p>
+                <%= f.collection_select :departure_id, Departure.all, :id, :name, {}, { class: "form-select" } %>
               </div>
-
-             <div class="col-lg-6  my-5 mx-auto">
-                <%= f.submit "登録する" ,class:"btn btn-primary  mt-5 mx-auto" %>
-            </div>
-            </div>
-           
-        <% end %>
+              <div class="mb-4">
+                <label class="lit-form-label form-label">仕向地</label>
+                <p class="text-muted small mb-1">貨物を輸送する都市を選択して下さい</p>
+                <%= f.collection_select :destination_id, Destination.all, :id, :name, {}, { class: "form-select" } %>
+              </div>
+              <div class="mb-4">
+                <label class="lit-form-label form-label">サービスタイプ</label>
+                <p class="text-muted small mb-1">輸送手段を選択して下さい</p>
+                <%= f.collection_select :service_type_id, ServiceType.all, :id, :name, {}, { class: "form-select" } %>
+              </div>
+              <div class="mb-4">
+                <label class="lit-form-label form-label">料金</label>
+                <p class="text-muted small mb-1">料金を入力して下さい</p>
+                <%= f.text_field :price, placeholder: "例）30,000", class: "form-control" %>
+              </div>
+              <div class="mb-4">
+                <label class="lit-form-label form-label">リードタイム</label>
+                <p class="text-muted small mb-1">リードタイムを入力して下さい</p>
+                <%= f.text_field :lead_time, placeholder: "例）3", class: "form-control" %>
+              </div>
+              <div class="mb-4">
+                <label class="lit-form-label form-label">オプション</label>
+                <p class="text-muted small mb-1">対応可能なオプションがあれば選択して下さい</p>
+                <%= f.collection_select :option_id, Option.all, :id, :name, {}, { class: "form-select" } %>
+              </div>
+              <div class="mb-4">
+                <label class="lit-form-label form-label">説明</label>
+                <p class="text-muted small mb-1">サービスの説明や概要を入力して下さい</p>
+                <%= f.text_area :description, rows: 5, class: "form-control" %>
+              </div>
+              <div class="d-flex gap-2 flex-wrap">
+                <%= f.submit "登録する", class: "btn btn-primary px-4" %>
+                <%= link_to "キャンセル", root_path, class: "btn btn-outline-secondary" %>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
 </section>
 
 <%= render "shared/footer" %>

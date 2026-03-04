@@ -1,222 +1,184 @@
 <%= render "shared/header" %>
 
-<!-- Masthead-->
-<header class="masthead">
-  <div class="container position-relative">
-    <div class="row justify-content-center">
-      <div class="col-xl-6">
-        <div class="text-center text-white">
-          <!-- Page heading-->
-          <h2 class="mb-5">We Support Your Globalization.<br>This Is Lit App.</h2>
-        </div>
-      </div>
-    </div>
+<header class="lit-hero">
+  <div class="container">
+    <h1>海外輸送を、<br class="d-md-none">もっとシンプルに</h1>
+    <p class="lit-hero-lead">料金とリードタイムで業者を比較</p>
   </div>
 </header>
 
-<!-- Search -->
-<section class="testimonials text-center bg-light d-flex">
+<section class="lit-section bg-white">
   <div class="container">
-    <% if provider_signed_in? %>
-      <h5 class="mb-5"><%= current_provider.name %>ご担当者様<br>新たなサービスを登録してみましょう！</h5>
-      <%= link_to '新しいサービスを登録する', new_service_path, class: "btn btn-outline-info btn-lg m-5 px-5" %>
-    <% end %>
-    <h2 class="m-5">検索する</h2>
-    <p class="font-weight-light mb-5">出荷元と出荷先を入力することで、簡単にコストとリードタイムが比較できます。</p>
-    <%= search_form_for @p, url: services_search_path do |f| %>
-      <div class= 'd-flex'>
-        <div class="col-lg-4" >
-            <div class="testimonial-item mx-auto mb-5 mb-lg-0">
-                <h5>出発地</h5>
-                <p class="font-weight-light mb-0">出荷元となる都市を選択できます</p>
-                <%= f.collection_select :departure_id_eq, Departure.where.not(id: 1), :id, :name, {include_blank: '指定なし'}, {class: "form-select"} %><br>
-            </div>
-        </div>
-        <div class="col-lg-4">
-            <div class="testimonial-item mx-auto mb-5 mb-lg-0">
-                <h5>到着地</h5>
-                <p class="font-weight-light mb-0">出荷先となる都市を選択できます</p>
-                <%= f.collection_select :destination_id_eq, Destination.where.not(id: 1), :id, :name, {include_blank: '指定なし'}, {class: "form-select"} %><br>
-            </div>
-        </div>
-        <div class="col-lg-4">
-            <div class="testimonial-item mx-auto mb-5 mb-lg-0">
-                <h5>サービスタイプ</h5>                  
-                <p class="font-weight-light mb-0">サービスタイプを選択できます</p>
-                <%= f.collection_select :service_type_id_eq, ServiceType.where.not(id: 1), :id, :name, {include_blank: '指定なし'}, {class: "form-select"} %><br>
-            </div>
-        </div>
-        <div class="col-lg-4">
-            <div class="testimonial-item mx-auto mb-5 mb-lg-0">
-                <h5>プロバイダー</h5>                  
-                <p class="font-weight-light mb-0">プロバイダーを選択できます</p>
-                <%= f.collection_select :provider_id_eq, Provider.all, :id, :name, {include_blank: '指定なし'}, {class: "form-select"} %><br>
-            </div>
-        </div>
-      </div>
-
-      <div class="text-center">
-          <div class="testimonial-item mx-auto mb-5 mb-lg-0">
-              <h5>並び順</h5>                  
-              <p class="font-weight-light mb-0">ご希望に合わせて結果を並び替えます</p>
-              <%= f.select( :sorts, { '価格の安い順': 'price asc', '早い順': 'lead_time asc' }, {include_blank: '指定なし'}, {class: "form-select"} )%>
+    <div class="lit-search-box">
+      <% if provider_signed_in? %>
+        <p class="text-center mb-3 small text-muted">
+          <i class="bi bi-person-check me-1"></i><%= current_provider.name %>様 — 新規サービスを登録できます
+        </p>
+        <p class="text-center mb-4">
+          <%= link_to new_service_path, class: "btn btn-outline-primary" do %>
+            <i class="bi bi-plus-lg me-1"></i>サービスを登録する
+          <% end %>
+        </p>
+      <% end %>
+      <h2 class="lit-section-title text-center">検索</h2>
+      <p class="lit-section-lead text-center">出発地・到着地を選ぶと、料金とリードタイムで比較できます。</p>
+      <%= search_form_for @p, url: services_search_path do |f| %>
+        <div class="row g-3 mb-3">
+          <div class="col-sm-6 col-lg-3">
+            <label class="lit-form-label form-label">出発地</label>
+            <%= f.collection_select :departure_id_eq, Departure.where.not(id: 1), :id, :name, { include_blank: '指定なし' }, { class: "form-select" } %>
           </div>
-      </div>
-
-      <div class="accordion mt-5" >
-        <div class="accordion-item">
-          <h2 class="accordion-header">
-            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
-              日付を指定する
-            </button>
-          </h2>
-          <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
-            <div class="accordion-body">
-              <div class="d-flex">
-                <div class="col-lg-6  my-5 mx-auto">
-                  <h5>希望出荷日</h5>
-                  <p class="font-weight-light mb-0">出荷日を入力することで最短到着日を計算します</p>
-                  <%= date_field_tag :shipping_date, params[:shipping_date], class: "form-control w-50 mx-auto" %>
-                </div>
-                <div class="col-lg-6  my-5 mx-auto">
-                  <h5>希望到着日</h5>
-                  <p class="font-weight-light mb-0">到着日を入力することで必要出荷日を計算します</p>
-                  <%= date_field_tag :arrival_date, params[:arrival_date], class: "form-control w-50 mx-auto" %>
+          <div class="col-sm-6 col-lg-3">
+            <label class="lit-form-label form-label">到着地</label>
+            <%= f.collection_select :destination_id_eq, Destination.where.not(id: 1), :id, :name, { include_blank: '指定なし' }, { class: "form-select" } %>
+          </div>
+          <div class="col-sm-6 col-lg-3">
+            <label class="lit-form-label form-label">サービスタイプ</label>
+            <%= f.collection_select :service_type_id_eq, ServiceType.where.not(id: 1), :id, :name, { include_blank: '指定なし' }, { class: "form-select" } %>
+          </div>
+          <div class="col-sm-6 col-lg-3">
+            <label class="lit-form-label form-label">プロバイダー</label>
+            <%= f.collection_select :provider_id_eq, Provider.all, :id, :name, { include_blank: '指定なし' }, { class: "form-select" } %>
+          </div>
+        </div>
+        <div class="row mb-3">
+          <div class="col-md-4">
+            <label class="lit-form-label form-label">並び順</label>
+            <%= f.select :sorts, { '価格の安い順': 'price asc', 'リードタイムの短い順': 'lead_time asc' }, { include_blank: '指定なし' }, { class: "form-select" } %>
+          </div>
+        </div>
+        <div class="accordion mb-4" id="accordionDate">
+          <div class="accordion-item border rounded">
+            <h2 class="accordion-header">
+              <button class="accordion-button collapsed py-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseDate" aria-expanded="false" aria-controls="collapseDate">
+                <i class="bi bi-calendar3 me-2"></i>日付を指定する
+              </button>
+            </h2>
+            <div id="collapseDate" class="accordion-collapse collapse" data-bs-parent="#accordionDate">
+              <div class="accordion-body">
+                <div class="row g-3">
+                  <div class="col-md-6">
+                    <label class="lit-form-label form-label">希望出荷日</label>
+                    <%= date_field_tag :shipping_date, params[:shipping_date], class: "form-control" %>
+                  </div>
+                  <div class="col-md-6">
+                    <label class="lit-form-label form-label">希望到着日</label>
+                    <%= date_field_tag :arrival_date, params[:arrival_date], class: "form-control" %>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-
-      <%= f.submit '検索', class: "btn btn-primary mt-5 px-5" %>
-    <% end %>
-  </div>
-</section>
-
-<!-- Icons Grid-->
-<section class="features-icons bg-light text-center">
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-4">
-        <div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
-          <div class="features-icons-icon d-flex"><i class="bi bi-tsunami m-auto text-primary"></i></div>
-          <h3>海上輸送</h3>
-          <p class="lead mb-5">貨物量が多い<br>サイズが大きい<br>輸送コストを抑えたい</p>
+        <div class="text-center">
+          <%= f.submit '検索する', class: "btn btn-primary px-5 py-2" %>
         </div>
-      </div>
-      <div class="col-lg-4">
-        <div class="features-icons-item mx-auto mb-0 mb-lg-3">
-          <div class="features-icons-icon d-flex"><i class="bi bi-cloud m-auto text-primary"></i></div>
-          <h3>航空輸送</h3>
-          <p class="lead mb-5">貨物量が少ない<br>早く運びたい<br>ダメージリスクを抑えたい</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-
-<!-- Image Showcases-->
-<section class="showcase">
-  <div class="container-fluid p-0">
-    <div class="row g-0">
-      <div class="col-lg-6 order-lg-2 text-white showcase-img" style="background-image: url('assets/showcase1.jpg')"></div>
-      <div class="col-lg-6 order-lg-1 my-auto showcase-text">
-        <h2>貿易を身近にする</h2>
-        <p class="lead mb-0">海外にモノを運びたいけど、貿易の知識がない、<br>どの業者に頼んだらいいかわからない、<br>LITがあなたをサポートします！</p>
-      </div>
-    </div>
-    <div class="row g-0">
-      <div class="col-lg-6 text-white showcase-img" style="background-image: url('assets/showcase2.jpg')"></div>
-      <div class="col-lg-6 my-auto showcase-text ">
-          <h2>様々な輸送手段</h2>
-          <p class="lead mb-0">船舶、航空、鉄道などの輸送手段から<br>ベストな方法を簡単に見つけることができます。<br>もっとも効率的なロジスティクスを発見しましょう！</p>
-      </div>
-    </div>
-    <div class="row g-0">
-      <div class="col-lg-6 order-lg-2 text-white showcase-img" style="background-image: url('assets/showcase3.jpg')"></div>
-      <div class="col-lg-6 order-lg-1 my-auto showcase-text">
-        <h2>あなたが物流に求めるもの</h2>
-        <p class="lead mb-0">リードタイム・コスト比較により、<br>あなたのニーズにあったサービスがきっと見つかる。</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Testimonials-->
-<section class="testimonials text-center bg-light d-flex">
-  <div class="container">
-    <h2 class="mb-5">サービス一覧</h2>
-    <p class="font-weight-light mb-5">最近公開されたサービスとなります。</p>
-    <div class="row">
-      <div class= 'd-flex border-bottom'>
-        <div class="col-lg-4" >
-          <div class="testimonial-item mx-auto mb-0 mb-lg-0">
-            <h5>出発地</h5>
-          </div>
-        </div>
-        <div class="col-lg-4">
-          <div class="testimonial-item mx-auto mb-0 mb-lg-0">
-            <h5>到着地</h5>
-          </div>
-        </div>
-        <div class="col-lg-4">
-          <div class="testimonial-item mx-auto mb-0 mb-lg-0">
-            <h5>料金</h5>                  
-          </div>
-        </div>
-        <div class="col-lg-4">
-          <div class="testimonial-item mx-auto mb-0 mb-lg-0">
-            <h5>リードタイム</h5>                  
-          </div>
-        </div>
-        <div class="col-lg-4">
-          <div class="testimonial-item mx-auto mb-0 mb-lg-0">
-            <h5>サービスタイプ</h5>                  
-          </div>
-        </div>
-        <div class="col-lg-4">
-          <div class="testimonial-item mx-auto mb-0 mb-lg-0">
-            <h5>プロバイダー</h5>                  
-          </div>
-        </div>
-      </div>
-      <% @services.each do |service| %>
-        <%=link_to service_path(service.id), class: 'd-flex border-bottom p-4 bg-light text-dark text-decoration-none' do %>
-          <div class="col-lg-4" >
-            <p class="font-weight-light mb-0"><%= service.departure.name %></p>
-          </div>
-          <div class="col-lg-4">
-            <p class="font-weight-light mb-0"><%= service.destination.name %></p>
-          </div>
-          <div class="col-lg-4">
-            <p class="font-weight-light mb-0"><%= service.price %>円</p>
-          </div>
-          <div class="col-lg-4">
-            <p class="font-weight-light mb-0"><%= service.lead_time %>日</p>
-          </div>
-          <div class="col-lg-4">
-            <p class="font-weight-light mb-0"><%= service.service_type.name %></p>
-          </div>
-          <div class="col-lg-4">
-            <p class="font-weight-light mb-0"><%= service.provider.name %></p>
-          </div>
-        <% end %>
       <% end %>
     </div>
   </div>
 </section>
 
-<!-- Call to Action-->
-<section class="call-to-action text-white text-center" id="signup">
-    <div class="container position-relative">
-        <div class="row justify-content-center">
-            <div class="col-xl-6">
-                <h3 class="mb-4">Ready to get started? Sign up now!</h3>
-            </div>
+<section class="lit-section bg-light">
+  <div class="container">
+    <h2 class="lit-section-title text-center">輸送手段</h2>
+    <p class="lit-section-lead text-center">目的に合わせて選べます</p>
+    <div class="row g-4 justify-content-center">
+      <div class="col-md-6 col-lg-4">
+        <div class="lit-card card h-100">
+          <div class="card-body lit-card-body text-center">
+            <i class="bi bi-tsunami text-primary fs-1 mb-2 d-block" aria-hidden="true"></i>
+            <h3 class="h6 fw-bold mb-2">海上輸送</h3>
+            <p class="text-muted small mb-0">貨物量が多い・サイズが大きい・コストを抑えたい</p>
+          </div>
         </div>
+      </div>
+      <div class="col-md-6 col-lg-4">
+        <div class="lit-card card h-100">
+          <div class="card-body lit-card-body text-center">
+            <i class="bi bi-airplane text-primary fs-1 mb-2 d-block" aria-hidden="true"></i>
+            <h3 class="h6 fw-bold mb-2">航空輸送</h3>
+            <p class="text-muted small mb-0">貨物量が少ない・早く届けたい・ダメージを抑えたい</p>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
+</section>
+
+<section class="lit-section bg-white">
+  <div class="container">
+    <div class="row g-4 align-items-center mb-5">
+      <div class="col-lg-6">
+        <h2 class="h5 fw-bold text-dark mb-2">貿易を身近に</h2>
+        <p class="text-muted mb-0">海外にモノを運びたいけれど、どの業者に頼めばいいかわからない。LIT で料金と日数を比較して、自分に合ったサービスを見つけましょう。</p>
+      </div>
+      <div class="col-lg-6 text-center">
+        <i class="bi bi-globe2 display-4 text-secondary opacity-50" aria-hidden="true"></i>
+      </div>
+    </div>
+    <div class="row g-4 align-items-center mb-5">
+      <div class="col-lg-6 order-lg-2">
+        <h2 class="h5 fw-bold text-dark mb-2">輸送手段を選べる</h2>
+        <p class="text-muted mb-0">航空・船舶（LCL/FCL）から、コストや納期に合わせて比較。効率的なルートを簡単に探せます。</p>
+      </div>
+      <div class="col-lg-6 order-lg-1 text-center">
+        <i class="bi bi-box-seam display-4 text-secondary opacity-50" aria-hidden="true"></i>
+      </div>
+    </div>
+    <div class="row g-4 align-items-center">
+      <div class="col-lg-6">
+        <h2 class="h5 fw-bold text-dark mb-2">コストとリードタイムで比較</h2>
+        <p class="text-muted mb-0">希望の出荷日・到着日を入力すると、最短到着日や必要出荷日も表示。ニーズに合ったサービスがきっと見つかります。</p>
+      </div>
+      <div class="col-lg-6 text-center">
+        <i class="bi bi-graph-up-arrow display-4 text-secondary opacity-50" aria-hidden="true"></i>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="lit-section bg-light">
+  <div class="container">
+    <h2 class="lit-section-title text-center">サービス一覧</h2>
+    <p class="lit-section-lead text-center">最近登録されたサービス（最大10件）</p>
+    <div class="lit-table-wrap table-responsive">
+      <table class="table lit-table">
+        <thead>
+          <tr>
+            <th>出発地</th>
+            <th>到着地</th>
+            <th>料金</th>
+            <th>リードタイム</th>
+            <th>サービスタイプ</th>
+            <th>プロバイダー</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @services.each do |service| %>
+            <tr>
+              <td><%= link_to service.departure.name, service_path(service) %></td>
+              <td><%= link_to service.destination.name, service_path(service) %></td>
+              <td><%= link_to "#{service.price}円", service_path(service) %></td>
+              <td><%= link_to "#{service.lead_time}日", service_path(service) %></td>
+              <td><%= link_to service.service_type.name, service_path(service) %></td>
+              <td><%= link_to service.provider.name, service_path(service) %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="lit-cta">
+  <div class="container">
+    <h3>はじめる</h3>
+    <p>ユーザー登録でマイページを、プロバイダー登録でサービス掲載を</p>
+    <div class="mt-3 d-flex flex-wrap gap-2 justify-content-center">
+      <%= link_to new_user_registration_path, class: "btn btn-light" do %>ユーザー登録<% end %>
+      <%= link_to new_provider_registration_path, class: "btn btn-outline-light" do %>プロバイダー登録<% end %>
+    </div>
+  </div>
 </section>
 
 <%= render "shared/footer" %>

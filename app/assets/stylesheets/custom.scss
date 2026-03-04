@@ -1,0 +1,492 @@
+// ============================================================
+// LIT APP — UI/UX デザインシステム
+// Bootstrap 5 の上に載せるアプリ固有スタイル
+// ============================================================
+
+// ブレークポイント（Bootstrap 5 に合わせる）
+$lit-bp-sm: 576px;
+$lit-bp-md: 768px;
+$lit-bp-lg: 992px;
+$lit-bp-xl: 1200px;
+$lit-touch-min: 44px; // タップ領域の最小推奨
+
+// ----- デザイントークン -----
+:root {
+  --lit-primary: #2563eb;
+  --lit-primary-hover: #1d4ed8;
+  --lit-primary-light: #eff6ff;
+  --lit-accent: #0ea5e9;
+  --lit-dark: #0f172a;
+  --lit-body: #334155;
+  --lit-muted: #64748b;
+  --lit-border: #e2e8f0;
+  --lit-bg-subtle: #f8fafc;
+  --lit-hero-bg: linear-gradient(160deg, #1e3a5f 0%, #0f172a 50%);
+  --lit-radius: 10px;
+  --lit-radius-sm: 8px;
+  --lit-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  --lit-shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --lit-nav-height: 56px;
+}
+
+// ----- ベース -----
+html {
+  overflow-x: hidden;
+  -webkit-text-size-adjust: 100%;
+}
+body.lit-body {
+  color: var(--lit-body);
+  font-size: 0.9375rem;
+  background: var(--lit-bg-subtle);
+  @media (max-width: #{$lit-bp-md - 1}) {
+    font-size: 0.875rem;
+  }
+}
+// メイン：フッターを下に寄せるため flex 子で伸ばす
+.lit-main {
+  min-height: 0;
+  width: 100%;
+  max-width: 100%;
+}
+
+// ----- ヘッダー -----
+.navbar-lit {
+  flex-shrink: 0;
+  min-height: var(--lit-nav-height);
+  background: #fff !important;
+  box-shadow: var(--lit-shadow);
+  padding: 0.5rem 0;
+
+  .navbar-brand {
+    font-weight: 700;
+    font-size: 1.25rem;
+    color: var(--lit-dark);
+    text-decoration: none;
+    letter-spacing: -0.02em;
+    &:hover { color: var(--lit-primary); }
+    @media (max-width: #{$lit-bp-md - 1}) { font-size: 1.1rem; }
+  }
+  .lit-logo-icon { color: var(--lit-primary); }
+  .lit-logo-text { color: var(--lit-primary); }
+  .lit-logo-app { color: var(--lit-muted); font-weight: 500; font-size: 0.9em; }
+  .nav-link {
+    font-weight: 500;
+    color: var(--lit-body);
+    padding: 0.5rem 0.75rem !important;
+    border-radius: var(--lit-radius-sm);
+    min-height: $lit-touch-min;
+    display: inline-flex;
+    align-items: center;
+    &:hover { color: var(--lit-primary); background: var(--lit-primary-light); }
+    @media (max-width: #{$lit-bp-lg - 1}) {
+      padding: 0.75rem 1rem !important;
+      border-bottom: 1px solid var(--lit-border);
+    }
+  }
+  .nav-link-cta {
+    background: var(--lit-primary);
+    color: #fff !important;
+    padding: 0.4rem 0.9rem !important;
+    border-radius: var(--lit-radius-sm);
+    min-height: $lit-touch-min;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    &:hover { background: var(--lit-primary-hover); color: #fff !important; }
+    @media (max-width: #{$lit-bp-lg - 1}) {
+      margin-top: 0.25rem;
+      padding: 0.6rem 1rem !important;
+    }
+  }
+  .navbar-toggler {
+    min-width: $lit-touch-min;
+    min-height: $lit-touch-min;
+    padding: 0.5rem;
+    &:focus { box-shadow: 0 0 0 2px var(--lit-primary-light); }
+  }
+  .navbar-collapse {
+    @media (max-width: #{$lit-bp-lg - 1}) {
+      padding: 0.5rem 0;
+      margin-top: 0.5rem;
+      border-top: 1px solid var(--lit-border);
+    }
+  }
+}
+
+// ----- フラッシュ（レイアウトで使用） -----
+.lit-flash {
+  border-radius: 0;
+  border: none;
+  font-size: 0.875rem;
+  padding: 0.65rem 1rem;
+}
+.lit-flash-notice { background: var(--lit-primary-light); color: var(--lit-primary-hover); }
+.lit-flash-alert { background: #fef2f2; color: #b91c1c; }
+
+// ----- ヒーロー -----
+.lit-hero {
+  background: var(--lit-hero-bg);
+  padding: 2.5rem 1rem;
+  text-align: center;
+  @media (min-width: $lit-bp-md) {
+    padding: 3.5rem 1rem;
+  }
+  h1 {
+    font-weight: 700;
+    font-size: clamp(1.35rem, 4.5vw, 2rem);
+    letter-spacing: -0.02em;
+    color: #fff;
+    margin: 0 0 0.5rem;
+    line-height: 1.4;
+    word-break: keep-all;
+  }
+  .lit-hero-lead {
+    color: rgba(255, 255, 255, 0.85);
+    font-size: clamp(0.8125rem, 2vw, 0.9375rem);
+    margin: 0;
+  }
+}
+
+// ----- セクション -----
+.lit-section {
+  padding: 2rem 0;
+  @media (min-width: $lit-bp-md) {
+    padding: 3rem 0;
+  }
+  @media (min-width: $lit-bp-lg) {
+    padding: 4rem 0;
+  }
+}
+.lit-section-sm {
+  padding: 1.5rem 0;
+  @media (min-width: $lit-bp-md) { padding: 2rem 0; }
+}
+
+.lit-section-title {
+  font-weight: 700;
+  font-size: 1.125rem;
+  color: var(--lit-dark);
+  margin-bottom: 0.25rem;
+  @media (min-width: $lit-bp-md) { font-size: 1.25rem; }
+}
+.lit-section-lead {
+  color: var(--lit-muted);
+  font-size: 0.8125rem;
+  margin-bottom: 1.25rem;
+  @media (min-width: $lit-bp-md) {
+    font-size: 0.875rem;
+    margin-bottom: 1.5rem;
+  }
+}
+
+// ----- カード -----
+.lit-card {
+  background: #fff;
+  border: none;
+  border-radius: var(--lit-radius);
+  box-shadow: var(--lit-shadow);
+  transition: box-shadow 0.2s;
+  &:hover { box-shadow: var(--lit-shadow-md); }
+}
+.lit-card-body { padding: 1.5rem; @media (min-width: 768px) { padding: 2rem; } }
+
+// ----- 検索フォーム（トップの検索ボックス） -----
+.lit-search-box {
+  background: #fff;
+  border-radius: var(--lit-radius);
+  box-shadow: var(--lit-shadow-md);
+  padding: 1.25rem;
+  margin-top: 0;
+  position: relative;
+  max-width: 100%;
+  @media (min-width: $lit-bp-md) {
+    padding: 2rem;
+    margin-top: -1.25rem;
+  }
+}
+
+// ----- フォーム -----
+.lit-form-label {
+  font-weight: 600;
+  font-size: 0.8125rem;
+  color: var(--lit-dark);
+  margin-bottom: 0.35rem;
+}
+.form-control, .form-select {
+  border-radius: var(--lit-radius-sm);
+  border-color: var(--lit-border);
+  font-size: 16px; // iOS でフォーカス時のズームを防ぐため最小 16px
+  min-height: $lit-touch-min;
+  @media (min-width: $lit-bp-md) {
+    font-size: 0.9375rem;
+    min-height: auto;
+  }
+  &:focus {
+    border-color: var(--lit-primary);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+  }
+}
+.btn, .btn-primary, .btn-outline-primary, .btn-outline-secondary, .btn-secondary {
+  min-height: $lit-touch-min;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 1rem;
+  @media (min-width: $lit-bp-md) {
+    min-height: auto;
+    padding: 0.5rem 1.25rem;
+  }
+}
+.btn-primary {
+  background: var(--lit-primary);
+  border-color: var(--lit-primary);
+  border-radius: var(--lit-radius-sm);
+  font-weight: 600;
+  &:hover {
+    background: var(--lit-primary-hover);
+    border-color: var(--lit-primary-hover);
+  }
+}
+.btn-outline-primary {
+  border-color: var(--lit-primary);
+  color: var(--lit-primary);
+  border-radius: var(--lit-radius-sm);
+  font-weight: 600;
+  &:hover {
+    background: var(--lit-primary-light);
+    border-color: var(--lit-primary);
+    color: var(--lit-primary-hover);
+  }
+}
+
+// ----- テーブル（サービス一覧・検索結果） -----
+.lit-table-wrap {
+  border-radius: var(--lit-radius);
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  box-shadow: var(--lit-shadow);
+  background: #fff;
+  margin-left: -0.5rem;
+  margin-right: -0.5rem;
+  padding: 0 0.5rem;
+  @media (min-width: $lit-bp-md) {
+    margin-left: 0;
+    margin-right: 0;
+    padding: 0;
+  }
+}
+.lit-table {
+  margin-bottom: 0;
+  min-width: 600px; // 横スクロール時も列がつぶれない
+  thead th {
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    color: var(--lit-muted);
+    background: var(--lit-bg-subtle);
+    padding: 0.6rem 0.5rem;
+    border-bottom: 1px solid var(--lit-border);
+    white-space: nowrap;
+    @media (min-width: $lit-bp-md) {
+      font-size: 0.75rem;
+      padding: 0.75rem 1rem;
+    }
+  }
+  tbody td {
+    padding: 0.75rem 0.5rem;
+    vertical-align: middle;
+    border-bottom: 1px solid var(--lit-border);
+    font-size: 0.8125rem;
+    @media (min-width: $lit-bp-md) {
+      padding: 1rem;
+      font-size: 0.9375rem;
+    }
+  }
+  tbody tr {
+    transition: background 0.15s;
+    &:last-child td { border-bottom: none; }
+    &:hover { background: var(--lit-primary-light); }
+  }
+  tbody a {
+    color: inherit;
+    text-decoration: none;
+    padding: 0.25rem 0;
+    display: inline-block;
+    min-height: $lit-touch-min;
+    line-height: 1.4;
+    &:hover { color: var(--lit-primary); }
+    @media (min-width: $lit-bp-md) {
+      min-height: 0;
+      padding: 0;
+    }
+  }
+}
+
+// ----- 空状態 -----
+.lit-empty {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: var(--lit-muted);
+  .lit-empty-icon {
+    font-size: 3rem;
+    opacity: 0.4;
+    margin-bottom: 1rem;
+    @media (max-width: #{$lit-bp-md - 1}) { font-size: 2.5rem; }
+  }
+  .lit-empty-title { font-weight: 600; color: var(--lit-body); margin-bottom: 0.25rem; }
+  @media (max-width: #{$lit-bp-md - 1}) { padding: 2rem 0.5rem; }
+}
+
+// ----- CTA ブロック -----
+.lit-cta {
+  background: var(--lit-hero-bg);
+  color: #fff;
+  text-align: center;
+  padding: 2rem 1rem;
+  @media (min-width: $lit-bp-md) { padding: 3rem 1rem; }
+  h3 {
+    font-weight: 700;
+    font-size: 1.125rem;
+    margin-bottom: 0.5rem;
+    @media (min-width: $lit-bp-md) { font-size: 1.25rem; }
+  }
+  p { color: rgba(255, 255, 255, 0.85); font-size: 0.875rem; margin: 0; @media (min-width: $lit-bp-md) { font-size: 0.9375rem; } }
+  .btn {
+    width: 100%;
+    max-width: 280px;
+    @media (min-width: $lit-bp-sm) {
+      width: auto;
+      max-width: none;
+    }
+  }
+}
+
+// ----- フッター -----
+.footer-lit {
+  margin-top: auto;
+  flex-shrink: 0;
+  padding: 1rem 0;
+  border-top: 1px solid var(--lit-border);
+  background: #fff;
+  font-size: 0.75rem;
+  color: var(--lit-muted);
+  @media (min-width: $lit-bp-md) {
+    padding: 1.25rem 0;
+    font-size: 0.8125rem;
+  }
+  a {
+    color: var(--lit-muted);
+    text-decoration: none;
+    padding: 0.25rem 0;
+    display: inline-block;
+    &:hover { color: var(--lit-primary); }
+  }
+}
+
+// ----- ページヘッダー（詳細・フォームページのタイトル） -----
+.lit-page-header {
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--lit-border);
+  background: #fff;
+  @media (min-width: $lit-bp-md) { padding: 1.25rem 0; }
+  .lit-page-title {
+    font-weight: 700;
+    font-size: 1.125rem;
+    color: var(--lit-dark);
+    margin: 0;
+    word-break: break-word;
+    @media (min-width: $lit-bp-md) { font-size: 1.25rem; }
+  }
+  .lit-breadcrumb {
+    font-size: 0.75rem;
+    color: var(--lit-muted);
+    margin-top: 0.25rem;
+    overflow-x: auto;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+    a { color: var(--lit-muted); text-decoration: none; &:hover { color: var(--lit-primary); } }
+    @media (min-width: $lit-bp-md) { font-size: 0.8125rem; }
+  }
+}
+
+// ----- 詳細リスト（show ページの dl） -----
+.lit-dl {
+  margin: 0;
+  dt {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--lit-muted);
+    margin-bottom: 0.2rem;
+    margin-top: 0.75rem;
+    &:first-child { margin-top: 0; }
+    @media (min-width: $lit-bp-md) {
+      font-size: 0.8125rem;
+      margin-top: 0;
+      margin-bottom: 0.25rem;
+    }
+  }
+  dd {
+    margin-bottom: 0.5rem;
+    font-size: 0.875rem;
+    color: var(--lit-body);
+    word-break: break-word;
+    @media (min-width: $lit-bp-md) {
+      font-size: 0.9375rem;
+      margin-bottom: 1rem;
+    }
+    &:last-of-type { margin-bottom: 0; }
+  }
+  .row dt { margin-top: 0; }
+}
+
+// ----- アクションバー（詳細ページのボタン群） -----
+.lit-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+  padding-top: 1rem;
+  border-top: 1px solid var(--lit-border);
+  margin-top: 1rem;
+  .btn {
+    flex: 1 1 auto;
+    min-width: 0;
+    @media (min-width: $lit-bp-sm) {
+      flex: 0 0 auto;
+    }
+  }
+  .btn.ms-auto { flex: 0 0 auto; }
+}
+
+// ----- 認証ページの補足リンク（パスワード忘れ・登録へ） -----
+.lit-auth-links {
+  color: var(--lit-muted);
+  a {
+    color: var(--lit-primary);
+    text-decoration: none;
+    padding: 0.35rem 0;
+    display: inline-block;
+    min-height: $lit-touch-min;
+    line-height: 1.4;
+    &:hover { text-decoration: underline; }
+  }
+  a + a { margin-left: 1rem; }
+  @media (max-width: #{$lit-bp-sm - 1}) {
+    a + a { margin-left: 0.5rem; }
+  }
+}
+
+// ----- コンテナ余白（スマホで左右にみせすぎない） -----
+@media (max-width: #{$lit-bp-md - 1}) {
+  .container { padding-left: 1rem; padding-right: 1rem; }
+}
+
+// ----- カード（スマホで余白調整） -----
+.lit-card-body {
+  @media (max-width: #{$lit-bp-md - 1}) {
+    padding: 1.25rem;
+  }
+}
+
