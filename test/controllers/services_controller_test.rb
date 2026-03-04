@@ -96,4 +96,35 @@ class ServicesControllerTest < ActionDispatch::IntegrationTest
     get search_services_path
     assert_response :success
   end
+
+  test 'search with q params returns success' do
+    get search_services_path, params: { q: { departure_id_eq: 2, destination_id_eq: 2 } }
+    assert_response :success
+    assert_match(/検索結果/, response.body)
+  end
+
+  test 'search with invalid date does not raise 500' do
+    get search_services_path, params: { q: {}, arrival_date: 'invalid-date' }
+    assert_response :success
+  end
+
+  test 'create redirects to root with notice when signed in as provider' do
+    sign_in @provider
+    assert_difference('Service.count', 1) do
+      post services_path, params: {
+        service: {
+          departure_id: 2,
+          destination_id: 2,
+          service_type_id: 2,
+          price: 15000,
+          lead_time: 10,
+          option_id: 1,
+          description: 'new service',
+          provider_id: @provider.id
+        }
+      }
+    end
+    assert_redirected_to root_path
+    assert_equal 'サービスを登録しました', flash[:notice]
+  end
 end

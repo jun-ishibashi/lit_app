@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_03_04_051200) do
+ActiveRecord::Schema[7.2].define(version: 2026_03_04_053112) do
   create_table "departures", force: :cascade do |t|
     t.string "name", null: false
     t.integer "position", default: 0, null: false
@@ -23,6 +23,15 @@ ActiveRecord::Schema[7.2].define(version: 2026_03_04_051200) do
     t.integer "position", default: 0, null: false
     t.decimal "latitude", precision: 10, scale: 7
     t.decimal "longitude", precision: 10, scale: 7
+  end
+
+  create_table "inquiries", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "email", null: false
+    t.string "subject"
+    t.text "message", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "providers", force: :cascade do |t|

@@ -1,0 +1,46 @@
+<% content_for :title, "お問い合わせ | LIT APP" %>
+<section class="lit-page-header">
+  <div class="container">
+    <h1 class="lit-page-title">お問い合わせ</h1>
+    <p class="lit-breadcrumb mb-0">
+      <%= link_to "トップ", root_path %> &gt; お問い合わせ
+    </p>
+  </div>
+</section>
+
+<section class="lit-section bg-light">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <div class="lit-card card">
+          <div class="card-body lit-card-body">
+            <p class="text-muted small mb-4">サービスや運用法についてのご質問・ご要望はこちらからお送りください。</p>
+            <%= form_with model: @inquiry, url: contact_path, local: true do |f| %>
+              <%= render "shared/inquiry_errors", inquiry: @inquiry %>
+              <div class="mb-4">
+                <%= f.label :name, "お名前", class: "lit-form-label form-label" %>
+                <%= f.text_field :name, class: "form-control", placeholder: "例）山田 太郎", autofocus: true %>
+              </div>
+              <div class="mb-4">
+                <%= f.label :email, "メールアドレス", class: "lit-form-label form-label" %>
+                <%= f.email_field :email, class: "form-control", placeholder: "例）example@example.com" %>
+              </div>
+              <div class="mb-4">
+                <%= f.label :subject, "件名", class: "lit-form-label form-label" %>
+                <%= f.text_field :subject, class: "form-control", placeholder: "例）料金についての質問（任意）" %>
+              </div>
+              <div class="mb-4">
+                <%= f.label :message, "お問い合わせ内容", class: "lit-form-label form-label" %>
+                <%= f.text_area :message, rows: 6, class: "form-control", placeholder: "ご質問・ご要望をご記入ください", required: true %>
+              </div>
+              <div class="d-flex gap-2">
+                <%= f.submit "送信する", class: "btn btn-primary" %>
+                <%= link_to "キャンセル", root_path, class: "btn btn-outline-secondary" %>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

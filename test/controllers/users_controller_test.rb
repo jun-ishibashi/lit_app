@@ -6,8 +6,8 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
       name: 'Test User',
       email: 'user@test.com',
       password: 'password123',
-      user_type_id: 1,
-      product_id: 1,
+user_type_id: 2,
+    product_id: 2,
       introduction: 'intro'
     )
   end
