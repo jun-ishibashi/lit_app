@@ -1,5 +1,5 @@
 <% is_own_mypage = provider_signed_in? && current_provider == @provider %>
-<% content_for :title, (is_own_mypage ? "マイページ（業者） | LIT APP" : "#{@provider.name} | LIT APP") %>
+<% content_for :title, (is_own_mypage ? "マイページ（業者） | #{app_name}" : "#{@provider.name} | #{app_name}") %>
 <section class="lit-page-header">
   <div class="container">
     <h1 class="lit-page-title"><%= is_own_mypage ? "マイページ（業者）" : @provider.name %></h1>

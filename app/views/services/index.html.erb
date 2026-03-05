@@ -1,4 +1,4 @@
-<% content_for :title, "トップ | LIT APP" %>
+<% content_for :title, "トップ | #{app_name}" %>
 <header class="lit-hero">
   <div class="container">
     <h1>何を、どれくらい、<br class="d-md-none">いつまでに届けたい？</h1>
@@ -172,14 +172,14 @@
 
 <section class="lit-section bg-white lit-features">
   <div class="container">
-    <h2 class="lit-section-title text-center">LIT でできること</h2>
+    <h2 class="lit-section-title text-center"><%= app_name %> でできること</h2>
     <p class="lit-section-lead text-center mb-4">海外にモノを運びたいけれど、どの業者に頼めばいいかわからない。そんな悩みを解消します。</p>
     <div class="row g-4">
       <div class="col-md-6 col-lg-4">
         <div class="lit-feature">
           <div class="lit-feature-icon"><i class="bi bi-globe2" aria-hidden="true"></i></div>
           <h3 class="lit-feature-title">貿易を身近に</h3>
-          <p class="lit-feature-text">海外にモノを運びたいけれど、どの業者に頼めばいいかわからない。LIT で料金と日数を比較して、自分に合ったサービスを見つけましょう。</p>
+          <p class="lit-feature-text">海外にモノを運びたいけれど、どの業者に頼めばいいかわからない。<%= app_name %> で料金と日数を比較して、自分に合ったサービスを見つけましょう。</p>
         </div>
       </div>
       <div class="col-md-6 col-lg-4">

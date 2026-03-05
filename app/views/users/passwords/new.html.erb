@@ -1,4 +1,4 @@
-<% content_for :title, "パスワード再設定 | LIT APP" %>
+<% content_for :title, "パスワード再設定 | #{app_name}" %>
 <h2>Forgot your password?</h2>
 
 <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>

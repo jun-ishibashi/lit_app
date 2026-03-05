@@ -1,6 +1,6 @@
-# LIT APP
+# CargoLink（カゴリンク）
 
-海外輸出の輸送手段（航空・海上）を**業者ごとに料金・リードタイムで比較**する Web アプリです。
+海外輸出の輸送手段（航空・海上）を**業者ごとに料金・リードタイムで比較**する Web アプリです。画面で表示するサービス名は `config/application.rb` の `config.x.app_display_name` で変更できます（[NAMING.md](docs/NAMING.md) 参照）。
 
 ---
 

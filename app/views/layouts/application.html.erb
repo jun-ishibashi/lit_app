@@ -3,8 +3,8 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="何を・どれくらい・いつまでに届けたい？ LIT APP で航空と海上を比較し、料金・リードタイムから自分に合った輸送サービスを見つけられます。" />
-    <title><%= content_for?(:title) ? yield(:title) : 'LIT APP — 海外輸送比較' %></title>
+    <meta name="description" content="何を・どれくらい・いつまでに届けたい？ <%= app_name %> で航空と海上を比較し、料金・リードタイムから自分に合った輸送サービスを見つけられます。" />
+    <title><%= content_for?(:title) ? yield(:title) : "#{app_name} — 海外輸送比較" %></title>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>

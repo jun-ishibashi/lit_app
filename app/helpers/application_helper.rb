@@ -1,4 +1,9 @@
 module ApplicationHelper
+  # 画面・メタで使うサービス名（config.x.app_display_name）
+  def app_name
+    Rails.application.config.x.app_display_name.presence || "CargoLink"
+  end
+
   # 料金をカンマ区切り＋単位で表示（例: 30,000円）。通貨は PRICE_CURRENCY に準拠
   PRICE_CURRENCY = "JPY"
   PRICE_UNIT = "円"

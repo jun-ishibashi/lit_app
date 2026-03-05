@@ -1,4 +1,4 @@
-<% content_for :title, "見積もり依頼の詳細 | LIT APP" %>
+<% content_for :title, "見積もり依頼の詳細 | #{app_name}" %>
 <% is_provider = provider_signed_in? && @quote_request.service.provider_id == current_provider.id %>
 <section class="lit-page-header">
   <div class="container">
