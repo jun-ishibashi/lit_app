@@ -8,13 +8,6 @@ module ApplicationHelper
   PRICE_CURRENCY = "JPY"
   PRICE_UNIT = "円"
 
-  PRICE_TYPE_SUFFIX = {
-    "total" => "",
-    "per_kg" => "/kg",
-    "per_cbm" => "/CBM",
-    "per_container" => "" # 表示時に price_unit を使う（例: /20ft）
-  }.freeze
-
   def format_price(price, suffix: nil)
     return "—" if price.blank?
     base = "#{number_with_delimiter(price.to_i)}#{PRICE_UNIT}"

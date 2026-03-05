@@ -9,13 +9,19 @@ class ProvidersController < ApplicationController
   # プロバイダー公開プロフィール（認証不要）。/providers/:id
   def show
     @provider = Provider.find(params[:id])
-    @services = @provider.services.includes(:departure, :destination)
+    set_provider_services
   end
 
   # 自分のマイページ（認証必須）。/mypage/provider
   def mypage
     @provider = current_provider
-    @services = @provider.services.includes(:departure, :destination)
+    set_provider_services
     render :show
+  end
+
+  private
+
+  def set_provider_services
+    @services = @provider.services.with_list_associations
   end
 end

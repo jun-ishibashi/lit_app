@@ -1,0 +1,79 @@
+<% if service.errors.any? %>
+  <div class="alert alert-danger mb-4" id="error_explanation">
+    <h3 class="h6 alert-heading"><%= service.errors.count %>件のエラーがあります</h3>
+    <ul class="mb-0 ps-3">
+      <% service.errors.full_messages.each do |msg| %><li><%= msg %></li><% end %>
+    </ul>
+  </div>
+<% end %>
+<%= form_with model: service, local: true do |f| %>
+  <div class="mb-4">
+    <label class="lit-form-label form-label">出発地</label>
+    <p class="text-muted small mb-1">貨物を出荷する都市を選択してください</p>
+    <%= f.collection_select :departure_id, Departure.ordered, :id, :name, {}, { class: "form-select" } %>
+  </div>
+  <div class="mb-4">
+    <label class="lit-form-label form-label">到着地</label>
+    <p class="text-muted small mb-1">貨物を届ける都市を選択してください</p>
+    <%= f.collection_select :destination_id, Destination.ordered, :id, :name, {}, { class: "form-select" } %>
+  </div>
+  <div class="mb-4">
+    <label class="lit-form-label form-label">サービスタイプ</label>
+    <p class="text-muted small mb-1">輸送手段を選択してください</p>
+    <%= f.collection_select :service_type_id, ServiceType.all, :id, :name, {}, { class: "form-select" } %>
+  </div>
+  <div class="mb-4">
+    <label class="lit-form-label form-label">作業範囲</label>
+    <p class="text-muted small mb-1">通関を含むか・港/ドア間など、海外貿易で重要な範囲を選んでください（任意）</p>
+    <%= f.collection_select :service_scope_id, ServiceScope.all, :id, :name, {}, { class: "form-select" } %>
+  </div>
+  <div class="mb-4">
+    <label class="lit-form-label form-label">インコタームズ（任意）</label>
+    <p class="text-muted small mb-1">貿易条件を選ぶと、同じ条件で業者間の比較がしやすくなります</p>
+    <%= f.collection_select :incoterm_id, Incoterm.selectable, :id, :name, { include_blank: "指定しない" }, { class: "form-select" } %>
+  </div>
+  <div class="mb-4">
+    <label class="lit-form-label form-label">コンテナサイズ（任意）</label>
+    <p class="text-muted small mb-1">海上FCLの場合は 20ft / 40ft を選べます</p>
+    <%= f.collection_select :container_size_id, ContainerSize.selectable, :id, :name, { include_blank: "該当しない" }, { class: "form-select" } %>
+  </div>
+  <div class="mb-4">
+    <label class="lit-form-label form-label">料金</label>
+    <p class="text-muted small mb-1">料金（<%= price_unit_description %>）を入力してください。税の扱いは「料金に含まれるもの」で補足できます。</p>
+    <%= f.text_field :price, placeholder: "例）30000", class: "form-control" %>
+  </div>
+  <div class="mb-4">
+    <label class="lit-form-label form-label">料金の種別</label>
+    <p class="text-muted small mb-1">総額か、重量・容積・コンテナあたりの単価かを選んでください</p>
+    <%= f.select :price_type, options_for_select([["総額（円）", "total"], ["円/kg", "per_kg"], ["円/CBM", "per_cbm"], ["円/コンテナ", "per_container"]], service.price_type), {}, { class: "form-select" } %>
+  </div>
+  <div class="mb-4">
+    <label class="lit-form-label form-label">料金単位（コンテナの場合）</label>
+    <p class="text-muted small mb-1">料金の種別が「円/コンテナ」のときは 20ft または 40ft を選んでください</p>
+    <%= f.select :price_unit, options_for_select([["—", ""], ["20ft", "20ft"], ["40ft", "40ft"]], service.price_unit), {}, { class: "form-select" } %>
+  </div>
+  <div class="mb-4">
+    <label class="lit-form-label form-label">料金に含まれるもの（任意）</label>
+    <p class="text-muted small mb-1">例）ALL IN（諸経費込み）、基本運賃のみ、基本運賃+THC、税別</p>
+    <%= f.text_field :price_includes, placeholder: "例）ALL IN、税別", class: "form-control" %>
+  </div>
+  <div class="mb-4">
+    <label class="lit-form-label form-label">リードタイム</label>
+    <p class="text-muted small mb-1">リードタイム（日数）を入力してください</p>
+    <%= f.text_field :lead_time, placeholder: "例）3", class: "form-control" %>
+  </div>
+  <div class="mb-4">
+    <label class="lit-form-label form-label">オプション</label>
+    <p class="text-muted small mb-1">対応可能なオプションを選択してください</p>
+    <%= f.collection_select :option_id, Option.all, :id, :name, {}, { class: "form-select" } %>
+  </div>
+  <div class="mb-4">
+    <label class="lit-form-label form-label">説明</label>
+    <p class="text-muted small mb-1">サービスの説明や概要を入力してください（任意）</p>
+    <%= f.text_area :description, rows: 5, class: "form-control" %>
+  </div>
+  <div class="d-flex gap-2 flex-wrap">
+    <%= f.submit submit_label, class: "btn btn-primary px-4" %>
+    <%= link_to "キャンセル", cancel_path, class: "btn btn-outline-secondary" %>
+  </div>
+<% end %>

@@ -3,12 +3,21 @@
 module ServicesHelper
   # 検索結果から「条件を変える」でトップに戻る際のクエリ（SearchParams と一元化）
   def search_refine_query_params
-    raw_q = params[:q]
-    q = raw_q.is_a?(ActionController::Parameters) ? raw_q.permit(::SearchParams::RANSACK_KEYS).to_h : (raw_q || {}).stringify_keys.slice(*::SearchParams::RANSACK_KEYS)
     out = {}
+    q = permitted_search_q
     out[:q] = q if q.present?
     ::SearchParams::EXTRA_KEYS.each { |k| out[k.to_sym] = params[k] if params[k].present? }
     out
+  end
+
+  def permitted_search_q
+    raw = params[:q]
+    return {} if raw.blank?
+    if raw.is_a?(ActionController::Parameters)
+      raw.permit(::SearchParams::RANSACK_KEYS).to_h
+    else
+      raw.stringify_keys.slice(*::SearchParams::RANSACK_KEYS)
+    end
   end
 
   # 検索条件のラベル表示用（1件だけ取り出して表示）

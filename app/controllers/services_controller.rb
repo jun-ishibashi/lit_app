@@ -5,7 +5,7 @@ class ServicesController < ApplicationController
   before_action :authorize_provider!, only: [:edit, :update, :destroy]
 
   def index
-    @services = @p.result.includes(:departure, :destination, :provider).order(created_at: :desc).limit(10)
+    @services = @p.result.with_list_associations.order(created_at: :desc).limit(10)
   end
 
   def new
@@ -22,7 +22,7 @@ class ServicesController < ApplicationController
   end
 
   def search
-    @services = @p.result.includes(:departure, :destination, :provider).limit(100)
+    @services = @p.result.with_list_associations.limit(100)
     @shipping_date = safe_date(params[:shipping_date])
     @arrival_date = safe_date(params[:arrival_date])
     @today = Date.current
@@ -68,12 +68,5 @@ class ServicesController < ApplicationController
   def search_service
     params[:q] = params[:q].permit(::SearchParams::RANSACK_KEYS) if params[:q].present?
     @p = Service.ransack(params[:q])
-  end
-
-  def safe_date(param)
-    return nil if param.blank?
-    Date.parse(param.to_s)
-  rescue ArgumentError
-    nil
   end
 end
