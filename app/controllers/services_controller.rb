@@ -9,7 +9,7 @@ class ServicesController < ApplicationController
   end
 
   def new
-    @service = Service.new
+    @service = Service.new(price_type: "total")
   end
 
   def create
@@ -58,8 +58,11 @@ class ServicesController < ApplicationController
   end
 
   def service_params
-    params.require(:service).permit(:departure_id, :destination_id, :service_type_id, :service_scope_id, :price, :lead_time, :option_id,
-                                    :description).merge(provider_id: current_provider.id)
+    params.require(:service).permit(
+      :departure_id, :destination_id, :service_type_id, :service_scope_id,
+      :price, :lead_time, :option_id, :description,
+      :price_includes, :incoterm_id, :price_type, :price_unit, :container_size_id
+    ).merge(provider_id: current_provider.id)
   end
 
   def search_service

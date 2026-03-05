@@ -35,9 +35,34 @@
                 <%= f.collection_select :service_scope_id, ServiceScope.all, :id, :name, {}, { class: "form-select" } %>
               </div>
               <div class="mb-4">
+                <label class="lit-form-label form-label">インコタームズ（任意）</label>
+                <p class="text-muted small mb-1">貿易条件を選ぶと、同じ条件で業者間の比較がしやすくなります</p>
+                <%= f.collection_select :incoterm_id, Incoterm.selectable, :id, :name, { include_blank: "指定しない" }, { class: "form-select" } %>
+              </div>
+              <div class="mb-4">
+                <label class="lit-form-label form-label">コンテナサイズ（任意）</label>
+                <p class="text-muted small mb-1">海上FCLの場合は 20ft / 40ft を選べます</p>
+                <%= f.collection_select :container_size_id, ContainerSize.selectable, :id, :name, { include_blank: "該当しない" }, { class: "form-select" } %>
+              </div>
+              <div class="mb-4">
                 <label class="lit-form-label form-label">料金</label>
-                <p class="text-muted small mb-1">料金（円）を入力してください</p>
-                <%= f.text_field :price, placeholder: "例）30,000", class: "form-control" %>
+                <p class="text-muted small mb-1">料金（<%= price_unit_description %>）を入力してください。税の扱いは「料金に含まれるもの」で補足できます。</p>
+                <%= f.text_field :price, placeholder: "例）30000", class: "form-control" %>
+              </div>
+              <div class="mb-4">
+                <label class="lit-form-label form-label">料金の種別</label>
+                <p class="text-muted small mb-1">総額か、重量・容積・コンテナあたりの単価かを選んでください</p>
+                <%= f.select :price_type, options_for_select([["総額（円）", "total"], ["円/kg", "per_kg"], ["円/CBM", "per_cbm"], ["円/コンテナ", "per_container"]], @service.price_type), {}, { class: "form-select" } %>
+              </div>
+              <div class="mb-4">
+                <label class="lit-form-label form-label">料金単位（コンテナの場合）</label>
+                <p class="text-muted small mb-1">料金の種別が「円/コンテナ」のときは 20ft または 40ft を選んでください</p>
+                <%= f.select :price_unit, options_for_select([["—", ""], ["20ft", "20ft"], ["40ft", "40ft"]], @service.price_unit), {}, { class: "form-select" } %>
+              </div>
+              <div class="mb-4">
+                <label class="lit-form-label form-label">料金に含まれるもの（任意）</label>
+                <p class="text-muted small mb-1">例）ALL IN（諸経費込み）、基本運賃のみ、基本運賃+THC、税別</p>
+                <%= f.text_field :price_includes, placeholder: "例）ALL IN、税別", class: "form-control" %>
               </div>
               <div class="mb-4">
                 <label class="lit-form-label form-label">リードタイム</label>

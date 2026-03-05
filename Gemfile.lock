@@ -160,9 +160,7 @@ GEM
     method_source (1.1.0)
     mini_mime (1.1.5)
     mini_portile2 (2.8.9)
-    minitest (6.0.2)
-      drb (~> 2.0)
-      prism (~> 1.5)
+    minitest (5.27.0)
     msgpack (1.8.0)
     net-imap (0.6.3)
       date
@@ -349,6 +347,7 @@ DEPENDENCIES
   hotwire-livereload
   importmap-rails
   listen (>= 3.3)
+  minitest (~> 5.22)
   pg (~> 1.5)
   pry-rails
   puma (~> 6.4)

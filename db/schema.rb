@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_03_04_053112) do
+ActiveRecord::Schema[7.2].define(version: 2026_03_05_024805) do
   create_table "departures", force: :cascade do |t|
     t.string "name", null: false
     t.integer "position", default: 0, null: false
@@ -56,6 +56,10 @@ ActiveRecord::Schema[7.2].define(version: 2026_03_04_053112) do
     t.string "status", default: "pending", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.decimal "weight_kg", precision: 12, scale: 3
+    t.decimal "volume_cbm", precision: 12, scale: 4
+    t.integer "quantity"
+    t.integer "incoterm_id"
     t.index ["service_id"], name: "index_quote_requests_on_service_id"
     t.index ["user_id"], name: "index_quote_requests_on_user_id"
   end
@@ -72,6 +76,11 @@ ActiveRecord::Schema[7.2].define(version: 2026_03_04_053112) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "service_scope_id", default: 1
+    t.string "price_includes"
+    t.integer "incoterm_id"
+    t.string "price_type", default: "total", null: false
+    t.string "price_unit"
+    t.integer "container_size_id"
     t.index ["provider_id"], name: "index_services_on_provider_id"
   end
 

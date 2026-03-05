@@ -19,15 +19,23 @@
                 <span class="badge bg-light text-primary border border-primary px-3 py-2"><%= @service.service_type.name %></span>
               </div>
               <div class="col-12 col-sm-6 text-start text-sm-end">
-                <span class="fs-4 fw-bold text-dark"><%= format_price(@service.price) %></span>
+                <span class="fs-4 fw-bold text-dark"><%= format_price_for_service(@service) %></span>
+                <span class="small text-muted ms-1">（<%= price_unit_description %>）</span>
                 <span class="ms-2 text-muted">リードタイム <%= @service.lead_time %>日</span>
               </div>
             </div>
+            <% if @service.price_includes.present? %>
+              <p class="text-muted small mb-3">料金に含まれるもの：<%= @service.price_includes %></p>
+            <% end %>
             <dl class="row lit-dl">
               <dt class="col-sm-4">出発地</dt>
               <dd class="col-sm-8"><%= @service.departure.name %></dd>
               <dt class="col-sm-4">到着地</dt>
               <dd class="col-sm-8"><%= @service.destination.name %></dd>
+              <dt class="col-sm-4">インコタームズ</dt>
+              <dd class="col-sm-8"><%= @service.incoterm_id.present? && @service.incoterm&.id != 1 ? @service.incoterm.name : "—" %></dd>
+              <dt class="col-sm-4">コンテナサイズ</dt>
+              <dd class="col-sm-8"><%= @service.container_size_id.present? && @service.container_size&.id != 1 ? @service.container_size.name : "—" %></dd>
               <dt class="col-sm-4">オプション</dt>
               <dd class="col-sm-8"><%= @service.option.name %></dd>
               <dt class="col-sm-4">作業範囲</dt>

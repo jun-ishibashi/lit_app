@@ -7,6 +7,8 @@ module SearchParams
     destination_id_eq
     service_type_id_eq
     service_scope_id_eq
+    incoterm_id_eq
+    container_size_id_eq
     provider_id_eq
     sorts
   ].freeze

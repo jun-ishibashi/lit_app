@@ -17,7 +17,7 @@
   <div class="container">
     <% if @services.length != 0 %>
       <% q = (params[:q] || {}).to_h %>
-      <% filter_pairs = q.slice("departure_id_eq", "destination_id_eq", "service_type_id_eq", "service_scope_id_eq", "provider_id_eq", "sorts").reject { |_, v| v.blank? } %>
+      <% filter_pairs = q.slice("departure_id_eq", "destination_id_eq", "service_type_id_eq", "service_scope_id_eq", "incoterm_id_eq", "container_size_id_eq", "provider_id_eq", "sorts").reject { |_, v| v.blank? } %>
       <% has_chips = filter_pairs.any? || @shipping_date.present? || @arrival_date.present? || params[:cargo_volume].present? %>
       <% if has_chips %>
         <div class="lit-filter-chips">
@@ -59,7 +59,7 @@
             <tr>
               <th>出発地</th>
               <th>到着地</th>
-              <th>料金</th>
+              <th>料金（円）</th>
               <th>リードタイム</th>
               <th>サービスタイプ</th>
               <th>作業範囲</th>
@@ -73,7 +73,7 @@
               <tr>
                 <td><%= link_to service.departure.name, service_path(service) %></td>
                 <td><%= link_to service.destination.name, service_path(service) %></td>
-                <td><%= link_to format_price(service.price), service_path(service) %></td>
+                <td><%= link_to format_price_for_service(service), service_path(service) %></td>
                 <td><%= link_to "#{service.lead_time}日", service_path(service) %></td>
                 <td><%= link_to service.service_type.name, service_path(service) %></td>
                 <td><%= service.service_scope_id.present? && service.service_scope.id != 1 ? service.service_scope.name : "—" %></td>

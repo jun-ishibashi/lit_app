@@ -27,6 +27,17 @@
               </dd>
               <dt class="col-sm-3">依頼日</dt>
               <dd class="col-sm-9"><%= @quote_request.created_at.strftime("%Y年%m月%d日 %H:%M") %></dd>
+              <% if @quote_request.weight_kg.present? || @quote_request.volume_cbm.present? || @quote_request.quantity.present? || (@quote_request.incoterm_id.present? && @quote_request.incoterm&.id != 1) %>
+                <dt class="col-sm-3">荷物・条件</dt>
+                <dd class="col-sm-9">
+                  <% parts = [] %>
+                  <% parts << "#{@quote_request.weight_kg} kg" if @quote_request.weight_kg.present? %>
+                  <% parts << "#{@quote_request.volume_cbm} CBM" if @quote_request.volume_cbm.present? %>
+                  <% parts << "#{@quote_request.quantity}個" if @quote_request.quantity.present? %>
+                  <% parts << @quote_request.incoterm.name if @quote_request.incoterm_id.present? && @quote_request.incoterm&.id != 1 %>
+                  <%= parts.join(" ／ ") %>
+                </dd>
+              <% end %>
               <dt class="col-sm-3">ステータス</dt>
               <dd class="col-sm-9">
                 <span class="badge <%= @quote_request.status == 'pending' ? 'bg-warning' : (@quote_request.status == 'replied' ? 'bg-success' : 'bg-secondary') %>">

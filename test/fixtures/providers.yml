@@ -1,11 +1,14 @@
-# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+# テスト用。encrypted_password は Devise の digest（password123）
+one:
+  name: Fixture Provider One
+  email: provider1@test.example.com
+  encrypted_password: <%= Devise::Encryptor.digest(Provider, 'password123') %>
+  service_type_id: 2
+  introduction: intro
 
-# This model initially had no columns defined. If you add columns to the
-# model remove the '{}' from the fixture names and add the columns immediately
-# below each fixture, per the syntax in the comments below
-#
-one: {}
-# column: value
-#
-two: {}
-# column: value
+two:
+  name: Fixture Provider Two
+  email: provider2@test.example.com
+  encrypted_password: <%= Devise::Encryptor.digest(Provider, 'password123') %>
+  service_type_id: 2
+  introduction: intro

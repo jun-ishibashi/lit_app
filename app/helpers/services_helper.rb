@@ -19,6 +19,8 @@ module ServicesHelper
     when "destination_id_eq" then Destination.find_by(id: value)&.name
     when "service_type_id_eq" then ServiceType.all.find { |s| s.id == value.to_i }&.name
     when "service_scope_id_eq" then ServiceScope.all.find { |s| s.id == value.to_i }&.name
+    when "incoterm_id_eq" then Incoterm.all.find { |i| i.id == value.to_i }&.name
+    when "container_size_id_eq" then ContainerSize.all.find { |c| c.id == value.to_i }&.name
     when "provider_id_eq" then Provider.find_by(id: value)&.name
     when "sorts"
       { "price asc" => "価格の安い順", "lead_time asc" => "リードタイムの短い順" }[value]
@@ -38,6 +40,8 @@ module ServicesHelper
       "destination_id_eq" => "到着地",
       "service_type_id_eq" => "サービスタイプ",
       "service_scope_id_eq" => "作業範囲",
+      "incoterm_id_eq" => "インコタームズ",
+      "container_size_id_eq" => "コンテナサイズ",
       "provider_id_eq" => "業者",
       "sorts" => "並び順"
     }[key.to_s] || key.to_s.humanize

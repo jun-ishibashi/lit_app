@@ -1,11 +1,22 @@
-# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+# テスト用。departure/destination は fixtures の id（2=東京, 2=Los Angeles 等）
+one:
+  departure_id: 2
+  destination_id: 2
+  service_type_id: 2
+  price: 10000
+  lead_time: 7
+  option_id: 1
+  provider: one
+  description: desc
+  price_type: total
 
-# This model initially had no columns defined. If you add columns to the
-# model remove the '{}' from the fixture names and add the columns immediately
-# below each fixture, per the syntax in the comments below
-#
-one: {}
-# column: value
-#
-two: {}
-# column: value
+two:
+  departure_id: 2
+  destination_id: 2
+  service_type_id: 2
+  price: 20000
+  lead_time: 14
+  option_id: 1
+  provider: two
+  description: desc
+  price_type: total

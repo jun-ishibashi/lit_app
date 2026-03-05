@@ -20,8 +20,30 @@
             <%= form_with model: @quote_request, url: quote_requests_path, local: true do |f| %>
               <%= f.hidden_field :service_id %>
               <div class="mb-4">
+                <h3 class="h6 mb-2">荷物情報（任意・あると見積もりが正確になります）</h3>
+                <div class="row g-3">
+                  <div class="col-md-4">
+                    <%= f.label :weight_kg, "重量（kg）", class: "lit-form-label form-label" %>
+                    <%= f.number_field :weight_kg, step: :any, placeholder: "例）100", class: "form-control" %>
+                  </div>
+                  <div class="col-md-4">
+                    <%= f.label :volume_cbm, "容積（CBM）", class: "lit-form-label form-label" %>
+                    <%= f.number_field :volume_cbm, step: :any, placeholder: "例）2.5", class: "form-control" %>
+                  </div>
+                  <div class="col-md-4">
+                    <%= f.label :quantity, "個数", class: "lit-form-label form-label" %>
+                    <%= f.number_field :quantity, placeholder: "例）10", class: "form-control" %>
+                  </div>
+                </div>
+              </div>
+              <div class="mb-4">
+                <%= f.label :incoterm_id, "希望インコタームズ（任意）", class: "lit-form-label form-label" %>
+                <p class="text-muted small mb-1">同じ条件で業者間を比較したいときに指定してください</p>
+                <%= f.collection_select :incoterm_id, Incoterm.selectable, :id, :name, { include_blank: "指定しない" }, { class: "form-select" } %>
+              </div>
+              <div class="mb-4">
                 <%= f.label :message, "メッセージ（任意）", class: "lit-form-label form-label" %>
-                <%= f.text_area :message, rows: 5, class: "form-control", placeholder: "荷物の内容・数量・希望納期など、業者に伝えたいことを記入してください" %>
+                <%= f.text_area :message, rows: 5, class: "form-control", placeholder: "荷物の内容・希望納期・その他業者に伝えたいことを記入してください" %>
               </div>
               <div class="d-flex gap-2">
                 <%= f.submit "依頼を送信", class: "btn btn-primary" %>

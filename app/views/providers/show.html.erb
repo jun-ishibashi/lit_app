@@ -47,7 +47,7 @@
                 <tr>
                   <th>出発地</th>
                   <th>到着地</th>
-                  <th>料金</th>
+                  <th>料金（円）</th>
                   <th>リードタイム</th>
                   <th>サービスタイプ</th>
                   <th>作業範囲</th>
@@ -58,7 +58,7 @@
                   <tr>
                     <td><%= link_to service.departure.name, service_path(service) %></td>
                     <td><%= link_to service.destination.name, service_path(service) %></td>
-                    <td><%= link_to format_price(service.price), service_path(service) %></td>
+                    <td><%= link_to format_price_for_service(service), service_path(service) %></td>
                     <td><%= link_to "#{service.lead_time}日", service_path(service) %></td>
                     <td><%= link_to service.service_type.name, service_path(service) %></td>
                     <td><%= service.service_scope_id.present? && service.service_scope.id != 1 ? service.service_scope.name : "—" %></td>

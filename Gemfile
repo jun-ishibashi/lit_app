@@ -29,6 +29,7 @@ group :development do
 end
 
 group :test do
+  gem 'minitest', '~> 5.22' # Rails 7.2 と Minitest 6 の LineFiltering 互換性のため 5.x を明示
   gem 'capybara', '>= 3.38'
   gem 'selenium-webdriver'
 end

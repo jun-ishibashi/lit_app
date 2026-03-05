@@ -54,6 +54,6 @@ class QuoteRequestsController < ApplicationController
   end
 
   def quote_request_params
-    params.require(:quote_request).permit(:service_id, :message)
+    params.require(:quote_request).permit(:service_id, :message, :weight_kg, :volume_cbm, :quantity, :incoterm_id)
   end
 end

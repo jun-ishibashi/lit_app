@@ -1,13 +1,12 @@
-# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
-
+# テスト用
 one:
   user: one
   service: one
   message: MyText
-  status: MyString
+  status: pending
 
 two:
   user: two
   service: two
   message: MyText
-  status: MyString
+  status: pending
