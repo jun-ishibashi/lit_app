@@ -57,6 +57,9 @@
             <div class="lit-actions">
               <% if user_signed_in? %>
                 <%= link_to new_quote_request_path(service_id: @service.id), class: "btn btn-primary" do %><i class="bi bi-chat-dots me-1"></i>見積もりを依頼<% end %>
+                <p class="small text-muted mt-2 mb-0">
+                  できれば他のサービスとも料金と日数を比べて、2社以上に見積もりを依頼すると安心です。
+                </p>
               <% end %>
               <% if provider_signed_in? && current_provider == @service.provider %>
                 <%= link_to edit_service_path(@service), class: "btn btn-outline-primary" do %><i class="bi bi-pencil me-1"></i>編集<% end %>

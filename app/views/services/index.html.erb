@@ -1,8 +1,8 @@
 <% content_for :title, "トップ | #{app_name}" %>
 <header class="lit-hero">
   <div class="container">
-    <h1>何を、どれくらい、<br class="d-md-none">いつまでに届けたい？</h1>
-    <p class="lit-hero-lead">運ぶものと納期に合わせて、航空と海上を比較。自分に合った輸送手段を選べます。</p>
+    <h1>物流に詳しくなくても、<br class="d-md-none">正しく選べる。</h1>
+    <p class="lit-hero-lead">日本から海外への輸出で、航空・海上を同じ条件で並べて比較。料金と納期を見比べて、自分に合った業者と手段を選べます。</p>
   </div>
 </header>
 
@@ -10,7 +10,7 @@
   <div class="container">
     <div class="lit-choice-guide">
       <h2 class="lit-choice-guide-title">選び方の目安</h2>
-      <p class="lit-choice-guide-lead mb-4">量が少なければ航空が早くてコストも抑えられ、量が多ければ海上でコストを大きく削減できます。まずはルートと希望日で検索して、結果を比較してみましょう。</p>
+      <p class="lit-choice-guide-lead mb-4">量が少なければ航空が早く・コストも抑えられやすく、量が多ければ海上でコストを大きく削減できます。まずはルートと希望日で検索し、複数業者を並べて比較してみましょう。</p>
       <div class="row g-3 justify-content-center">
         <div class="col-md-5 col-lg-4">
           <div class="lit-choice-card lit-choice-card-air">
@@ -45,7 +45,7 @@
         </p>
       <% end %>
       <h2 class="lit-section-title text-center">あなたの条件で検索</h2>
-      <p class="lit-section-lead text-center mb-4">どこから・どこへ・いつまでに届けたいか、貨物の目安を選ぶと、航空と海上を並べて比較できます。</p>
+      <p class="lit-section-lead text-center mb-4">出発地・到着地・いつまでに届けたいかを選ぶと、航空・海上を同じ条件で並べて比較できます。複数案を見てから、見積もりを依頼できます。</p>
       <%= search_form_for @p, url: search_services_path, html: { class: "lit-search-form" } do |f| %>
         <div class="lit-search-block mb-4">
           <h3 class="lit-search-block-title"><i class="bi bi-geo-alt me-2" aria-hidden="true"></i>どこから・どこへ</h3>
@@ -173,27 +173,27 @@
 <section class="lit-section bg-white lit-features">
   <div class="container">
     <h2 class="lit-section-title text-center"><%= app_name %> でできること</h2>
-    <p class="lit-section-lead text-center mb-4">海外にモノを運びたいけれど、どの業者に頼めばいいかわからない。そんな悩みを解消します。</p>
+    <p class="lit-section-lead text-center mb-4">物流・海外貿易に詳しくない方でも、複数業者を並べて比較し、損せず正しく判断できるようにします。</p>
     <div class="row g-4">
       <div class="col-md-6 col-lg-4">
         <div class="lit-feature">
           <div class="lit-feature-icon"><i class="bi bi-globe2" aria-hidden="true"></i></div>
-          <h3 class="lit-feature-title">貿易を身近に</h3>
-          <p class="lit-feature-text">海外にモノを運びたいけれど、どの業者に頼めばいいかわからない。<%= app_name %> で料金と日数を比較して、自分に合ったサービスを見つけましょう。</p>
+          <h3 class="lit-feature-title">輸出を、比較して選ぶ</h3>
+          <p class="lit-feature-text">日本から海外へ送りたいとき、どの業者・どの手段を選べばよいか迷いがち。<%= app_name %> で料金とリードタイムを並べて比較し、自分に合ったサービスを見つけられます。</p>
         </div>
       </div>
       <div class="col-md-6 col-lg-4">
         <div class="lit-feature">
           <div class="lit-feature-icon"><i class="bi bi-box-seam" aria-hidden="true"></i></div>
-          <h3 class="lit-feature-title">輸送手段を選べる</h3>
-          <p class="lit-feature-text">航空・船舶（LCL/FCL）から、コストや納期に合わせて比較。効率的なルートを簡単に探せます。</p>
+          <h3 class="lit-feature-title">航空 vs 海上を同じ条件で</h3>
+          <p class="lit-feature-text">航空・海上（LCL/FCL）を、同じルート・同じ条件で比較。早い・安い・量に合う、の違いがわかりやすく選べます。</p>
         </div>
       </div>
       <div class="col-md-6 col-lg-4">
         <div class="lit-feature">
           <div class="lit-feature-icon"><i class="bi bi-calendar-check" aria-hidden="true"></i></div>
-          <h3 class="lit-feature-title">コストとリードタイムで比較</h3>
-          <p class="lit-feature-text">希望の出荷日・到着日を入力すると、最短到着日や必要出荷日も表示。ニーズに合ったサービスがきっと見つかります。</p>
+          <h3 class="lit-feature-title">納期に合わせて判断</h3>
+          <p class="lit-feature-text">希望の出荷日・到着日を入力すると、最短到着日や必要出荷日を表示。見積もり依頼の前に、納期と予算に合う案を選べます。</p>
         </div>
       </div>
     </div>
@@ -203,7 +203,7 @@
 <section class="lit-cta">
   <div class="container">
     <h3>はじめる</h3>
-    <p>ユーザー登録でマイページを、業者登録でサービス掲載を</p>
+    <p>依頼側はユーザー登録で見積もり依頼を、業者様は登録でサービス掲載を</p>
     <div class="mt-3 d-flex flex-wrap justify-content-center gap-3">
       <%= link_to new_user_registration_path, class: "btn btn-light" do %>ユーザー登録<% end %>
       <%= link_to for_providers_path, class: "btn btn-outline-light" do %>業者登録<% end %>

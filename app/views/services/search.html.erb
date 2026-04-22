@@ -16,6 +16,8 @@
 <section class="lit-section bg-light">
   <div class="container">
     <% if @services.length != 0 %>
+      <% min_price = @services.map(&:price).compact.min %>
+      <% min_lead_time = @services.map(&:lead_time).compact.min %>
       <% q = (params[:q] || {}).to_h %>
       <% filter_pairs = q.slice("departure_id_eq", "destination_id_eq", "service_type_id_eq", "service_scope_id_eq", "incoterm_id_eq", "container_size_id_eq", "provider_id_eq", "sorts").reject { |_, v| v.blank? } %>
       <% has_chips = filter_pairs.any? || @shipping_date.present? || @arrival_date.present? || params[:cargo_volume].present? %>
@@ -40,11 +42,11 @@
           <% end %>
         </div>
       <% end %>
-      <p class="lit-search-result-count"><%= @services.size %>件のサービスが見つかりました</p>
+      <p class="lit-search-result-count"><%= @services.size %>件のサービスが見つかりました（★最安、⚡最短などの目印を参考にしてください）</p>
       <div class="lit-search-result-guide mb-3">
         <p class="small text-muted mb-0">
           <i class="bi bi-info-circle me-1" aria-hidden="true"></i>
-          航空は早くて少量向け、海上は大量でコストを抑えたいとき向け。料金とリードタイムを比べて、納期と予算に合うものを選んでください。<br>
+          航空は早く・少量向け、海上は大量でコストを抑えたいとき向け。料金とリードタイムを比べて、納期と予算に合うものを選んでください。複数業者を比較してから見積もりを依頼すると、より適切に選べます。<br>
           <strong>作業範囲</strong>（通関込み・運送のみなど）は海外貿易では重要です。通関を業者に任せるか自分で手配するかで、作業範囲で絞り込んで比較してください。
           <% if params[:cargo_volume] == "small" %>
             <span class="d-block mt-1">少量の目安で検索中：航空を重点的に見てみましょう。</span>
@@ -73,8 +75,18 @@
               <tr>
                 <td><%= link_to service.departure.name, service_path(service) %></td>
                 <td><%= link_to service.destination.name, service_path(service) %></td>
-                <td><%= link_to format_price_for_service(service), service_path(service) %></td>
-                <td><%= link_to "#{service.lead_time}日", service_path(service) %></td>
+                <td>
+                  <%= link_to format_price_for_service(service), service_path(service) %>
+                  <% if service.price.present? && service.price == min_price %>
+                    <span class="badge bg-success-subtle text-success border ms-1">★ 最安の候補</span>
+                  <% end %>
+                </td>
+                <td>
+                  <%= link_to "#{service.lead_time}日", service_path(service) %>
+                  <% if service.lead_time.present? && service.lead_time == min_lead_time %>
+                    <span class="badge bg-info-subtle text-info border ms-1">⚡ 最短の候補</span>
+                  <% end %>
+                </td>
                 <td><%= link_to service.service_type.name, service_path(service) %></td>
                 <td><%= service.service_scope_id.present? && service.service_scope.id != 1 ? service.service_scope.name : "—" %></td>
                 <td><%= link_to service.provider.name, service_path(service) %></td>
